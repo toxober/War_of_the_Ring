@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Война Кольца — справочник игрока</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+ --bg:#E3E5DF;--surface:#F3F4F0;--surface2:#EAECE6;--ink:#1D2329;--muted:#5A626A;--line:#C5CAC1;
+ --fp:#2C5D88;--fp-soft:#DCE6EF;--sh:#982D23;--sh-soft:#F1DEDA;--gold:#866719;--gold-soft:#EFE6CC;
+ --focus:#2C5D88;
+ --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+ --sans:'Alegreya Sans','Segoe UI',Roboto,Arial,sans-serif;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --bg:#141A20;--surface:#1C232B;--surface2:#222B34;--ink:#E4E2DB;--muted:#9AA2AA;--line:#313C47;
+ --fp:#86B4DE;--fp-soft:#1F3347;--sh:#E58A7B;--sh-soft:#3F2522;--gold:#D6B868;--gold-soft:#3A3220;--focus:#86B4DE;}}
+:root[data-theme="dark"]{
+ --bg:#141A20;--surface:#1C232B;--surface2:#222B34;--ink:#E4E2DB;--muted:#9AA2AA;--line:#313C47;
+ --fp:#86B4DE;--fp-soft:#1F3347;--sh:#E58A7B;--sh-soft:#3F2522;--gold:#D6B868;--gold-soft:#3A3220;--focus:#86B4DE;}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 var(--sans);min-height:100%}
+a{color:var(--gold);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-thickness:2px}
+a.cl-fp{color:var(--fp)} a.cl-sh{color:var(--sh)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.15;margin:0}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.topin{max-width:1240px;margin:0 auto;padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-size:26px;font-weight:700;letter-spacing:.01em}
+.brand small{display:block;font-family:var(--sans);font-size:13px;font-weight:400;color:var(--muted);letter-spacing:0}
+.search{flex:1;min-width:220px;position:relative}
+.search input{width:100%;padding:9px 12px;border:1px solid var(--line);background:var(--surface);border-radius:6px}
+.sres{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--surface);border:1px solid var(--line);border-radius:6px;max-height:60vh;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.18);display:none}
+.sres.on{display:block}
+.sres a{display:block;padding:7px 12px;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line)}
+.sres a.sel,.sres a:hover{background:var(--surface2)}
+.sres .k{font-size:13px;color:var(--muted)}
+.theme{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 10px}
+nav.tabs{max-width:1240px;margin:0 auto;padding:0 16px;display:flex;gap:2px;overflow-x:auto}
+nav.tabs a{padding:8px 14px;text-decoration:none;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap;font-weight:500}
+nav.tabs a.on{color:var(--ink);border-bottom-color:var(--gold)}
+main{max-width:1240px;margin:0 auto;padding:20px 16px 80px}
+.cols{display:grid;grid-template-columns:260px minmax(0,1fr);gap:28px}
+@media (max-width:820px){.cols{grid-template-columns:1fr}.idx{max-height:none}}
+.idx{position:sticky;top:120px;align-self:start;max-height:calc(100vh - 140px);overflow:auto;font-size:15px}
+.idx h3{font-size:17px;margin:14px 0 4px;color:var(--muted)}
+.idx a{display:block;padding:3px 8px;text-decoration:none;color:var(--ink);border-left:2px solid transparent}
+.idx a.on{border-left-color:var(--gold);background:var(--surface2)}
+@media (max-width:820px){.idx{position:static}.idx details{border:1px solid var(--line);border-radius:6px;padding:6px 10px;background:var(--surface)}}
+article.ent{max-width:72ch}
+article.ent h1{font-size:44px;margin-bottom:6px}
+article.ent .grp{color:var(--muted);font-size:15px;margin-bottom:18px}
+article.ent li{margin:5px 0}
+.back{color:var(--muted);font-size:15px;margin-top:28px;border-top:1px solid var(--line);padding-top:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{display:inline-block;padding:2px 9px;border:1px solid var(--line);border-radius:999px;font-size:14px;text-decoration:none;color:var(--ink);background:var(--surface)}
+/* cards */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:6px 11px;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.filters input[type=search]{padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);min-width:180px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.tile{position:relative;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--fp);border-radius:4px;padding:10px 12px 10px 12px;text-decoration:none;color:var(--ink);display:block}
+.tile.sh{border-left-color:var(--sh)}
+.tile .nm{font-family:var(--serif);font-size:21px;font-weight:600;line-height:1.1;padding-right:26px}
+.tile .meta{font-size:13px;color:var(--muted);margin-top:3px}
+.tile .cb{font-size:14px;margin-top:6px;display:flex;justify-content:space-between;gap:6px}
+.tile .cmp{position:absolute;top:8px;right:8px;width:20px;height:20px}
+.tile.used{opacity:.5}
+.ini{display:inline-flex;min-width:24px;height:24px;padding:0 5px;border-radius:12px;align-items:center;justify-content:center;font-weight:700;font-size:13px;background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold)}
+.tray{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--bg);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:none;z-index:30}
+.tray.on{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+.tray button{background:var(--bg);color:var(--ink);border:0;border-radius:5px;padding:6px 12px}
+.card-d{max-width:900px}
+.card-d .hd{border-left:6px solid var(--fp);padding:4px 0 4px 16px;margin-bottom:16px}
+.card-d.sh .hd{border-left-color:var(--sh)}
+.card-d h1{font-size:42px}
+.blk{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:12px 0}
+.blk h2{font-size:24px;margin-bottom:6px;display:flex;gap:10px;align-items:center}
+.cond{font-weight:700}
+.lbl{color:var(--muted);font-size:14px}
+.cmpt{border-collapse:collapse;min-width:640px;font-size:15px}
+.cmpt th,.cmpt td{border:1px solid var(--line);padding:8px;vertical-align:top;text-align:left}
+.cmpt th{background:var(--surface2);font-weight:500;width:140px}
+.scroll{overflow-x:auto}
+.initt{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.initt .blk{margin:0}
+.initt h2 .ini{font-size:16px;height:30px;min-width:30px}
+.initt ul{margin:4px 0 0;padding-left:18px}
+/* battle */
+.bt{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.bt{grid-template-columns:1fr}}
+.side{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--fp);border-radius:4px;padding:14px}
+.side.sh{border-top-color:var(--sh)}
+.side h2{font-size:26px;margin-bottom:8px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border-bottom:0}
+.num{display:inline-flex;align-items:center;gap:4px}
+.num button{width:30px;height:30px;border:1px solid var(--line);background:var(--surface2);border-radius:5px}
+.num input{width:44px;text-align:center;padding:4px;border:1px solid var(--line);border-radius:5px;background:var(--bg)}
+.chk{display:flex;flex-wrap:wrap;gap:4px 14px;padding:6px 0}
+.chk label{display:flex;gap:6px;align-items:center;font-size:15px}
+.situ{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:14px;margin-bottom:16px}
+.situ .chk label{font-size:16px}
+select{padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.res{margin-top:12px}
+.big{font-family:var(--serif);font-size:40px;font-weight:700;line-height:1}
+.stats{display:flex;gap:18px;flex-wrap:wrap;margin:6px 0 10px}
+.stats div{min-width:80px}
+.bars{display:flex;align-items:flex-end;gap:4px;height:90px;margin-top:6px}
+.bars div{flex:1;background:var(--fp);min-height:1px;position:relative;border-radius:2px 2px 0 0}
+.side.sh .bars div{background:var(--sh)}
+.bars span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted)}
+.bars em{position:absolute;top:-17px;left:0;right:0;text-align:center;font-size:11px;font-style:normal;color:var(--muted)}
+.ok{color:#2E7D3A}.no{color:var(--muted);text-decoration:line-through}.maybe{color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ok{color:#7FCB8A}}
+:root[data-theme="dark"] .ok{color:#7FCB8A}
+.cbl{list-style:none;padding:0;margin:6px 0 0;font-size:15px}
+.cbl li{padding:4px 0;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:baseline}
+.cbl .why{color:var(--muted);font-size:13px;margin-left:auto;text-align:right}
+.note{font-size:14px;color:var(--muted)}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:6px 12px}
+.btn.pri{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* tracker */
+.tk{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:900px){.tk{grid-template-columns:1fr}}
+.crow{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid var(--line);font-size:15px}
+.crow .st{display:inline-flex;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.crow .st button{border:0;background:var(--surface2);padding:2px 7px;font-size:13px;border-right:1px solid var(--line)}
+.crow .st button:last-child{border-right:0}
+.crow .st button.on{background:var(--ink);color:var(--bg)}
+.crow.done .cn{text-decoration:line-through;color:var(--muted)}
+.state{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.pol{display:grid;grid-template-columns:1fr auto auto;gap:6px 10px;align-items:center;font-size:15px}
+/* hunt */
+.tokens{display:flex;flex-wrap:wrap;gap:8px}
+.tok{width:64px;height:64px;border-radius:6px;border:2px solid var(--line);background:#DCCFA8;color:#3B2E10;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;font-size:22px;position:relative}
+.tok small{font-size:10px;font-weight:500}
+.tok.fp{background:#9DBAD6;color:#122638}.tok.sh{background:#C9786C;color:#2B0D08}
+.tok.drawn{opacity:.45}.tok.removed{opacity:.2;text-decoration:line-through}
+.tok.off{opacity:.35}
+.tok.wide{width:120px;height:auto;min-height:64px;padding:6px 4px 16px;text-align:center}
+.tok.aside{border-style:dashed;opacity:.6}
+.tok .r{position:absolute;bottom:2px;right:4px;font-size:12px}
+.tok .s{position:absolute;bottom:2px;left:4px;font-size:12px}
+.lg{display:flex;flex-wrap:wrap;gap:12px;font-size:14px;color:var(--muted);margin:8px 0}
+/* dice */
+.faces{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.face{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;border-top:4px solid var(--fp)}
+.face.sh{border-top-color:var(--sh)}
+.face .g{font-size:30px;line-height:1}
+.face h3{font-size:22px;margin:4px 0}
+.face ul{margin:4px 0 0;padding-left:18px;font-size:15px}
+.sec{margin:28px 0 10px;font-size:30px}
+.sub{color:var(--muted);margin:-4px 0 12px;max-width:70ch}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="topin">
+  <div class="brand">Война Кольца<small>справочник по правилам, альманаху и картам · базовая игра, 2-е изд.</small></div>
+  <div class="search"><input id="q" type="search" placeholder="Найти: бой, арьергард, Слова силы, штурм…" autocomplete="off" aria-label="Поиск"><div class="sres" id="sres"></div></div>
+  <button class="theme" id="themeBtn" title="Светлая/тёмная тема">Тема</button>
+ </div>
+ <nav class="tabs" id="tabs">
+  <a href="#t/rules" data-t="rules">Справочник</a>
+  <a href="#t/cards" data-t="cards">Карты</a>
+  <a href="#t/battle" data-t="battle">Бой</a>
+  <a href="#t/game" data-t="game">Партия</a>
+  <a href="#t/hunt" data-t="hunt">Охота</a>
+  <a href="#t/dice" data-t="dice">Кубики</a>
+ </nav>
+</header>
+<main id="main"></main>
+<div class="tray" id="tray"></div>
+<script>
+// Справочник правил. Ссылки: [[id]] или [[id|текст]], на карту: [[c:ID|текст]]
+const ENT = {};
+function E(id, t, g, tags, b) { ENT[id] = { id, t, g, tags, b }; }
+// g — группа в оглавлении
+
+/* ---------- Ход и кубики ---------- */
+E('turn','Ход игры: шесть фаз','Ход и кубики','ход раунд фазы порядок',`
+<ol>
+<li><b>Возврат кубиков и добор карт.</b> Каждый возвращает свои [[dice|кубики действий]] (с учётом добавленных и убранных), затем берёт по 1 карте из каждой своей колоды. Сразу проверьте [[hand|лимит руки]].</li>
+<li><b>Фаза Братства.</b> СН может [[declare|объявить Братство]], сменить [[guide|проводника]] и войти в [[mordor|Мордор]] из Мораннона или Минас Моргула.</li>
+<li><b>Начало Охоты.</b> Тьма кладёт кубики в [[hunt-box|ячейку Охоты]]: максимум — число спутников в Братстве, но 1 кубик можно всегда. Обязана положить хотя бы 1, если в конце прошлого хода в ячейке был кубик СН.</li>
+<li><b>Бросок действий.</b> Кубики из ячейки Охоты не бросаются. Все выпавшие «Око» Тьма сразу кладёт в ячейку Охоты.</li>
+<li><b>Действия.</b> По очереди по одному кубику, начиная со СН. Можно [[pass|пасовать]] или пропустить действие, сбросив кубик. Кубик, которым двигали Братство, идёт в ячейку Охоты.</li>
+<li><b>Проверка победы.</b> Только [[victory|военная победа]]. Победа по Кольцу наступает мгновенно в любой момент.</li>
+</ol>
+<p>Полученный или потерянный кубик действия вступает в силу только с фазы 1 следующего хода.</p>`);
+
+E('dice','Кубики действий','Ход и кубики','кубик грани действие персонаж войско сбор событие воля запада око',`
+<p>Тьма начинает с 7 кубиками (до 10: +1 за [[saruman|Сарумана]], [[witch-king|Короля-чародея]], [[mouth|Голос Саурона]]). СН — с 4 (+1 за [[strider|Арагорна]], +1 за [[gandalf-white|Гэндальфа Белого]]). Кубик теряется при гибели персонажа (со следующего хода).</p>
+<p><b>Грани СН:</b> Персонаж ×2, Сбор, Войско/Сбор, Событие, Воля Запада. «Войско» у СН есть только вместе со «Сбором».<br>
+<b>Грани Тьмы:</b> Персонаж, Войско, Сбор, Войско/Сбор, Событие, Око.</p>
+<ul>
+<li><b>Персонаж</b>: передвинуть/атаковать войском с лидером или персонажем; сыграть героическую карту; СН — двигать Братство ([[fs-move]]), [[hide|спрятать]], [[separate|отделить]] или двигать спутников; Тьма — двигать [[nazgul|назгулов]] и прислужников.</li>
+<li><b>Войско</b>: [[army-move|передвинуть до двух разных войск]] или атаковать одним; сыграть карту «войско».</li>
+<li><b>Сбор</b>: [[politics|дипломатия]] (+1 по шкале), [[muster|найм]], карта «сбор», ввести прислужника (Тьма).</li>
+<li><b>Войско/Сбор</b>: любое из двух.</li>
+<li><b>Событие</b>: взять карту из любой своей колоды или сыграть любую карту.</li>
+<li><b>Воля Запада</b>: любой другой символ; либо ввести [[gandalf-white|Гэндальфа Белого]] / [[strider|Арагорна]].</li>
+<li><b>Око</b>: сразу в ячейку Охоты, действием не является.</li>
+</ul>
+<p>См. также вкладку «Кубики» с вероятностями и [[elven|Эльфийские кольца]].</p>`);
+
+E('pass','Пас и пропуск','Ход и кубики','пас пропуск',`
+<p><b>Пас:</b> если неиспользованных кубиков меньше, чем у соперника, можно не действовать — соперник делает ещё одно действие. <b>Пропуск:</b> сбросить кубик без эффекта. Если кубики закончились у одного игрока, второй совершает оставшиеся действия подряд.</p>`);
+
+E('elven','Эльфийские кольца','Ход и кубики','кольца эльфийские смена грани',`
+<ul>
+<li>Когда ваша очередь действовать, можно сменить грань одного неиспользованного кубика на любую. Это не действие.</li>
+<li>Не чаще 1 кольца за ход на игрока.</li>
+<li>СН не может превратить кубик в «Волю Запада». Использованное кольцо переворачивается и уходит Тьме; Тьма использует его 1 раз и убирает из игры.</li>
+<li>Тьма может сделать «Око» — кубик сразу в ячейку Охоты; превратить «Око» во что-то другое нельзя.</li>
+<li>Изменённый кубик не обязательно разыгрывать сразу.</li>
+</ul>
+<p>Примеры: [[c:fp-h-13|Зеркало Галадриэли]] позволяет кольцом сделать «Персонаж» и затем превратить в «Волю Запада»; сброс [[c:sh-h-21|Палантира Ортханка]] требует кольца.</p>`);
+
+/* ---------- Карты ---------- */
+E('events','Карты событий: общие правила','Карты','карта событие условие обязательный текст',`
+<ul>
+<li>Разыграть можно кубиком «Событие» или кубиком с символом карты (правый верхний угол).</li>
+<li>Карта нарушает правила только там, где это прямо сказано. Например, найм в захваченном поселении возможен лишь если карта это прямо разрешает ([[c:fp-h-22|Мертвецы Дунхарга]]).</li>
+<li><b>Жирный текст</b> — обязательное условие розыгрыша (в том числе для карт [[table-cards|«Выложите на стол»]]).</li>
+<li>Основной текст обязателен и выполняется максимально полно; необязательно только то, что сказано через «можете». Если часть эффекта невозможна — выполните остальное.</li>
+<li>Разыграть карту без эффекта можно (блеф, добор за [[witch-king|«Колдуна»]]), но условие розыгрыша должно выполняться.</li>
+<li>Поселения в тексте карт — малые, большие города и крепости. [[fortifications|Укрепления]] поселениями не являются.</li>
+<li>Если колода закончилась, сброс не замешивается — из неё больше не берут.</li>
+<li>Карта, наносящая потери: если уничтожены все отряды войска, лидеры СН уходят с ним, а назгулы, спутники и прислужники остаются в регионе.</li>
+</ul>
+<p>См. [[hand]], [[combat-cards]], [[muster-cards]].</p>`);
+
+E('table-cards','«Выложите на стол»','Карты','стол выложите сброс постоянные',`
+<ul>
+<li>Выкладывается кубиком действия при выполнении условия. На столе не считается в [[hand|лимите руки]].</li>
+<li>Сбрасывается, когда выполнено условие сброса или когда перестаёт выполняться условие розыгрыша (проверяется в конце действия).</li>
+<li>Если сброс требует кубика — это действие.</li>
+<li>Карты на столе нельзя сбросить как «карту из руки» (например, для снятия [[c:fp-s-2|Силы слишком велики]]).</li>
+</ul>
+<p>Охота: на один вытянутый жетон — только одна из карт [[c:fp-h-6|Лук и топор]] / [[c:fp-h-7|Рог Гондора]].</p>`);
+
+E('hand','Лимит руки','Карты','рука лимит шесть сброс',`
+<p>Максимум 6 карт (при игре вчетвером — 4). Сначала возьмите все карты текущего добора, затем сбросьте лишние лицом вниз.</p>
+<p>Пример: у СН 6 карт, кубиком «Событие» сыгран [[c:fp-h-23|Дом наместников]], проводник — [[gandalf-grey|Гэндальф Серый]]. Берёте 2 стратегические → 7, сбрасываете до 6; затем карту за Гэндальфа → 7, снова сбрасываете до 6.</p>`);
+
+E('combat-cards','Боевые карты','Карты','боевая карта нижняя часть раунд',`
+<ul>
+<li>Нижняя часть любой карты события — боевой эффект. Использование не требует действия.</li>
+<li>В начале каждого [[battle|боевого раунда]] сначала [[attacker|атакующий]] выбирает карту (или нет), затем [[defender|защищающийся]]; рубашка видна, карты раскрываются одновременно.</li>
+<li>Действует только в текущем раунде, сбрасывается после него.</li>
+<li>Жирное условие под названием обязательно. «Откажитесь от лидерства» — эта фигурка не даёт лидерство в этом раунде; нельзя отказаться от уже отменённого лидерства ([[forfeit]]).</li>
+<li>Очерёдность — по [[initiative|инициативе]].</li>
+<li>Дополнительные атаки до боевого броска или после потерь: без переброса за лидерство, модификаторы соперника не действуют, потери снимаются сразу.</li>
+<li>Этикет: если карта сыграна по ошибке (условие не выполнено), обычно её разрешают вернуть в руку.</li>
+</ul>`);
+
+E('initiative','Инициатива','Карты','инициатива порядок очередность',`
+<p>Чем меньше число — тем раньше срабатывает. При равенстве первой действует карта защищающегося. Если у карты несколько эффектов ([[c:sh-s-7|Мумаки]]) — у каждого своя инициатива.</p>
+<ul>
+<li><b>0</b> — отмена боевой карты</li>
+<li><b>1</b> — перед боевым броском</li>
+<li><b>2</b> — бросок кубиков перед битвой</li>
+<li><b>3</b> — [[roll|боевой бросок]]</li>
+<li><b>4</b> — [[reroll|переброс за лидерство]]</li>
+<li><b>5</b> — после переброса</li>
+<li><b>6</b> — перед [[casualties|потерями]]</li>
+<li><b>7</b> — после потерь</li>
+</ul>
+<p>Таблица всех боевых карт по инициативе — во вкладке «Карты».</p>`);
+
+/* ---------- Бой ---------- */
+E('battle','Бой (битва)','Бой','бой битва сражение раунд атака',`
+<p><b>Начать бой</b> могут только войска народов [[at-war|«в войне»]] кубиком «Войско», «Персонаж» (в войске есть лидер/персонаж) или картой с эффектом атаки. Атакуют войско в соседнем регионе, либо в том же регионе — [[assault|штурм]] / [[sortie|вылазка]]. Атакующие отряды на время боя не перемещаются.</p>
+<p><b>Объявление атаки.</b> [[attacker|Атакующий]] может выделить [[rearguard|арьергард]]. Если [[defender|защищающийся]] в регионе со своей неосаждённой крепостью — может [[retreat-fortress|отступить в крепость]] (бой заканчивается). Если в регионе осаждённая крепость — это [[assault|штурм]] или [[sortie|вылазка]], иначе — полевое сражение. [[gandalf-white|Гэндальф Белый]] объявляет «Белого Всадника» сейчас — на всю битву.</p>
+<p><b>Каждый раунд:</b></p>
+<ol>
+<li>[[combat-cards|Боевые карты]] (атакующий, затем защищающийся, раскрытие одновременно). Сразу снимаются потери от доп. атак инициативы 2.</li>
+<li>[[roll|Боевой бросок]] — кубиков = [[strength|боевая сила]], максимум 5.</li>
+<li>[[reroll|Переброс за лидерство]].</li>
+<li>[[casualties|Потери]] — атакующий решает первым. Затем эффекты инициативы 7. Если уничтожены все отряды войска — уничтожаются и все его лидеры, назгулы, персонажи.</li>
+<li>[[ceasefire|Атакующий может прекратить атаку]], иначе защищающийся может [[retreat|отступить]] — или новый раунд.</li>
+</ol>
+<p><b>Конец битвы:</b> атака прекращена, защищающийся отступил или одно/оба войска уничтожены. Если уничтожены оба, защищающийся сохраняет контроль над поселением; при обоюдном уничтожении в штурме/вылазке контроль получает/сохраняет арьергард. Если защищающийся уничтожен или отступил, атакующее войско (всё, часть или никто, кроме арьергарда) может войти в регион; при вражеской крепости с отрядами — начинается [[siege|осада]].</p>
+<p>Особые случаи: [[city-attack|атака города/укрепления]], [[fortress]], [[siege]], [[relief|прорыв осады]]. Король-чародей: [[witch-king|«Колдун»]] — добор после шага 5 первого раунда. Политика: любая атака продвигает и активирует атакованные народы ([[advance]]).</p>
+<p>Посчитать шансы — во вкладке «Бой».</p>`);
+
+E('attacker','Атакующий','Бой','атакующий атака нападение',`
+<ul>
+<li>Начинает бой действием или картой; отряды остаются в своём регионе на всё время боя.</li>
+<li>В атаку идут только отряды народов «в войне»; невоюющие обязательно остаются в [[rearguard|арьергарде]]. Назгулы и персонажи всегда считаются «в войне» ([[characters-war]]).</li>
+<li>При атаке действием «Персонаж» в атакующем войске должен быть хотя бы 1 лидер или персонаж.</li>
+<li>Первым выбирает [[combat-cards|боевую карту]]; первым решает, какие отряды убрать при [[casualties|потерях]].</li>
+<li>В конце раунда решает: [[ceasefire|прекратить]] или продолжать.</li>
+<li>В первом раунде против [[city-attack|города или укрепления]] попадает на 6; при [[assault|штурме]] — на 6 каждый раунд.</li>
+<li>После победы может войти в регион (без арьергарда).</li>
+</ul>`);
+
+E('defender','Защищающийся','Бой','защищающийся оборона защита',`
+<ul>
+<li>Всё войско защищающегося (отряды, лидеры, персонажи) всегда участвует в битве — арьергарда нет.</li>
+<li>При атаке региона со своей неосаждённой крепостью в начале каждого раунда выбирает: полевое сражение или [[retreat-fortress|отступление в крепость]].</li>
+<li>Выбирает [[combat-cards|боевую карту]] вторым; при равной [[initiative|инициативе]] его карта срабатывает первой.</li>
+<li>Если атакующий продолжает, может [[retreat|отступить]] в конце раунда.</li>
+<li>Если оба войска уничтожены — сохраняет контроль над поселением.</li>
+<li>Многие боевые карты требуют условий от защищающегося войска (местность, Братство в регионе): [[c:fp-s-3|Выгодная позиция]], [[c:fp-h-19|Ярость энтов]], [[c:fp-h-1|Это подарок]], [[c:sh-h-1|Одно для Тёмного Властелина]].</li>
+</ul>`);
+
+E('rearguard','Арьергард','Бой','арьергард резерв разделение',`
+<ul>
+<li>Создаёт только атакующий, при объявлении атаки. В каждой части должен быть минимум 1 военный отряд; лидеры, спутники, назгулы, прислужники распределяются как угодно.</li>
+<li>Не участвует в битве, не может быть целью боевых карт, не может нести потери, не входит в регион после победы.</li>
+<li>Отряды невоюющих народов обязаны остаться в арьергарде.</li>
+<li>Персонаж в арьергарде не даёт своих эффектов: [[witch-king|«Колдун»]] не срабатывает. Но для [[c:sh-h-20|Гронда]] Король-чародей может быть в арьергарде, а для [[c:sh-h-24|Чёрного Предводителя]] — нет. Для [[c:sh-s-2|Урук-хай]] отряд Изенгарда может быть в арьергарде.</li>
+<li>При обоюдном уничтожении в штурме/вылазке контроль над крепостью достаётся стороне с арьергардом.</li>
+<li>На вылазке арьергард остаётся в крепости.</li>
+</ul>`);
+
+E('strength','Боевая сила','Бой','боевая сила кубики число отрядов',`
+<p>Сумма военных отрядов (обычных и элитных) в бою. Кубиков боевого броска = боевая сила, но не больше 5. Лишние отряды дают «запас прочности» при [[casualties|потерях]].</p>
+<p>Лидеры, назгулы и персонажи боевой силы не дают. Исключение: [[gandalf-grey|Гэндальф Серый]] «Предводитель Запада» +1 к боевой силе (максимум 5 кубиков всё равно).</p>
+<p>Ограничения кубиков: [[c:fp-s-1|Дневной свет]] (Тьма ≤3), [[c:fp-h-20|Мрак хуорнов]] (Тьма ≤2), [[c:sh-h-8|Ужас и отчаяние]] (снижает силу СН).</p>`);
+
+E('leadership','Лидерство','Бой','лидерство лидер переброс назгулы',`
+<p>Лидерство войска = число лидеров (назгулы — лидеры, по 1) + лидерство персонажей с карт. Определяет число кубиков [[reroll|переброса]], максимум 5.</p>
+<ul>
+<li>Лидерство персонажей: Гэндальф Серый/Белый 1, Странник 1, Арагорн 2, Боромир 1, Леголас 1, Гимли 1, Мериадок 1, Перегрин 1; Король-чародей 2 (но для эффектов «за назгула» считается одним назгулом), Голос Саурона 2, Саруман 1. <i>Сверьте с картами персонажей.</i></li>
+<li>Если [[saruman|Саруман]] в игре, элитные отряды Изенгарда дают и лидерство.</li>
+<li>«Лидерство назгулов» — только назгулы и Король-чародей; карты [[c:sh-h-8|Ужас и отчаяние]], [[c:sh-h-9|Мерзкий смрад]], [[c:sh-h-7|Они ужасны]], [[c:sh-h-5|Беспощадные, как смерть]] его требуют. [[gandalf-white|«Белый Всадник»]] его отменяет.</li>
+</ul>
+<p>См. [[forfeit]].</p>`);
+
+E('forfeit','Отказ от лидерства','Бой','отказ лидерства',`
+<p>Карта требует «отказаться от лидерства» — выбранная фигурка не учитывается в лидерстве в этом раунде. Нельзя отказаться от лидерства, которое уже отменено (например, [[c:sh-h-15|Словами силы]]) или потрачено ([[gandalf-white|«Белый Всадник»]]).</p>
+<p>Отказ части лидерства не влияет на остальное: при лидерстве 8 и отказе 4 спутников на переброс остаётся 4 (максимум 5 кубиков).</p>`);
+
+E('roll','Боевой бросок','Бой','бросок кубики попадание 5 6',`
+<p>Каждый бросает кубики по [[strength|боевой силе]] (≤5). Попадание — 5 или 6. Атакующий попадает на 6 в первом раунде против [[city-attack|города/укрепления]] и в каждом раунде [[assault|штурма]].</p>
+<p>«1» — всегда промах, «6» — всегда попадание, при любых [[mods|модификаторах]].</p>`);
+
+E('reroll','Переброс за лидерство','Бой','переброс лидерство',`
+<p>После боевого броска каждый перебрасывает свои промахи, но не больше своего [[leadership|лидерства]] (≤5). Порог попадания тот же, если карта не меняет его. Перебросить можно только один раз.</p>
+<p>Пример: 5 отрядов и 3 лидера, бросок 1,3,5,5,6 — 3 попадания, промахов 2 → перебрасываются 2 кубика.</p>
+<p>Отменяется [[c:sh-h-9|Мерзким смрадом]]. Карты на переброс: [[c:fp-h-9|Андрил]], [[c:fp-h-6|Могучая атака]], [[c:sh-h-7|Они ужасны]], [[c:sh-h-11|Чёрное дыхание]], [[c:fp-h-5|Клинок Западного Края]], [[c:fp-h-12|Судьбоносный удар]].</p>`);
+
+E('mods','Модификаторы бросков','Бой','модификатор плюс минус',`
+<p>«Добавьте 1» и т.п. прибавляется к значению каждого кубика, затем сравнивается с порогом. Модификаторы суммируются. 1 — всегда промах, 6 — всегда попадание.</p>
+<p>Пример: [[c:sh-s-1|Смертельная вражда]] +2 и [[c:fp-h-19|Ярость энтов]] +2 при пороге 5 → попадание на 2+ (1 всё равно промах).</p>
+<p>Модификаторы соперника не влияют на дополнительные атаки до боевого броска или после потерь ([[c:sh-s-13|Мы пришли убивать]], [[c:sh-s-2|Натиск]], [[c:fp-h-14|Внезапный удар]]).</p>`);
+
+E('casualties','Потери в бою','Бой','потери попадания элитный понижение уничтожение',`
+<p>Атакующий решает первым. За каждое попадание: убрать 1 обычный отряд или понизить 1 элитный до обычного (того же народа). 2 попадания можно снять одним элитным.</p>
+<ul>
+<li>Замена при понижении берётся из потерь этого боя, иначе из подкреплений; если обычного отряда нет — элитный уничтожается.</li>
+<li>Потери СН выбывают навсегда; потери Тьмы возвращаются в подкрепления.</li>
+<li>Лидер не может быть потерей. Если уничтожены все отряды — уничтожаются все лидеры и персонажи этого войска (персонажи — навсегда, назгулы — в подкрепления).</li>
+</ul>
+<p>Отличие от [[casualty-hunt|потери в Охоте]] и [[removal|удаления]].</p>`);
+
+E('ceasefire','Прекращение атаки','Бой','прекращение остановка атаки',`
+<p>В конце каждого раунда атакующий может прекратить атаку — его отряды остаются на месте. Карты могут запретить прекращение: [[c:sh-s-10|Пираты Умбара]]; [[c:sh-h-20|Гронд]] и [[c:sh-s-2|Урук-хай]] требуют минимум 3 раунда. При [[sortie|вылазке]] прекращение возвращает войско в крепость.</p>`);
+
+E('retreat','Отступление','Бой','отступление отступить свободный регион',`
+<ul>
+<li>Если атакующий продолжает, защищающийся в конце раунда может отступить всем войском в соседний [[free-region|свободный регион]] (нет войск противника и подконтрольного ему поселения; регион с вражеской крепостью, которую осаждает ваше войско, свободен).</li>
+<li>Невоюющие народы могут отступать через чужие границы, но при следующем передвижении должны покинуть чужие земли ([[at-war]]).</li>
+<li>Нельзя отступить из осаждённой крепости. Персонаж уровня 0 не отступает.</li>
+<li>При отступлении можно превысить [[stacking|предел]] — лишние сразу в подкрепления (это не потери).</li>
+<li>Отступление — не передвижение: спутник, отступивший в город/крепость, народ не активирует.</li>
+</ul>
+<p>Карта [[c:fp-s-5|Разведчики]] даёт отступление до боевого броска. См. также [[retreat-fortress]].</p>`);
+
+E('retreat-fortress','Отступление в крепость','Бой','отступление крепость осада',`
+<p>Защищающийся в регионе со своей неосаждённой крепостью может в начале любого раунда отступить в неё. Атака заканчивается; атакующий может сразу войти в регион (всем войском или частью) — начинается [[siege|осада]]. В крепости максимум 5 отрядов, лишние — в подкрепления.</p>
+<p>Через [[c:fp-s-5|Разведчиков]] СН может отступить в крепость, «выманив» боевую карту Тьмы.</p>`);
+
+E('city-attack','Атака города или укрепления','Бой','город укрепление первый раунд 6',`
+<p>При атаке региона с городом (малым или большим) или [[fortifications|укреплением]] атакующий попадает только на 6 в первом раунде. Дальше — по обычным правилам. Крепости — см. [[fortress]].</p>`);
+
+E('fortress','Крепость','Бой','крепость защита',`
+<p>Крепости — поселения, дающие защитнику выбор: полевое сражение или [[retreat-fortress|отступление в крепость]]. В крепости можно нанимать (если не осаждена). Захват приносит 2 [[victory|ПО]]. Каждой крепости соответствует ячейка крепости на поле.</p>
+<p>Персонажи не могут войти в регион с дружественной крепостью, осаждённой врагом (кроме спец. карт), а назгулы/прислужники без войска не могут войти в регион с крепостью СН, если она не осаждена Тьмой.</p>`);
+
+E('siege','Осада','Бой','осада осажденный',`
+<ul>
+<li>Крепость осаждена, когда внутри отряды одной стороны, а в регионе — войско другой.</li>
+<li>Внутри максимум 5 отрядов (лишние — в подкрепления), лидеров сколько угодно.</li>
+<li>Регион свободен для осаждающего, крепость контролирует осаждённый.</li>
+<li>Осаждённых можно атаковать только [[assault|штурмом]] из этого же региона. Осаждённые могут сделать [[sortie|вылазку]].</li>
+<li>Нельзя нанимать обычным сбором в осаждённой крепости (карты могут разрешать — [[muster-cards]]).</li>
+<li>Осада снята, когда осаждающие ушли или одна из сторон уничтожена. Осаждающий может [[reinforce|усиливать осаду]].</li>
+<li>Братство свободно входит в осаждённую крепость и выходит из неё.</li>
+</ul>`);
+
+E('assault','Штурм','Бой','штурм осада элитный продолжить',`
+<ul>
+<li>Атака на осаждённое войско войском из того же региона.</li>
+<li>Атакующий попадает на 6, защитник — на 5+.</li>
+<li>Длится 1 раунд. Чтобы продлить ещё на раунд, атакующий понижает 1 свой элитный отряд до обычного; можно повторять, пока есть элитные.</li>
+<li>Если никто не уничтожен — осада продолжается.</li>
+<li>Если защитники уничтожены — крепость захвачена.</li>
+</ul>
+<p>Карты: [[c:sh-h-20|Гронд]] (минимум 3 раунда), [[c:sh-h-19|Коварство Ортханка]] (только при штурме).</p>`);
+
+E('sortie','Вылазка','Бой','вылазка осажденный атакует',`
+<p>Осаждённое войско атакует осаждающих. Это полевое сражение (5+ для обеих сторон) минимум на раунд. Можно оставить [[rearguard|арьергард]] в крепости. Прекратив атаку, войско возвращается в крепость. Осаждающие могут отступить в соседний свободный регион. Победив, вылазка не выходит за пределы региона.</p>`);
+
+E('relief','Прорыв осады','Бой','прорыв осады деблокада',`
+<p>Войско из соседнего региона атакует осаждающих по обычным правилам. Войско в крепости в этом бою не участвует. Атакующие не могут войти в регион, пока осаждающие не уничтожены или не отступили.</p>
+<p>Пример: при [[c:sh-s-3|Безумии Денетора]] СН не может использовать боевые карты в бою против осаждающих Минас Тирит.</p>`);
+
+E('reinforce','Усиление осады','Бой','усиление осады',`<p>Регион с осаждённой крепостью свободен для осаждающего: туда можно вводить новые отряды обычным передвижением (это не атака).</p>`);
+
+/* ---------- Карта и войска ---------- */
+E('free-region','Свободный регион','Карта и войска','свободный регион',`
+<p>Регион свободен для игрока, если в нём нет войска противника и/или поселения под контролем противника. Регион с вражеской крепостью, которую осаждает ваше войско, тоже свободен для вас.</p>
+<p>«Свободен для передвижения войска» — также пустое поселение под контролем противника (войдя, войско его захватывает).</p>
+<p>Пример: из Долины Тёмных вод нельзя отступить в пустую незахваченную Морию или в пустой захваченный Лориэн, но можно, если они осаждены войском СН.</p>`);
+
+E('settlements','Поселения','Карта и войска','поселение город крепость малый большой',`
+<ul>
+<li><b>Малый город</b> — найм.</li>
+<li><b>Большой город</b> — найм, 1 [[victory|ПО]] при захвате, защита в 1-м раунде ([[city-attack]]).</li>
+<li><b>Крепость</b> — найм, 2 ПО, [[fortress|отступление в крепость]].</li>
+</ul>
+<p>Цвет рамки — изначальный хозяин, значок — народ. См. [[unconquered]], [[capture]], [[fortifications]].</p>`);
+
+E('fortifications','Укрепления','Карта и войска','укрепление осгилиат изенские броды',`<p>Осгилиат и Изенские броды. Атакующий попадает на 6 в первом раунде ([[city-attack]]). Не поселения: обычный найм там невозможен. Осгилиат не является регионом Гондора (для карт вроде [[c:fp-h-14|Испытания короля]], [[c:fp-h-23|Дома наместников]]).</p>`);
+
+E('unconquered','Незахваченное поселение','Карта и войска','незахваченный захваченный',`<p>Поселение под контролем того же игрока, что в начале игры (в том числе отвоёванное обратно). Осаждённая крепость незахвачена, если внутри — войско изначального хозяина.</p>`);
+
+E('capture','Захват поселения','Карта и войска','захват контроль жетон',`
+<ul>
+<li>Войско противника входит в регион с городом или незанятой крепостью, или все защитники крепости уничтожены, а у штурмующих остался отряд в регионе.</li>
+<li>Положите жетон контроля. Захваченное нельзя использовать для найма и продвижения по шкале политики.</li>
+<li>Захват продвигает народ хозяина по шкале политики ([[advance]]).</li>
+<li>Войско, проходящее по карте события через пустое вражеское поселение, захватывает его ([[event-move]]).</li>
+<li>Отвоевали — уберите жетон, соперник теряет ПО.</li>
+</ul>`);
+
+E('army','Войско','Карта и войска','войско отряд обычный элитный',`
+<p>Все дружественные отряды, лидеры и персонажи в регионе. Может включать отряды разных народов одной стороны. Обычный и элитный отряды одинаковы у всех народов. Войска в одном регионе в конце действия объединяются. См. [[stacking]], [[army-move]], [[leaders]].</p>`);
+
+E('stacking','Предел группирования','Карта и войска','предел 10 5 лимит',`
+<p>В регионе не больше 10 военных отрядов, в осаждённой крепости — 5. Лидеры и персонажи не считаются. Проверяется в конце действия: лишние уходят в подкрепления (не потери, можно нанять снова).</p>
+<p>Карты найма и передвижения позволяют временно превысить предел — лишнее убирается в конце действия, причём любые отряды, не только пришедшие.</p>`);
+
+E('leaders','Лидеры Свободных народов','Карта и войска','лидер',`<p>Не могут двигаться самостоятельно, всегда в войске; оказавшись без отрядов, сразу убираются. Возглавляют отряды любых СН. Не являются отрядом: не дают боевой силы, не могут быть потерей, дают 1 [[leadership|лидерство]].</p>`);
+
+E('muster','Сбор (найм) кубиком','Карта и войска','найм сбор подкрепления',`
+<p>Кубиком «Сбор» (народ должен быть [[at-war|«в войне»]]) — один из вариантов:</p>
+<ul><li>1 элитный;</li><li>2 обычных в двух разных поселениях;</li><li>2 лидера (назгула) в двух разных;</li><li>1 обычный + 1 лидер в двух разных.</li></ul>
+<p>Только в своём свободном незахваченном и неосаждённом поселении народа отряда. Назгулы — только в крепостях Саурона. Разрешён частичный найм (если не хватает фигурок). Подкрепления ограничены фигурками; потери СН не возвращаются.</p>
+<p>Отличается от [[muster-cards|найма картами]].</p>`);
+
+E('muster-cards','Найм картами событий','Карта и войска','найм карта событие подкрепления',`
+<ul>
+<li>Можно нанимать отряды народа не «в войне» и в осаждённой крепости (осаждаете вы её или осаждены в ней).</li>
+<li>Регион должен быть свободен: нельзя в пустом захваченном поселении или в регионе без поселения только с войском противника (исключение — [[c:fp-h-22|Мертвецы Дунхарга]]).</li>
+<li>Частичный найм запрещён: отряды нанимаются в максимально возможном количестве и строго как на карте.</li>
+<li>Предел можно превысить, лишнее — в подкрепления в конце действия (в крепости — до 5).</li>
+<li>Карту можно сыграть и без возможности найма — ради добора стратегической карты, если он есть.</li>
+<li>Требования к политике: СН — только [[c:fp-s-13|Корабли Кирдана]] (эльфы в войне) и [[c:fp-s-9|Красная стрела]] (Гондор активен). У Тьмы большинство требует народ «в войне», кроме: Много королей, Тени над Мглистыми горами, Орки вновь множатся, Пробуждение монстров, Возвращение короля.</li>
+</ul>`);
+
+E('army-move','Передвижение войска','Карта и войска','передвижение движение войско',`
+<ul>
+<li>«Войско» — до двух разных войск на 1 регион каждое; «Персонаж» — одно войско с лидером/персонажем (при разделении лидер/персонаж идёт с отрядами).</li>
+<li>Только в [[free-region|свободный для передвижения]] регион. Регион с войском противника — только атака.</li>
+<li>Нельзя двигать одни и те же фигурки дважды за действие, даже после объединения войск.</li>
+<li>Невоюющие — только в своих границах и в нейтральных регионах.</li>
+<li>Нельзя пересекать чёрные (непроходимые) границы.</li>
+<li>Одно войско может двигаться несколько раз за ход разными кубиками.</li>
+</ul>
+<p>См. [[event-move]].</p>`);
+
+E('event-move','Передвижение картами событий','Карта и войска','передвижение карта событие тьма сгущается',`
+<ul>
+<li>Выберите войска в начале (можно разделить заранее). По пути нельзя добавлять или оставлять фигурки.</li>
+<li>Проходя через пустое вражеское поселение — захватывает его.</li>
+<li>Через войска противника проходить нельзя; через дружественные — можно, предел проверяется после всего передвижения.</li>
+<li>Обычные ограничения (политика, чёрные границы) действуют.</li>
+<li>[[c:sh-s-7|Тьма сгущается]] / [[c:sh-s-8|Тьма нарастает]]: конечный регион должен содержать войско Тьмы на момент начала действия; нельзя вернуться в исходный регион; нельзя двигать осаждённое войско и входить в осаждённую крепость.</li>
+</ul>`);
+
+/* ---------- Персонажи ---------- */
+E('characters','Персонажи','Персонажи','персонаж спутник прислужник',`
+<p>[[companions|Спутники]] (СН) и [[minions|прислужники]] (Тьма). Действуют как лидеры, но двигаются сами и игнорируют вражеские войска. Уровень — дальность движения и значение в Охоте; уровень 0 — не двигается даже в войске и не отступает.</p>
+<ul>
+<li>Регион с крепостью под контролем противника: спутники могут войти, но там останавливаются; прислужники войти не могут.</li>
+<li>Не могут войти в регион (и выйти из него) с дружественной осаждённой крепостью, кроме спец. карт. Назгулы и Король-чародей — могут.</li>
+<li>Уязвимы только вместе с войском в бою или от карт событий.</li>
+</ul>`);
+
+E('characters-war','Персонажи «на войне»','Персонажи','война назгулы спутники',`<p>Спутники, прислужники и назгулы всегда считаются «в войне»: перемещаются куда угодно и участвуют в боях независимо от своего народа. Назгулы могут атаковать вместе с войском Тьмы, даже если Саурон ещё не «в войне».</p>`);
+
+E('companions','Спутники','Персонажи','спутник отделение передвижение',`
+<ul>
+<li>Входят в игру, [[separate|отделяясь от Братства]]; Гэндальф Белый и Арагорн — через «Волю Запада».</li>
+<li>Двигаются кубиком «Персонаж»: каждый (или группа) на расстояние ≤ уровня (группа — по высшему). Можно делить на группы.</li>
+<li>Могут входить в регионы с войсками Тьмы, в регион с крепостью Тьмы — но там останавливаются.</li>
+<li>Активируют народы, закончив передвижение в незахваченном большом городе/крепости ([[activation]]).</li>
+<li>Покинувший Братство не может вернуться.</li>
+</ul>
+<p>[[gandalf-grey]], [[gandalf-white]], [[strider]], [[hobbits]], [[other-companions]], [[gollum]].</p>`);
+
+E('gandalf-grey','Гэндальф Серый','Персонажи','гэндальф серый проводник предводитель запада',`
+<p>Уровень 3, лидерство 1. Начальный проводник.</p>
+<ul>
+<li><b>Проводник:</b> если действие сыграно кубиком «Событие» и в конце действия Гэндальф Серый — проводник, возьмите карту из колоды того же типа, что сыгранная. Если он отделился этим действием — карты нет; если отделился Странник и Гэндальф стал проводником — есть.</li>
+<li><b>Предводитель Запада:</b> в битве +1 к боевой силе войска СН (макс. 5 кубиков).</li>
+<li><b>Посланник Запада:</b> вне Братства может быть заменён [[gandalf-white|Гэндальфом Белым]].</li>
+</ul>`);
+
+E('gandalf-white','Гэндальф Белый','Персонажи','гэндальф белый всадник серогрив',`
+<p>Уровень 3, лидерство 1, +1 кубик действия. Вводится «Волей Запада», если Гэндальф Серый уничтожен или отделён и в игре есть прислужник (иначе — заменяет Серого; ставится в Фангорн или незахваченную эльфийскую крепость). <i>Сверьте с картой.</i></p>
+<ul>
+<li><b>Серогрив:</b> двигаясь один или с одним хоббитом — уровень 4 (только для движения).</li>
+<li><b>Белый Всадник:</b> в начале битвы откажитесь от его лидерства на всю битву — лидерство всех назгулов (и Короля-чародея) отменено. Тогда Тьма не может играть [[c:sh-h-8|Ужас и отчаяние]], [[c:sh-h-9|Мерзкий смрад]], [[c:sh-h-7|Они ужасны]], [[c:sh-h-5|Беспощадные, как смерть]]; но может [[c:sh-h-11|Чёрное дыхание]] и [[c:sh-h-15|Слова силы]] (нужно участие назгула). [[c:fp-h-11|Смелый вызов]] разыграть можно, но эффект не сработает. Служитель Тайного Огня работает.</li>
+</ul>`);
+
+E('strider','Странник / Арагорн','Персонажи','странник арагорн наследник исилдура',`
+<p>Странник: уровень 3, лидерство 1. Проводник: СН может использовать любую грань кубика, чтобы спрятать раскрытое Братство; вне Братства «Наследник Исилдура» — превращение в Арагорна «Волей Запада» в Минас Тирите, Дол Амроте или Пеларгире (незахваченных). <i>Сверьте с картой.</i></p>
+<p>Арагорн: уровень 3, лидерство 2, +1 кубик действия, может активировать любой народ. Странник народы через «Наследник Исилдура» не продвигает для [[c:sh-s-5|Угроз и обещаний]].</p>
+<p>Карты: [[c:fp-h-9|Андрил]], [[c:fp-h-14|Испытание короля]], [[c:fp-h-22|Мертвецы Дунхарга]], [[c:fp-h-24|Серый отряд]], [[c:fp-s-1|Последняя битва]] (только Арагорн).</p>`);
+
+E('hobbits','Мериадок и Перегрин','Персонажи','хоббит мериадок перегрин взять живьем',`
+<p>Уровень 1, лидерство 1, активируют любой народ.</p>
+<ul>
+<li><b>Проводник:</b> можно отделить его, чтобы снизить урон Охоты на 1 (отделение — не потеря, [[c:sh-h-15|Горе и страдания]] не срабатывает). Новый проводник может сразу применить свою способность.</li>
+<li><b>«Взять их живьём!»</b>: если хоббит уничтожен как случайная потеря/по карте — он не удаляется, а перемещается от Хранителей на уровень + прогресс Братства. Это всё равно «уничтожение» для Горя и страданий.</li>
+<li>На [[mordor|шкале Мордора]] отделение = удаление из игры.</li>
+</ul>`);
+
+E('other-companions','Боромир, Леголас, Гимли','Персонажи','боромир леголас гимли',`
+<p>Уровень 2, лидерство 1. Активируют свой народ (Гондор, эльфы, гномы). Могут любым кубиком действия продвинуть свой народ по шкале политики, если стоят в его незахваченном большом городе/крепости (сбрасывает [[c:sh-s-5|Угрозы и обещания]]). <i>Сверьте способности с картами.</i></p>
+<p>Связанные карты: [[c:fp-h-7|Рог Гондора]] и [[c:fp-h-23|Дом наместников]] (Боромир), [[c:fp-h-6|Лук и топор]] (Леголас/Гимли), [[c:fp-h-17|Туда и обратно]].</p>`);
+
+E('gollum','Голлум','Персонажи','голлум проводник',`
+<p>Становится проводником, когда все спутники покинули Братство. Уровень 0.</p>
+<ul>
+<li>Может раскрыть Братство, чтобы снизить урон Охоты на 1 (если оно ещё не раскрыто; не с [[c:sh-h-6|Проклятьем Исилдура]], не в незахваченной крепости СН после объявления).</li>
+<li>Игнорирует символ «раскрыть» только на обычных числовых жетонах; «Око» и особые жетоны Тьмы с «раскрыть» раскрывают всегда.</li>
+<li>Если Голлум проводник, при [[c:sh-h-7|Твари из бездны]] снизить урон случайной потерей нельзя (спутников нет); [[c:fp-h-11|Я пойду один]] разыграть нельзя.</li>
+</ul>`);
+
+E('minions','Прислужники','Персонажи','прислужник саруман король-чародей голос саурона',`<p>[[saruman|Саруман]], [[witch-king|Король-чародей]], [[mouth|Голос Саурона]]. Вводятся кубиком «Сбор» по условиям на картах персонажей, дают +1 кубик действия. Без войска не входят в регион с крепостью СН, если она не осаждена Тьмой. Уничтоженный прислужник выбывает навсегда (теряется кубик).</p>`);
+
+E('nazgul','Назгулы','Персонажи','назгул призрак кольца',`
+<ul>
+<li>Лидеры Тьмы (1 лидерство каждый). Двигаются кубиком «Персонаж» в любой регион (все сразу), кроме региона с крепостью СН, не осаждённой Тьмой.</li>
+<li>Игнорируют вражеские войска; могут быть без войска.</li>
+<li>Нанимаются только в крепостях Саурона (Саурон в войне); убитые возвращаются в подкрепления.</li>
+<li>Король-чародей считается назгулом во всех текстах, кроме прямого упоминания по имени ([[c:fp-h-18|Орлы приближаются!]] — не считается). Голос Саурона — не назгул.</li>
+<li>Назгул в регионе Братства даёт переброс Охоты ([[hunt-rerolls]]).</li>
+</ul>`);
+
+E('witch-king','Король-чародей','Персонажи','король-чародей колдун',`
+<p>Лидерство 2, движение как у назгула. Вводится, если Саурон и хотя бы один СН «в войне»; ставится в любой регион с войском Саурона; при входе активирует все СН (но не если на столе [[c:sh-h-22|Гнилоуст]] — для Рохана). <i>Сверьте с картой.</i></p>
+<p><b>Колдун:</b> если Король-чародей участвует в битве (не в арьергарде) и вы сыграли боевую карту в первом раунде — возьмите карту из колоды того же типа. Добор — после решений шага 5 (продолжение, отступление, понижение элитного при штурме). Если убит в первом раунде — не срабатывает.</p>
+<p>С [[c:sh-h-21|Палантиром Ортханка]]: сначала карта за «Колдуна», после действия — за Палантир.</p>`);
+
+E('saruman','Саруман','Персонажи','саруман изенгард',`<p>Уровень 0 (не покидает Ортханк), лидерство 1. Вводится при Изенгарде «в войне». Пока в игре — элитные отряды Изенгарда считаются и лидерами. Его гибель сбрасывает [[c:sh-h-21|Палантир Ортханка]] и [[c:sh-h-22|Гнилоуста]]. Уничтожается [[c:fp-h-19|Энтами]] без войска в Ортханке. <i>Сверьте с картой.</i></p>`);
+
+E('mouth','Голос Саурона','Персонажи','голос саурона уста',`<p>Лидерство 2, двигается сам до 3 регионов, не назгул. Как спутники — не пересекает чёрных границ, игнорирует войска, не входит/не выходит из региона с дружественной осаждённой крепостью. <i>Сверьте условия ввода и способности с картой.</i></p>`);
+
+/* ---------- Братство ---------- */
+E('fellowship','Братство Кольца','Братство','братство хранители',`
+<p>Хранители Кольца (Фродо и Сэм — одна миниатюра) + спутники в ячейке Братства. Миниатюра показывает последнее известное местоположение; [[fsp-track|жетон прогресса]] — сколько пройдено от него и спрятано ли Братство.</p>
+<p>См. [[guide]], [[fs-move]], [[declare]], [[reveal]], [[hide]], [[separate]], [[corruption]], [[hunt]], [[mordor]].</p>`);
+
+E('guide','Проводник','Братство','проводник смена',`
+<p>Проводник — спутник наивысшего уровня (при равенстве — выбор СН). Сменить можно в конце фазы Братства или при любом изменении состава. Доступна только способность «Проводник». Если спутников не осталось — [[gollum|Голлум]].</p>
+<p>Если новый проводник появился во время Охоты, его способность доступна сразу.</p>`);
+
+E('fsp-track','Шкала Братства','Братство','шкала прогресс спрятано раскрыто',`<p>Жетон прогресса: число пройденных регионов от миниатюры; сторона «спрятано» / «раскрыто». Там же жетон [[corruption|влияния Кольца]] (0–12).</p>`);
+
+E('fs-move','Передвижение Братства','Братство','передвижение братства охота',`
+<ul>
+<li>Кубик «Персонаж»: +1 на шкале Братства (Братство должно быть спрятано). Затем [[hunt-roll|Охота]], затем кубик — в ячейку Охоты.</li>
+<li>Картой события: кубик розыгрыша в ячейку <b>не</b> кладётся, но Охота проводится ([[c:fp-h-10|Есть и другой путь]]).</li>
+<li>Каждый кубик СН в ячейке даёт +1 к броскам Охоты.</li>
+</ul>`);
+
+E('declare','Объявление Братства','Братство','объявление объявить',`
+<ul>
+<li>В фазу Братства, если спрятано. Миниатюра перемещается на ≤ прогресса регионов (можно остаться), прогресс → 0, остаётся «спрятано».</li>
+<li>В незахваченном большом городе/крепости СН: влияние −1 ([[heal]]), активация народа.</li>
+<li>Сбрасывает [[c:fp-s-1|Последнюю битву]]; в незахваченном городе/крепости СН позволяет сбросить [[c:sh-h-15|Горе и страдания]] и [[c:sh-h-16|Стаи воронов]].</li>
+<li>Определённые эффекты могут дать жетон Охоты при объявлении — символ «раскрыть» на нём игнорируется, если объявлено в городе/крепости СН.</li>
+<li>Объявление в Моранноне/Минас Моргуле для входа в [[mordor|Мордор]] — сбрасывает Последнюю битву.</li>
+</ul>`);
+
+E('reveal','Раскрытие Братства','Братство','раскрытие раскрыто',`
+<ul>
+<li>От жетона с «раскрыть» или карт. Жетон переворачивается; СН двигает миниатюру на ≤ прогресса, но не в регион с крепостью или большим городом СН.</li>
+<li>Раскрытое Братство нельзя двигать кубиком, пока не [[hide|спрятано]]; уязвимо к картам «Братство раскрыто».</li>
+<li>Путь через/в/из/оставаясь в крепости Тьмы под контролем Тьмы — жетон Охоты за каждую ([[sh-strongholds]]).</li>
+<li>Порядок жетонов: сначала тот, что раскрыл, затем от карт/способностей ([[c:sh-h-17|Балрог]]), затем за крепости.</li>
+</ul>`);
+
+E('hide','Сокрытие Братства','Братство','спрятать сокрытие',`<p>Кубиком «Персонаж» (или картой, например [[c:fp-h-10|Есть и другой путь]]) — жетон на сторону «спрятано». В этом же действии не двигается, кубик в ячейку Охоты не кладётся.</p>`);
+
+E('separate','Отделение спутников','Братство','отделение отделить',`
+<ul>
+<li>Кубиком «Персонаж»: спутник или группа ставится в регион Хранителей и двигается на ≤ прогресс + уровень (группа — по высшему уровню), одним маршрутом.</li>
+<li>Если Хранители в осаждённой дружественной крепости — отделённые оказываются в крепости и не могут уйти.</li>
+<li>Состав изменился — можно сменить [[guide|проводника]].</li>
+<li>На шкале Мордора отделение запрещено; эффекты отделения удаляют спутника из игры.</li>
+</ul>
+<p>Карты: [[c:fp-h-11|Я пойду один]], [[c:fp-h-15|Гвайхир]], [[c:fp-h-16|Лёгкая поступь]], [[c:fp-h-17|Туда и обратно]].</p>`);
+
+E('corruption','Влияние Кольца','Братство','влияние кольца порча 12',`<p>От 0 до 12. Растёт от урона Охоты и карт, падает при отдыхе ([[heal]]) и от карт. На 12 — мгновенная победа Тьмы. Не может быть ниже 0.</p>`);
+
+E('heal','Понижение влияния','Братство','понижение влияния отдых',`<p>Объявили в фазу Братства в незахваченном большом городе/крепости СН — влияние −1. Можно повторять каждый ход (Братство должно быть спрятано). Карты: [[c:fp-h-9|Ателас]], [[c:fp-h-12|Песнь Бильбо]], [[c:fp-h-10|Есть и другой путь]], [[c:fp-h-11|Я пойду один]], [[c:fp-h-13|Зеркало]]; жетоны −1/−2 в Мордоре.</p>`);
+
+E('sh-strongholds','Братство в крепостях Тьмы','Братство','крепость тьмы раскрыто мория',`<p>Если раскрытое Братство проходит через, входит, выходит или остаётся в крепости Тьмы под контролем Тьмы — жетон Охоты за каждую. «Око» на таком жетоне = 0. Захваченная СН крепость Тьмы жетона не даёт; захваченная Тьмой крепость СН — не считается.</p>`);
+
+/* ---------- Охота ---------- */
+E('hunt','Охота за Кольцом','Охота','охота',`<p>Порядок: [[hunt-box|ячейка]] → [[hunt-roll|бросок]] с [[hunt-rerolls|перебросами]] → [[hunt-damage|жетон и урон]] → [[hunt-effects|применение эффектов]]. Состав — [[hunt-pool]]. Трекер жетонов — во вкладке «Охота».</p>`);
+
+E('hunt-box','Ячейка Охоты','Охота','ячейка охоты кубики',`<p>Уровень Охоты = кубики Тьмы в ячейке (положенные в фазу 3 + все «Око»). Кубики СН за передвижения Братства дают +1 к каждому кубику Охоты. [[c:sh-h-18|Всевидящее Око]] и эльфийское кольцо могут добавить кубик Тьмы позже.</p>`);
+
+E('hunt-roll','Бросок Охоты','Охота','бросок охоты успех 6',`<p>При каждом передвижении Братства Тьма бросает кубики боя по уровню Охоты (максимум 5). Успех — 6, +1 за каждый кубик СН в ячейке. 1 — всегда неудача. Нужен хотя бы 1 успех. [[c:sh-h-16|Стаи воронов]]: +1 ко всем кубикам броска и переброса.</p>`);
+
+E('hunt-rerolls','Перебросы Охоты','Охота','переброс охоты',`<p>По 1 перебросу за каждое условие в регионе Братства: крепость под контролем Тьмы; хотя бы 1 военный отряд Тьмы; хотя бы 1 назгул. Максимум 3. Бонус +1 от кубиков СН действует.</p>`);
+
+E('hunt-damage','Урон Охоты и жетоны','Охота','урон жетон око',`
+<ul>
+<li>Числовой жетон — урон равен числу.</li>
+<li>«Око» — урон = число успехов в броске (включая перебросы). Если жетон вытянут за крепость Тьмы или картой — 0. В Мордоре — число кубиков в ячейке Охоты (включая кубики СН).</li>
+<li>«Раскрыть» — Братство раскрывается после прочих эффектов.</li>
+<li>Особые: «кубик» — урон = бросок кубика (считается числовым); отрицательное — снижение влияния; «стоп» — Братство не движется в Мордоре.</li>
+</ul>`);
+
+E('hunt-effects','Применение эффектов Охоты','Охота','порядок эффектов охоты',`
+<ol>
+<li>После вытягивания (тянуть можно не дать [[c:fp-h-8|Посохом волшебника]], перетянуть — [[c:fp-h-5|Мифриловой кольчугой]]) — только одна карта со стола: [[c:fp-h-6|Лук и топор]] или [[c:fp-h-7|Рог Гондора]].</li>
+<li>Способности проводника (Мериадок, Перегрин, Голлум) и/или [[casualty-hunt|потеря спутника]]. Если появился новый проводник — его способность сразу.</li>
+<li>Остаток урона — +влияние Кольца.</li>
+<li>Раскрытие, если требуется. Голлум-проводник игнорирует «раскрыть» только на обычных числовых жетонах.</li>
+</ol>`);
+
+E('casualty-hunt','Потеря спутника в Охоте','Охота','потеря спутник случайный проводник',`<p>Чтобы снизить урон, СН уничтожает проводника или случайного спутника (Тьма тянет вслепую жетон спутника из ячейки). Урон снижается на уровень спутника; излишек — во влияние. Если урон меньше уровня — спутник всё равно погибает. Это «уничтожение» — срабатывает [[c:sh-h-15|Горе и страдания]].</p>`);
+
+E('removal','Уничтожение и удаление','Охота','удаление уничтожение потеря',`<p>«Потеря/уничтожение» возможны только в Охоте и через карты. «Удаление» — например, отделение на шкале Мордора. Хоббит-проводник, отделившийся по способности, — не уничтожен. Хоббит, выбранный случайной потерей и спасшийся «Взять их живьём!», — уничтожен. Важно для [[c:sh-h-15|Горя и страданий]].</p>`);
+
+E('hunt-pool','Запас Охоты','Охота','запас жетоны обычные особые',`
+<p>16 обычных (бежевых) жетонов в непрозрачной ёмкости. Если жетоны кончились — верните обычные вытянутые, кроме удалённых навсегда; особые не возвращаются. Если опустошение временное и жетон вернётся в этом же действии ([[c:fp-h-5|Мифриловая кольчуга]], [[c:fp-h-14|Испытание короля]]), запас не восстанавливают, пока жетон действительно нужен.</p>
+<p>Особые жетоны активируются картами и откладываются до входа в Мордор; если карта сыграна в Мордоре — сразу в запас. СН: Эльфийские плащи 0, Эльфийская верёвка 0, Фиал −2, Смеагол −1. Тьма: Логово Шелоб (кубик, стоп), Моя прелесть! (Око, раскрыть, стоп), Туда! Они пошли туда! (3, стоп), Отдайте его нам! (1, раскрыть, стоп). Особые жетоны вытягиваются только на шкале Мордора; вытянутые картами Патруль орков, Проклятье Исилдура, Тварь из бездны, Раскол Братства жетоны СН и «Око» сбрасываются без эффекта.</p>`);
+
+E('mordor','Мордор','Охота','мордор шкала мордора роковая гора',`
+<ul>
+<li>Вход: в фазу Братства из Мораннона или Минас Моргула (можно сперва объявить, чтобы туда попасть). Объявлять не обязательно, можно даже раскрытым.</li>
+<li>Миниатюра — на первое деление шкалы Мордора (не регион Горгорот). Прогресс больше не растёт, но «спрятано/раскрыто» отслеживается.</li>
+<li>Новый запас Охоты: оставшиеся + все вытянутые «Око» (кроме удалённых навсегда) + активированные особые жетоны.</li>
+<li>Движение — без броска: сразу тянется жетон. «Око» = кубики в ячейке Охоты (вкл. кубики СН). «Стоп» — Братство остаётся на месте.</li>
+<li>Спутники не могут покинуть Братство — эффекты отделения удаляют их.</li>
+<li>Если за фазу действий не было попытки двигаться или спрятаться — влияние +1.</li>
+<li>Пройдены 5 делений (Расщелина Судьбы) при влиянии &lt;12 — победа СН.</li>
+<li>Неприменимы: [[c:sh-h-9|Поиски Кольца]], [[c:sh-h-10|Безжалостная погода]], [[c:sh-h-11|Удар назгулов!]]; [[c:sh-h-16|Стаи воронов]] — без эффекта.</li>
+</ul>`);
+
+/* ---------- Политика ---------- */
+E('politics','Шкала политики','Политика','политика шкала дипломатия',`<p>Старт: Рохан, северяне, эльфы, гномы — 1-е деление (все пассивны, кроме эльфов); Гондор, харадримы/истерлинги — 2-е; Саурон, Изенгард — 3-е (за шаг до войны). Народы Тьмы и эльфы активны. Пассивный народ не может перейти на «в войне». См. [[activation]], [[advance]], [[at-war]].</p>`);
+
+E('activation','Активация народов СН','Политика','активация активный пассивный',`
+<ul>
+<li>В регион народа входит вражеское войско (любое передвижение, включая картами).</li>
+<li>Атаковано войско с отрядами этого народа.</li>
+<li>Братство объявлено в большом городе/крепости народа (незахваченных).</li>
+<li>Спутник с символом народа заканчивает передвижение (действием) или входит в игру в его незахваченном большом городе/крепости. Отступление — не передвижение. Странник — не может, Арагорн/Гэндальф/хоббиты — любой народ.</li>
+<li>Король-чародей при входе активирует все СН.</li>
+</ul>
+<p>[[c:sh-h-22|Гнилоуст]] ограничивает активацию Рохана.</p>`);
+
+E('advance','Продвижение по шкале','Политика','продвижение сдвиг',`
+<p>+1 деление: кубик «Сбор» (дипломатия, только своего народа, пассивный не дойдёт до «в войне»); карты; автоматически — каждый раз, когда атаковано войско с отрядами народа (1 раз за битву); когда захвачено поселение народа.</p>
+<p>Пример: атака на Дейл, северяне отступили, город захвачен — северяне активны и сдвигаются на 2 деления.</p>`);
+
+E('at-war','«В войне» и невоюющие народы','Политика','в войне невоюющий',`
+<p><b>Невоюющие:</b> не пересекают границы других народов (даже дружественных); не атакуют (защищаться могут); не нанимаются кубиком «Сбор» (картами — можно). Ограничения действуют и в смешанном войске. Исключение — отступление: потом при следующем передвижении обязаны покинуть чужие земли.</p>
+<p><b>«В войне»:</b> все ограничения сняты.</p>`);
+
+/* ---------- Победа ---------- */
+E('victory','Условия победы','Победа','победа очки военная кольцо',`
+<ol>
+<li>Влияние Кольца 12 — победа Тьмы (мгновенно).</li>
+<li>Хранители в Расщелине Судьбы при влиянии &lt;12 — победа СН (мгновенно).</li>
+<li>В фазу 6: Тьма контролирует поселения СН на 10+ ПО.</li>
+<li>В фазу 6: СН контролирует поселения Тьмы на 4+ ПО.</li>
+</ol>
+<p>Меньший номер имеет приоритет. Большой город — 1 ПО, крепость — 2.</p>`);
+
+E('multiplayer','Игра втроём и вчетвером','Победа','втроем вчетвером 3 4 игрока',`<p>СН: Гондор (+эльфы) и Рохан (+северяне, гномы). Тьма: Король-чародей (Саурон, Голос Саурона) и Саруман (Изенгард, харадримы/истерлинги). Лидер стороны меняется каждый ход. Вчетвером лимит руки 4. После добора можно договориться обменяться 1 картой. Смешанные войска — командует владелец большего числа отрядов. При игре с Саруманом элитные харадримы/истерлинги тоже лидеры. Втроём СН не делает два подряд действия одним народом/одним войском.</p>`);
+
+// Боевые эффекты (нижняя часть карт). Тексты кратко пересказаны по альманаху — сверяйте с картой.
+const COMBAT = {
+ // ---- Свободные народы ----
+ anduril:{n:'Андрил',init:4,side:'fp',cond:'Странник/Арагорн в бою',txt:'Использует лидерство Странника/Арагорна для усиленного переброса (см. карту).',notes:['Отменяется «Мерзким смрадом» (отказ от лидерства до переброса, а переброс отменён).','Отменяется «Словами силы», если выбран Странник/Арагорн.']},
+ nameless:{n:'Безымянный лес',init:5,side:'fp',cond:'Защищающееся войско (любой стороны) в регионе Рохана, Фангорне или Ортханке',txt:'Если вы нанесли хотя бы 1 попадание — ещё +2 попадания.',notes:['5 попаданий → 7, предела нет.','С «Мумаками» (тоже инициатива 5): попадания учитываются в общем числе, если СН защищается.']},
+ noquarter:{n:'Без пощады',init:5,side:'fp',cond:'См. карту',txt:'Если вы нанесли хотя бы 1 попадание — ещё +1 попадание.',notes:['5 попаданий → 6.','С «Мумаками»: учитывается, если СН защищается.']},
+ sudden:{n:'Внезапный удар',init:2,side:'fp',cond:'Откажитесь от лидерства',txt:'До боевого броска — дополнительная атака: кубики по отказанному лидерству.',notes:['Порог обычный: 5+ (6+ против осаждённых / города или укрепления в 1-м раунде). Модификаторы «Смертельной вражды», «Ожесточённого сражения» не действуют.','Потери снимаются сразу — может уничтожить войско Тьмы до броска.','С «Проклятьем Дурина» (тоже 2): первой срабатывает карта защищающегося.','«Мерзкий смрад» не отменяет. «Слова силы» (1) могут уменьшить число кубиков.']},
+ vantage:{n:'Выгодная позиция',init:3,side:'fp',cond:'Защищающееся войско (любой стороны) внутри границ СН',txt:'−1 к боевому броску Тьмы.',notes:['На переброс Тьмы не влияет.']},
+ charge:{n:'В атаку!',init:2,side:'fp',cond:'Элитные отряды СН в бою',txt:'До боевого броска — кубик за каждый элитный отряд СН.',notes:['Порог обычный (5+/6+), модификаторы карт Тьмы не действуют.','Потери снимаются сразу.','С «Проклятьем Дурина» первой — карта защищающегося: атакующее войско может погибнуть или потерять элитных.']},
+ heroicdeath:{n:'Героическая смерть',init:6,side:'fp',cond:'Лидер или спутник в бою',txt:'Уничтожьте одного своего лидера или спутника — отмените попадания (спутник — до своего уровня).',notes:['Только один лидер/спутник. Гэндальф Белый — уровень 3 (макс. 3 попадания).','С «Чёрным дыханием» (6): первой — карта защищающегося; если погиб последний лидер/спутник, вторая не срабатывает.','Можно уничтожить спутника, выбранного «Словами силы».','На подсчёт «Мумаков» (5) не влияет.']},
+ holdline:{n:'Держать оборону!',init:3,side:'fp',cond:'Спутники в бою',txt:'Эффект зависит от числа спутников в бою (см. карту).',notes:['Важно только количество спутников, не лидерство.','«Слова силы» и «Мерзкий смрад» не отменяют.']},
+ daylight:{n:'Дневной свет',init:3,side:'fp',cond:'—',txt:'Тьма бросает максимум 3 кубика.',notes:['Переброс Тьмы тоже максимум 3.','Не влияет на доп. атаки Тьмы до броска/после потерь («Проклятье Дурина», «Мы пришли убивать»).']},
+ valour:{n:'Доблесть',init:3,side:'fp',cond:'Элитные отряды СН в бою',txt:'Улучшает боевой бросок СН (см. карту).',notes:['Не влияет на переброс СН.','Работает, даже если элитные уничтожены/понижены до броска («Проклятье Дурина»).']},
+ confusion:{n:'Замешательство',init:4,side:'fp',cond:'—',txt:'Каждая немодифицированная «1» Тьмы в боевом броске — попадание по Тьме; эти кубики нельзя перебросить.',notes:['Попадания добавляются к попаданиям СН (учитываются «Мумаками»).','Если войско СН уничтожено до броска — без эффекта.']},
+ westernesse:{n:'Клинок Западного Края',init:6,side:'fp',cond:'Хоббит в бою',txt:'Попадание при перебросе за лидерство уничтожает прислужника (на ваш выбор) вместо отряда.',notes:['Если прислужник в бою — одно попадание обязательно на него; в арьергарде — нельзя.','«Мерзкий смрад» отменяет. «Слова силы» на хоббита — не отменяют.','Убит Король-чародей в 1-м раунде — «Колдун» не срабатывает; убит Саруман — Палантир сбрасывается.']},
+ mighty:{n:'Могучая атака',init:4,side:'fp',cond:'Спутник в бою',txt:'Откажитесь от лидерства спутника — усиленный переброс (см. карту).',notes:['«Мерзкий смрад» отменяет.','«Слова силы» отменяют, если спутник один; если больше — отказывается другой.']},
+ huorns:{n:'Мрак хуорнов',init:3,side:'fp',cond:'Защищающееся войско в регионе Рохана, Фангорне или Ортханке',txt:'Тьма бросает максимум 2 кубика (и переброс ≤2).',notes:['В альманахе инициатива указана и как 1, и как 3 — сверьте с картой.']},
+ scouts:{n:'Разведчики',init:1,side:'fp',cond:'Войско СН защищается в полевом сражении',txt:'До боевого броска войско отступает (по обычным правилам отступления) — можно в крепость.',notes:['Невоюющие могут отступать через чужие границы, но не в регион с поселением противника.','Нельзя в осаде и при атаке СН.','Отменяется «Сонмом летучих мышей» (0).','Отступление — не передвижение: спутник народ не активирует.']},
+ secretfire:{n:'Служитель Тайного Огня',init:3,side:'fp',cond:'Гэндальф участвует в битве',txt:'+1 к кубикам вашего боевого броска.',notes:['«Слова силы» не влияют. Работает и с «Белым Всадником».']},
+ challenge:{n:'Смелый вызов',init:0,side:'fp',cond:'Спутник в бою',txt:'Откажитесь от лидерства всех спутников — отмените боевую карту Тьмы.',notes:['Нельзя частично: если часть лидерства уже отказана («Белый Всадник») — эффект не срабатывает, лидерство сохраняется.','Обычно отменяет «Слова силы».','Против «Сонма мышей»: первой — карта защищающегося.','Если Тьма карту не сыграла — лидерство сохраняется.']},
+ shieldwall:{n:'Стена щитов',init:6,side:'fp',cond:'См. карту',txt:'Снижает попадания по вашему войску (см. карту).',notes:['Не влияет на «Чёрное дыхание» и подсчёт «Мумаков».']},
+ fateful:{n:'Судьбоносный удар',init:6,side:'fp',cond:'См. карту',txt:'1+ попадание при перебросе дополнительно уничтожает назгула; 2+ попадания — можно вместо назгула уничтожить прислужника.',notes:['Прислужники в базе: Саруман, Король-чародей, Голос Саурона. Король-чародей — прислужник, требует 2 попадания.','«Мерзкий смрад» отменяет. «Слова силы» — только если всё лидерство даёт выбранный спутник.']},
+ gift:{n:'Это подарок',init:3,side:'fp',cond:'Братство в регионе защищающегося войска (любой стороны)',txt:'Модифицирует ваш боевой бросок и переброс (см. карту).',notes:[]},
+ entrage:{n:'Ярость энтов',init:3,side:'fp',cond:'Защищающееся войско в регионе Рохана, Фангорне или Ортханке',txt:'+2 к кубикам боевого броска (не переброса).',notes:['Со «Смертельной враждой»: попадание на 2+.']},
+ // ---- Тьма ----
+ relentless:{n:'Беспощадные, как смерть',init:3,side:'sh',cond:'Лидерство назгулов в бою',txt:'Откажитесь от 2 лидерства назгулов — модификатор к броску (см. карту).',notes:['Невозможна при «Белом Всаднике».','Только лидерство назгулов. Эффект обязателен даже против «Выгодной позиции».']},
+ greathost:{n:'Великое войско',init:7,side:'sh',cond:'Отрядов Тьмы в бою вдвое больше, чем у СН',txt:'После потерь — дополнительное попадание (см. карту).',notes:['Элитный считается за 1 отряд.','Атакующий первым снимает потери.']},
+ treason:{n:'Коварство Ортханка',init:3,side:'sh',cond:'Штурм крепости, в войске Тьмы отряд Изенгарда',txt:'Модификатор в штурме (см. карту).',notes:['Только штурм — не полевое и не вылазка. Тьма может штурмовать или защищаться от штурма.']},
+ stench:{n:'Мерзкий смрад',init:3,side:'sh',cond:'Лидерство назгулов в бою ≥1',txt:'Если лидерство назгулов ≥ общего лидерства СН — переброс за лидерство СН отменён.',notes:['Невозможна при «Белом Всаднике». Лидерство Сарумана и пр. не считается.','Отменяет «Андрил», «Могучую атаку», «Судьбоносный удар», «Клинок Западного Края»; не отменяет «Внезапный удар».']},
+ mumakil:{n:'Мумаки',init:'3/5',side:'sh',cond:'Элитный отряд харадримов/истерлингов в бою',txt:'+1 к боевому броску (3); после переброса (5) — проверка дополнительного попадания по общему числу попаданий (см. карту).',notes:['Работает, даже если элитные понижены до броска.','Общее число включает доп. атаки и «Замешательство»; карты инициативы 6 не учитываются; «Без пощады»/«Безымянный лес» — только если СН защищается.']},
+ wecome:{n:'Мы пришли убивать',init:7,side:'sh',cond:'Элитные отряды Тьмы в бою',txt:'После потерь — кубик за каждый оставшийся элитный, попадание 5+.',notes:['Модификаторы СН («Выгодная позиция») не действуют. Арьергард не участвует.']},
+ onslaught:{n:'Натиск',init:7,side:'sh',cond:'См. карту',txt:'После потерь — доп. атака за счёт уничтожения своих отрядов, попадание 4+.',notes:['Без переброса и модификаторов. Только отряды в бою.','Можно уничтожить всё своё войско; если и СН уничтожены — контроль остаётся у прежнего хозяина.']},
+ onefordark:{n:'Одно для Тёмного Властелина',init:3,side:'sh',cond:'Братство в регионе защищающегося войска (любой стороны)',txt:'Модифицирует бросок и переброс Тьмы (см. карту).',notes:['Броски СН не меняет.']},
+ dreadful:{n:'Они ужасны',init:4,side:'sh',cond:'Лидерство назгулов в бою',txt:'Откажитесь от лидерства (обязательно) — +1 к кубикам переброса за лидерство.',notes:['Невозможна при «Белом Всаднике».','Бонус к перебросу из любого лидерства (и Сарумана). Если лидерство было 1 — переброса не будет.']},
+ fierce:{n:'Ожесточённое сражение',init:3,side:'sh',cond:'—',txt:'Модифицирует кубики обоих игроков в броске и перебросе (см. карту).',notes:[]},
+ durin:{n:'Проклятье Дурина',init:2,side:'sh',cond:'Защищающееся войско не дальше 2 регионов от Мории',txt:'До боевого броска — доп. атака, попадание 4+.',notes:['Если «Балрог» на столе — можно взять в руку перед битвой (сверх лимита) и сыграть тайно; не сыграли — карта возвращается на стол.','Чёрные границы: Ривенделл — 3 региона от Мории.','«Замешательство» не играет, если СН уничтожены до броска.','Срабатывает «Колдун», если сыграна в 1-м раунде.']},
+ words:{n:'Слова силы',init:1,side:'sh',cond:'Назгул в бою',txt:'Выберите спутника — его лидерство и способности отменены в этом раунде.',notes:['Работает при «Белом Всаднике»; выбор Гэндальфа Белого отменяет «Белого Всадника» на раунд.','Обычно отменяется «Смелым вызовом», но не если «Белый Всадник» уже потратил лидерство.','Уменьшает «Внезапный удар»; отменяет «Андрил»; не отменяет «Клинок Западного Края».']},
+ strife:{n:'Смертельная вражда',init:3,side:'sh',cond:'—',txt:'+2 к кубикам обоих игроков в броске и перебросе.',notes:['С «Яростью энтов» СН попадает на 2+.']},
+ bats:{n:'Сонм летучих мышей',init:0,side:'sh',cond:'См. карту',txt:'Отменяет боевую карту СН; иначе — бонус к перебросу (см. карту).',notes:['Против «Смелого вызова»: первой — карта защищающегося. Если «Смелый вызов» не может сработать (Белый Всадник) — мыши отменяют его, но бонуса нет.','Отменяет «Разведчиков».']},
+ dread:{n:'Ужас и отчаяние',init:3,side:'sh',cond:'Лидерство назгулов в бою',txt:'Откажитесь от лидерства назгулов — снизьте боевую силу СН на столько же (минимум 1 кубик).',notes:['Невозможна при «Белом Всаднике». Сначала посчитайте силу СН с модификаторами (≤5).','Остальное лидерство сохраняется. Не влияет на «В атаку!», «Внезапный удар».']},
+ advance:{n:'Упорное наступление',init:3,side:'sh',cond:'См. карту',txt:'Уничтожьте свои отряды в бою — модификатор к боевому броску (см. карту).',notes:['Только боевой бросок. Арьергард не участвует.']},
+ breath:{n:'Чёрное дыхание',init:6,side:'sh',cond:'Назгул в бою',txt:'Если переброс за лидерство дал 1+ попадание — дополнительно (сверх обычных потерь) уничтожьте одного: лидера СН в бою или спутника в бою, если попаданий в перебросе не меньше его уровня.',notes:['При «Белом Всаднике» переброс — за счёт элитных Изенгарда, Голоса Саурона, Сарумана.','«Стена щитов» не влияет.','С «Героической смертью» — первой карта защищающегося.']}
+};
+
+// [id, сторона, колода(h/s), тип, №, название, условие, событие, боевая, заметки[], на стол?]
+const CARDS_RAW = [
+// ===== СН героические =====
+['fp-h-1','fp','h','char',1,'Эльфийские плащи','','Особый жетон Братства «0» входит в игру (в запас Охоты при входе в Мордор).','gift',['Сыграна до Мордора — жетон откладывается; при входе в Мордор — в запас вместе с «Оками». В Мордоре — сразу в запас.','Сбрасывается без эффекта, если вытянут «Патрулём орков», «Проклятьем Исилдура», «Тварью из бездны», «Расколом Братства».']],
+['fp-h-2','fp','h','char',2,'Эльфийская верёвка','','Особый жетон Братства «0» входит в игру.','gift',['Как «Эльфийские плащи».']],
+['fp-h-3','fp','h','char',3,'Фиал Галадриэли','','Особый жетон Братства «−2» входит в игру.','gift',['Как «Эльфийские плащи». «−2» снижает влияние Кольца.']],
+['fp-h-4','fp','h','char',4,'Смеагол помогает доброму хозяину','','Особый жетон Братства «−1» входит в игру.','gift',['Как «Эльфийские плащи».']],
+['fp-h-5','fp','h','char',5,'Мифриловая кольчуга и жало','','Выложите на стол. Сбросьте, чтобы отложить жетон Охоты, вытянутый Тьмой, и вытянуть вместо него другой.','westernesse',['Только если тянула Тьма (Охота, карта, крепость) — не в «Испытании короля».','Второй жетон тянет Тьма. «Посох» не блокирует повторное вытягивание.','Первый жетон возвращается в запас в конце действия; если запас опустел — верните обычные вытянутые и тяните.','К второму жетону применимы «Лук и топор»/«Рог Гондора».'],1],
+['fp-h-6','fp','h','char',6,'Лук и топор','Нужный спутник в Братстве (см. карту)','Выложите на стол. Сбросьте, чтобы снизить урон Охоты (см. карту).','mighty',['Только урон Охоты: не против «Свечек мертвецов», «Влияния Кольца», «Моргульской раны», «Раскола Братства», «Проклятья Исилдура».','На один жетон — только одна из: «Лук и топор» / «Рог Гондора».'],1],
+['fp-h-7','fp','h','char',7,'Рог Гондора','Боромир в Братстве (см. карту)','Выложите на стол. Сбросьте, чтобы снизить урон Охоты (см. карту).','mighty',['Как «Лук и топор».'],1],
+['fp-h-8','fp','h','char',8,'Посох волшебника','Гэндальф Серый в Братстве','Выложите на стол. Когда Тьма должна вытянуть жетон Охоты — можно сбросить: жетон не тянется. Сбросьте, если Гэндальф Серый не в Братстве.','secretfire',['Только если вытягивание инициирует Тьма; не после «Мифриловой кольчуги» и не в «Испытании короля».','Решение — до вытягивания. В Мордоре даёт «бесплатный» шаг (кубик всё равно в ячейку).'],1],
+['fp-h-9','fp','h','char',9,'Ателас','См. карту','Понизьте влияние Кольца (см. карту).','anduril',['Не ниже 0.']],
+['fp-h-10','fp','h','char',10,'Есть и другой путь','','Передвиньте или спрячьте Братство; понизьте влияние Кольца на 1.','heroicdeath',['Движение картой — кубик розыгрыша в ячейку Охоты не кладётся; Охота проводится.','Можно только понизить влияние, пропустив «спрятать/передвинуть». Можно при влиянии 0.']],
+['fp-h-11','fp','h','char',11,'Я пойду один','Хотя бы 1 спутник в Братстве','Отделите спутника или группу (дистанция ≤ прогресс + высший уровень + 1); понизьте влияние Кольца.','challenge',['Нельзя, если проводник Голлум. Не двигает уже отделённых.','Группа идёт вместе, без подбора/оставления. В осаждённую крепость с войском СН входить нельзя; в регионе с крепостью Тьмы — стоп.','В осаждённой крепости Хранителей — остаются в крепости.','В Мордоре — спутник удаляется (влияние снижается).']],
+['fp-h-12','fp','h','char',12,'Песнь Бильбо','','Понизьте влияние Кольца (см. карту).','fateful',['Можно при влиянии 0 или 1; не ниже 0.']],
+['fp-h-13','fp','h','char',13,'Зеркало Галадриэли','Братство в Лориэне — для второй части','Поменяйте один кубик «Персонаж» на «Волю Запада». Если Братство в Лориэне — влияние −1.','heroicdeath',['Если есть «Персонаж» — менять обязательно; если нет — можно разыграть.','Эльфийским кольцом можно сделать «Персонаж» и затем поменять.','Лориэн осаждён — можно, захвачен — нет. Важно положение миниатюры.']],
+['fp-h-14','fp','h','char',14,'Испытание короля','Странник/Арагорн с войском СН в регионе Рохана или Гондора','Вытяните 3 жетона Охоты: жетоны с «Оком» удаляются из игры, остальные возвращаются без эффекта; если все 3 — «Око», Странник/Арагорн уничтожен (жетоны возвращаются).','sudden',['Осгилиат — не регион Гондора.','«Моя прелесть!» (в Мордоре) тоже «Око».','Запас не восстанавливать, если жетоны вернутся в этом действии.','Удалённые «Око» не возвращаются при входе в Мордор.']],
+['fp-h-15','fp','h','char',15,'Гвайхир Повелитель Ветров','','Отделите спутника/группу (≤ прогресс + 4) или передвиньте отделённого/группу (≤4).','challenge',['Уровень и «Серогрив» не учитываются. Чёрные границы не пересекать.','Можно войти (не выйти) в дружественную осаждённую крепость.','В Мордоре отделение = удаление (можно ради Голлума).']],
+['fp-h-16','fp','h','char',16,'Лёгкая поступь','','Отделите (≤ прогресс + уровень + 2) или передвиньте спутника/группу (≤ уровень + 2).','challenge',['«Серогрив» даёт уровень 4.','Можно войти в дружественную осаждённую крепость.','Гэндальф Серый отделился этим действием — карты за проводника нет.']],
+['fp-h-17','fp','h','char',17,'Туда и обратно','','Отделите спутника/группу (≤ прогресс + уровень + 1). Если Гимли/Леголас в Дейле, Эреборе или Лесном Королевстве — активация и продвижение народа (см. карту).','holdline',['Отделить обязательно, если возможно (кроме Голлума-проводника).','Гимли/Леголас могли стоять там заранее. Не в захваченном регионе.','Не сбрасывает «Угрозы и обещания».']],
+['fp-h-18','fp','h','char',18,'Орлы приближаются!','См. карту','Бросьте кубики за назгулов в регионе; попадания уничтожают их, выжившие Тьма переносит в незахваченную крепость Саурона.','heroicdeath',['Король-чародей — не назгул для этой карты.','Не атака, на политику не влияет.','Переносить в другую крепость; можно в осаждённую СН (не захваченную).']],
+['fp-h-19','fp','h','muster',19,'Энты пробуждаются: Древобород','Гэндальф Белый в игре и спутник в Фангорне (может быть сам Гэндальф Белый)','Атакует Ортханк (см. карту). Если Гэндальф Белый в Фангорне/Рохане — можно сыграть ещё одну героическую карту.','entrage',['Нет войска Тьмы в Ортханке — уничтожается только Саруман.','Есть войско — это атака (политика); уничтожение войска уничтожает назгулов и прислужников.','Можно против войска в осаде и осаждающего. Уничтожены осаждённые — СН захватывает Ортханк.','Цепочка до 4 карт: три «Энты» + ещё одна героическая.']],
+['fp-h-20','fp','h','muster',20,'Энты пробуждаются: хуорны','Гэндальф Белый в игре и спутник в Фангорне (может быть сам Гэндальф Белый)','Как «Древобород», другой эффект атаки (см. карту).','huorns',['См. «Древобород».']],
+['fp-h-21','fp','h','muster',21,'Энты пробуждаются: сбор энтов','Гэндальф Белый в игре и спутник в Фангорне (может быть сам Гэндальф Белый)','Как «Древобород», другой эффект атаки (см. карту).','nameless',['См. «Древобород».']],
+['fp-h-22','fp','h','char',22,'Мертвецы Дунхарга','Странник/Арагорн в регионе Рохана','Передвиньте Странника/Арагорна (и спутников с ним) в Эрех, Ламедон или Пеларгир; атакуйте войско Тьмы там, затем наймите отряды Гондора (см. карту).','sudden',['Можно из осаждённой Хельмовой пади. Фангорн и Ортханк — не Рохан.','Атака влияет на политику; войско Тьмы после броска обязано отступить, иначе уничтожается.','Можно нанимать в захваченном поселении, но контроль СН не получает.']],
+['fp-h-23','fp','h','char',23,'Дом наместников','Боромир в регионе Гондора','Наймите отряды Гондора в регионе Боромира (см. карту); возьмите 2 стратегические карты.','holdline',['Осгилиат — не Гондор. Регион должен быть свободен; в захваченном поселении — нельзя.','Можно в осаждённой крепости и с войском, осаждающим захваченную крепость.','Можно сыграть ради 2 карт. Лимит: см. справку «Лимит руки».']],
+['fp-h-24','fp','h','muster',24,'Серый отряд','Странник/Арагорн с войском СН','Замените обычный отряд элитным того же народа; возьмите 2 стратегические карты.','holdline',['Нет элитных — замены нет (обычный остаётся).','В любом регионе, в том числе в осаде.']],
+// ===== СН стратегические =====
+['fp-s-1','fp','s','army',1,'Последняя битва','Арагорн с войском вне границ СН (см. карту)','Выложите на стол (см. карту).','daylight',['Нужен Арагорн, не Странник.','Сбрасывается, если войско уничтожено/вернулось в границы СН или Арагорн ушёл.','Сбрасывается при объявлении или раскрытии Братства (в том числе для входа в Мордор).'],1],
+['fp-s-2','fp','s','army',2,'Сила слишком велика','См. карту','Выложите на стол: Лориэн, Ривенделл, Серые Гавани защищены — отряды Тьмы не могут входить и атаковать.','noquarter',['Можно уходить из этих регионов; назгулы/прислужники могут входить туда, где есть войска Тьмы или поселение захвачено; карты замены/найма в уже стоящих войсках разрешены.','Карты с атакой против защищённых нельзя; без атаки («Ужасные чары», «Возвращение в Валинор») — можно.','Сброс Тьмой: действие кубиком + сброс из руки 1 героической и 1 стратегической «войско».'],1],
+['fp-s-3','fp','s','army',3,'Сила Тома Бомбадила','См. карту','Выложите на стол: Старый лес, Шир, Бакленд защищены.','vantage',['Как «Сила слишком велика». Перемещение между защищёнными регионами запрещено.'],1],
+['fp-s-4','fp','s','muster',4,'Книга Мазарбул','См. карту','Передвиньте отделённых спутников; если спутник закончил в Эреборе или Эред Луине — гномы активируются и продвигаются (см. карту).','vantage',['Не отделяет. Каждый спутник/группа по своему уровню; «Серогрив» работает.','Не в осаждённую крепость; у крепости Тьмы — стоп.','Северный Эред Луин и Железные холмы не подходят. Захваченный регион не подходит.','Не сбрасывает «Угрозы и обещания».']],
+['fp-s-5','fp','s','army',5,'Дух Мордора','В войске Тьмы отряды хотя бы двух народов Тьмы','Войско Тьмы несёт потери (см. карту).','scouts',['Не атака. Назгулы/прислужники остаются. Если уничтожены осаждённые — СН захватывает крепость.']],
+['fp-s-6','fp','s','army',6,'Следопыты Фарамира','См. карту','Потери войску Тьмы в Северном/Южном Итилиене или Осгилиате; найм, если войско СН в Осгилиате.','shieldwall',['Не атака. Можно ради найма, если Итилиен пуст.']],
+['fp-s-7','fp','s','muster',7,'Страх! Огонь! Враги!','','Передвиньте отделённых спутников; если спутник в Шире или Бри — северяне активируются и продвигаются.','shieldwall',['Как «Книга Мазарбул». Каррок и Дейл не подходят.']],
+['fp-s-8','fp','s','muster',8,'Мудрость Элронда','','Продвиньте народ по шкале политики (см. карту).','confusion',['С «Гнилоустом» Рохан не активируется. Не сбрасывает «Угрозы и обещания».']],
+['fp-s-9','fp','s','muster',9,'Красная стрела','Гондор активен','Продвиньте Рохан по шкале политики и наймите отряды (см. карту).','scouts',['Пассивный Рохан не идёт «в войну». Правила найма картами.']],
+['fp-s-10','fp','s','army',10,'Неожиданная помощь','См. карту','Атака войском СН; боевая сила Тьмы снижена на всю битву (см. карту).','noquarter',['Обычная битва: атакуют только народы «в войне», Тьма может отступать.','Карта Гэндальфа-проводника — после битвы.']],
+['fp-s-11','fp','s','army',11,'Тропы лесных людей','','Передвиньте войско из Рохана в Минас Тирит или (если нельзя) в соседний с ним регион.','sudden',['Обязательно в Минас Тирит, если возможно (не захвачен и не осаждён). Иначе — пустые Друаданский лес, Осгилиат, Лоссарнах.','Любые отряды; невоюющие не могут.','Можно из осаждённой Хельмовой пади.']],
+['fp-s-12','fp','s','army',12,'Сквозь день и ночь','В войске есть спутник','Передвиньте войско со спутником до 2 регионов.','confusion',['Минимум один спутник идёт с войском. Захватывает пустые вражеские поселения по пути.','Не сквозь войска Тьмы; не в осаждённую крепость и не из неё.']],
+['fp-s-13','fp','s','muster',13,'Корабли Кирдана','Эльфы «в войне»','Найм эльфов в приморском регионе с войском СН (см. карту).','charge',['Подходят Северный Эред Луин, Эвендим, Арнор. Можно в осаждённой (Серые Гавани, Дол Амрот, Умбар).']],
+['fp-s-14','fp','s','muster',14,'Стражи Цитадели','','Найм в Минас Тирите: элитный и лидер Гондора (см. карту).','charge',[]],
+['fp-s-15','fp','s','muster',15,'Галадрим Келеборна','','Найм в Лориэне; возьмите 1 стратегическую карту.','daylight',[]],
+['fp-s-16','fp','s','muster',16,'Всадники Теодена','','Найм в Эдорасе или в регионе Рохана со спутником (лидер Рохана и др., см. карту).','daylight',['Можно в осаждённой Хельмовой пади, если там спутник. Можно в Истэмнете/Изенских бродах со спутником без войск Тьмы; не в захваченном поселении.']],
+['fp-s-17','fp','s','muster',17,'Гримбеорн Старый, сын Беорна','','Найм северян (см. карту).','scouts',[]],
+['fp-s-18','fp','s','muster',18,'Имрахиль Дол Амротский','','Найм в Дол Амроте: лидер и элитный (или обычный).','shieldwall',['Нет лидера в подкреплениях — нанимается только отряд.']],
+['fp-s-19','fp','s','muster',19,'Люди короля Бранда','','Найм в Дейле; возьмите 1 стратегическую карту.','shieldwall',[]],
+['fp-s-20','fp','s','muster',20,'Мечи Эриадора','','Найм в Эриадоре (см. карту); возьмите 1 стратегическую карту.','vantage',[]],
+['fp-s-21','fp','s','muster',21,'Род Глорфиндела','','Найм в Ривенделле; возьмите 1 стратегическую карту.','vantage',[]],
+['fp-s-22','fp','s','muster',22,'Стража Даина Железностопа','','Найм в Эреборе (см. карту).','valour',[]],
+['fp-s-23','fp','s','muster',23,'Эомер, сын Эомунда','Регион должен быть свободен','Найм Рохана (см. карту).','valour',['Нельзя в осаждённой Хельмовой пади; можно, если СН сам осаждает её.']],
+['fp-s-24','fp','s','muster',24,'Лучники Трандуила','','Найм в Лесном Королевстве; возьмите 1 стратегическую карту.','valour',[]],
+// ===== Тьма героические =====
+['sh-h-1','sh','h','char',1,'Логово Шелоб','','Особый жетон Тьмы «кубик + стоп» входит в игру.','onefordark',['До Мордора откладывается; в Мордоре — в запас.','Голлум может раскрыть Братство, чтобы снизить урон на 1 (символа «раскрыть» нет).']],
+['sh-h-2','sh','h','char',2,'Моя прелесть!','','Особый жетон Тьмы «Око + раскрыть + стоп» входит в игру.','onefordark',['Сбрасывается без эффекта, если вытянут «Патрулём», «Проклятьем», «Тварью», «Расколом».','Голлум не игнорирует «раскрыть».']],
+['sh-h-3','sh','h','char',3,'Туда! Они пошли туда!','','Особый жетон Тьмы «3 + стоп» входит в игру.','onefordark',[]],
+['sh-h-4','sh','h','char',4,'Отдайте его нам!','','Особый жетон Тьмы «1 + раскрыть + стоп» входит в игру.','onefordark',[]],
+['sh-h-5','sh','h','char',5,'Патруль орков','Братство не в поселении СН','Вытяните жетон Охоты; если без «Ока» — правила успешной Охоты.','relentless',['Поселение СН защищает, даже захваченное; захваченное поселение Тьмы — нет.','Можно «Лук и топор» или «Рог Гондора» (одну).','В Мордоре: особые жетоны Тьмы без «Ока» работают (кроме «стоп»), СН — сброс.']],
+['sh-h-6','sh','h','char',6,'Проклятье Исилдура','Братство не в поселении СН','Вытяните жетон; если без «Ока» — весь урон в влияние Кольца.','relentless',['Урон не снижается ничем: ни картами, ни потерей, ни Голлумом (но он игнорирует «раскрыть» на числовых).']],
+['sh-h-7','sh','h','char',7,'Тварь из бездны','Братство не в поселении СН','Вытяните жетон; если без «Ока» — правила успешной Охоты (урон можно снижать обычными способами, в том числе потерей случайного спутника).','dreadful',['Потеря случайного спутника — один из способов снизить урон, не обязанность. Порядок: карта со стола → способности проводника → случайная потеря (если Голлум не проводник) → остаток во влияние.','Случайная потеря — «уничтожение»: срабатывает «Горе и страдания».']],
+['sh-h-8','sh','h','char',8,'Свечки мертвецов','Братство не в поселении СН','Влияние Кольца повышается (см. карту). Не Охота.','dread',['Карты снижения, потеря, способности не применяются. Можно в Мордоре.']],
+['sh-h-9','sh','h','char',9,'Поиски Кольца','Прогресс Братства ≥1','Передвиньте назгулов; если назгул в регионе Братства — Братство раскрыто (см. карту). Не Охота.','stench',['Король-чародей тоже двигается. Нельзя в незахваченную крепость СН без осады.','Раскрывает СН; путь через крепость Тьмы — жетон.','В Мордоре невозможна.']],
+['sh-h-10','sh','h','char',10,'Безжалостная погода','Прогресс Братства ≥1','Тьма передвигает миниатюру Хранителей в соседний регион. Не Охота.','relentless',['Это не передвижение Братства («Балрог» не срабатывает). В Мордоре невозможна.']],
+['sh-h-11','sh','h','char',11,'Удар назгулов!','Прогресс Братства ≥1','Охота с назгулом в регионе Братства (см. карту).','breath',['Обычная Охота со всеми перебросами. «Лук и топор»/«Рог Гондора» — одна. В Мордоре невозможна.']],
+['sh-h-12','sh','h','char',12,'Моргульская рана','Братство раскрыто','Влияние Кольца повышается (см. карту). Не Охота.','breath',['Ничто не снижает. Можно в Мордоре.']],
+['sh-h-13','sh','h','char',13,'Влияние Кольца','Братство раскрыто','Случайный спутник: СН выбирает — уничтожить его или повысить влияние (см. карту). Не Охота.','dreadful',['«Горе и страдания» не срабатывает. Хоббит может «Взять их живьём!» (в Мордоре — удаление).']],
+['sh-h-14','sh','h','char',14,'Раскол Братства','Братство раскрыто','Вытяните жетон: отделите столько спутников, сколько на нём (см. карту). Не Охота.','dread',['Избыток игнорируется. Отделённые остаются в регионе Хранителей.','«Мифриловая кольчуга» и «Посох» применимы; «Лук и топор», способности — нет.','В Мордоре: спутники удаляются; «Око» и жетоны СН — сброс.']],
+['sh-h-15','sh','h','char',15,'Горе и страдания','','Выложите на стол. Когда спутник уничтожен во время Охоты — удалите случайную героическую карту СН из руки или со стола (см. карту).','words',['Только при Охоте (движение, «Патруль», «Тварь», «Удар»), не при «Влиянии Кольца»/«Расколе».','Хоббит-проводник, отделившийся по способности, — не потеря. Хоббит-случайная потеря с «Взять их живьём!» — потеря.','Сбрасывается при объявлении в незахваченном городе/крепости СН.'],1],
+['sh-h-16','sh','h','char',16,'Стаи воронов','','Выложите на стол. Сбросьте перед броском Охоты: +1 ко всем кубикам броска и перебросов.','dreadful',['В Мордоре без эффекта (бросков нет).','Сбрасывается при объявлении в незахваченном городе/крепости СН.'],1],
+['sh-h-17','sh','h','char',17,'Балрог из Мории','','Выложите на стол. Когда Братство двигается через Морию или раскрыто/объявлено там — сбросьте, чтобы вытянуть доп. жетон Охоты (см. карту).','durin',['«Око» за Балрога = сброс без эффекта. Сначала Балрог, затем крепость.','Захваченная Мория — Балрог работает, жетона за крепость нет.','Объявление в крепости СН через Морию: сначала влияние −1 и сброс «Горя»/«Воронов», затем Балрог; «раскрыть» игнорируется.','Сбрасывается после использования события или боевой карты.'],1],
+['sh-h-18','sh','h','char',18,'Всевидящее Око','','Добавляет кубики в ячейку Охоты (см. карту).','words',['Кубик розыгрыша нельзя положить в ячейку. После этого Тьма может получить право пасовать.']],
+['sh-h-19','sh','h','char',19,'Ужасные чары','Назгулы рядом с войском СН','Бросьте кубик за каждого назгула (Король-чародей — один кубик) — попадания уничтожают отряды СН. Не атака.','treason',['Назгулы могут быть в соседнем регионе. Уничтожено всё — лидеры гибнут, спутники остаются; осаждённая крепость захвачена.','Работает против защищённых «Силой» регионов.']],
+['sh-h-20','sh','h','char',20,'Гронд, Молот Подземного Мира','Король-чародей с войском Тьмы','Атака крепости; минимум 3 раунда (см. карту).','dread',['Атака по всем правилам. Король-чародей может быть в арьергарде.','3 раунда, даже если Король-чародей погиб. Дальше — обычное продление штурма.','Палантир — добор после битвы.']],
+['sh-h-21','sh','h','char',21,'Палантир Ортханка','Саруман в игре','Выложите на стол. Пока лежит — после розыгрыша карты кубиком «Событие» возьмите карту из любой колоды.','relentless',['Сам себя не даёт. Добор — после всего действия (битвы).','Саруман погиб — карта сразу сбрасывается.','Сброс СН: действие кубиком «Воля Запада» или эльфийское кольцо + любой кубик.'],1],
+['sh-h-22','sh','h','char',22,'Гнилоуст','Саруман в игре','Выложите на стол. Рохан активируется только атакой на Эдорас/Хельмову падь, объявлением там Братства или спутником, закончившим передвижение там.','stench',['«Мудрость Элронда» продвигает, но не активирует. Король-чародей не активирует Рохан.','Вход Тьмы в пустые Эдорас/Хельмову падь — не атака.','Отступление спутника — не активирует; последующее действие (даже на 0) — активирует.','Саруман погиб — сброс.'],1],
+['sh-h-23','sh','h','char',23,'Призраки Кольца повсюду','','Передвиньте назгулов (и Короля-чародея), затем передвигайте/атакуйте войсками с назгулами (см. карту).','words',['Голос Саурона — не назгул. Атака — по обычным правилам.']],
+['sh-h-24','sh','h','char',24,'Чёрный Предводитель повелевает','Король-чародей в игре','Передвиньте назгулов; затем можете передвинуть или атаковать войском с Королём-чародеем.','stench',['Вторая часть необязательна. Король-чародей должен быть в атакующем войске (не в арьергарде).']],
+// ===== Тьма стратегические =====
+['sh-s-1','sh','s','army',1,'Возвращение в Валинор','','Броски за эльфийские отряды в крепостях эльфов — потери эльфам (см. карту). Не атака.','strife',['Регионы с осадой не учитываются. Уничтожаются только эльфы.']],
+['sh-s-2','sh','s','army',2,'Урук-хай','Отряд Изенгарда в войске','Атака; минимум 3 раунда (см. карту).','onslaught',['Отряд Изенгарда может быть в арьергарде. Затем — обычное продление штурма.']],
+['sh-s-3','sh','s','army',3,'Безумие Денетора','Минас Тирит осаждён Тьмой','Выложите на стол: уничтожьте лидера СН в Минас Тирите; СН не может играть боевые карты в Минас Тирите (см. карту).','treason',['Нельзя, если войско Тьмы осаждено в Минас Тирите. Спутники — не лидеры.','Запрет и для прорыва осады из Осгилиата.','Сброс: «Воля Запада» или любой кубик, если Гэндальф/Арагорн в осаждённом Минас Тирите. Осада снята — сброс.'],1],
+['sh-s-4','sh','s','army',4,'День без рассвета','','Кубики СН «Воля Запада» нельзя использовать до конца хода (см. карту).','advance',['Уже использованные не затрагиваются.']],
+['sh-s-5','sh','s','muster',5,'Угрозы и обещания','','Выложите на стол: ограничивает продвижение СН по шкале политики (см. карту).','treason',['Сбрасывается только атакой, продвинувшей народ, или способностью спутника (Боромир, Леголас, Гимли).','Не сбрасывают: ввод Короля-чародея, «Мудрость Элронда», «Книга Мазарбул», «Страх! Огонь!», «Красная стрела», «Туда и обратно», объявление Братства.'],1],
+['sh-s-6','sh','s','muster',6,'Буревестник','','Тьма сдвигает назад по шкале народ СН, СН уничтожает его отряд или лидера (см. карту).','greathost',['Не атака.']],
+['sh-s-7','sh','s','army',7,'Тьма сгущается','','Передвиньте 1 войско до 3 регионов в регион с другим войском Тьмы.','mumakil',['Захватывает пустые поселения по пути. Не сквозь войска СН.','Цель — регион с войском Тьмы на начало действия; нельзя вернуться в исходный.','Не из осады и не в осаждённую крепость.']],
+['sh-s-8','sh','s','army',8,'Тьма нарастает','','Передвиньте 2 войска до 2 регионов в регионы с другими войсками Тьмы.','mumakil',['Как «Тьма сгущается». Можно войти в регион, опустевший при этом действии.']],
+['sh-s-9','sh','s','army',9,'Тьма движется','Все народы Тьмы «в войне»','Передвиньте 4 войска (по обычным правилам).','bats',['Нельзя двигать одни отряды дважды.']],
+['sh-s-10','sh','s','army',10,'Пираты Умбара','','Передвиньте войско из Умбара в приморский регион Гондора и атакуйте (см. карту).','strife',['Сначала всё передвижение. Не из осаждённого Умбара.','Пустой регион — Гондор активируется/продвигается.','Атаку нельзя прекратить (кроме штурма Дол Амрота).']],
+['sh-s-11','sh','s','muster',11,'Ярость дунландцев','Изенгард «в войне»','Найм отрядов Изенгарда в Мории/Северном/Южном Дунланде и передвижение (см. карту).','advance',['Нужен хотя бы 1 обычный Изенгарда в подкреплениях. Двигаются только отряды Изенгарда, напрямую. Ортханк не соседний.']],
+['sh-s-12','sh','s','muster',12,'Возвращение Короля-чародея','Король-чародей в игре','Найм (см. карту).','bats',[]],
+['sh-s-13','sh','s','army',13,'Полуорки и гоблины','Изенгард «в войне»','Найм/замена в войсках Изенгарда (см. карту).','wecome',['Работает в регионах под «Силой».']],
+['sh-s-14','sh','s','army',14,'Олог-хай','Саурон «в войне»','Замена на элитных Саурона (см. карту).','wecome',['Работает в регионах под «Силой».']],
+['sh-s-15','sh','s','army',15,'Холмовые тролли','Саурон «в войне»','Замените обычных Саурона элитными (в 1 или 2 войсках, см. карту).','wecome',['Только обычные Саурона.']],
+['sh-s-16','sh','s','muster',16,'Появилась новая сила','Саруман в игре','Найм Изенгарда (см. карту).','greathost',[]],
+['sh-s-17','sh','s','muster',17,'Много королей на службе у Мордора','','Найм харадримов/истерлингов (см. карту).','greathost',['Не требует «в войне».']],
+['sh-s-18','sh','s','muster',18,'Возвращение короля','Арагорн в игре','Найм (см. карту).','advance',['Не требует «в войне».']],
+['sh-s-19','sh','s','muster',19,'Тени над Мглистыми горами','','Найм (см. карту).','onslaught',['Не требует «в войне».']],
+['sh-s-20','sh','s','muster',20,'Орки вновь множатся','','Найм обычных Саурона (см. карту).','onslaught',['Не требует «в войне». Не хватает — нанимаются все оставшиеся, распределение на выбор.']],
+['sh-s-21','sh','s','muster',21,'Орда с Востока','Харадримы/истерлинги «в войне»','Найм в Восточном/Южном Руне, Кханде, Южном Хараде (см. карту).','strife',['Не в регионах под контролем СН.']],
+['sh-s-22','sh','s','muster',22,'Пробуждение монстров','','Найм (см. карту).','fierce',['Не требует «в войне».']],
+['sh-s-23','sh','s','muster',23,'Войска для давно задуманной войны','Все народы Тьмы «в войне»','Найм (см. карту).','fierce',[]],
+['sh-s-24','sh','s','muster',24,'Ямы Мордора','Саурон «в войне»','Найм отрядов Саурона (см. карту).','fierce',['Пример: в осаждённом Минас Моргуле 4+2=6 → 1 лишний убирается.']]
+];
+const CARDS = CARDS_RAW.map(r=>({id:r[0],side:r[1],deck:r[2],type:r[3],num:r[4],name:r[5],cond:r[6],ev:r[7],cb:r[8],notes:r[9],table:!!r[10]}));
+const CARD = Object.fromEntries(CARDS.map(c=>[c.id,c]));
+
+// Полные тексты карт: по русскому файлу карт, переписаны в терминах альманаха. *_DIFF — где файл расходится с альманахом по смыслу.
+const CB_TXT = {"daylight": "Тьма бросает не более 3 кубиков в боевом броске.", "noquarter": "Если ваш боевой бросок и переброс за лидерство дали хотя бы одно попадание, нанесите ещё одно попадание.", "vantage": "Разыграйте, если ваше защищающееся войско находится внутри границ народа Свободных народов. −1 к каждому кубику боевого броска Тьмы (немодифицированная «6» всё равно попадает).", "scouts": "До боевого броска можете отступить своим войском в соседний свободный регион или в крепость.", "shieldwall": "Перед тем как убрать потери от боевого броска и переброса за лидерство Тьмы: если получено 2 или более попаданий, отмените одно попадание.", "confusion": "Каждая немодифицированная «1» в боевом броске Тьмы — попадание по войску самой Тьмы. Эти кубики нельзя перебросить за лидерство.", "sudden": "Разыграйте, если лидер Свободных народов или спутник в битве. Перед боевым броском дополнительно бросьте кубики в количестве, равном вашему лидерству (но не более 5). Сразу примените результат.", "charge": "Разыграйте, если в бою участвует элитный отряд Свободных народов. До боевого броска проведите дополнительную атаку: по кубику за каждый ваш элитный отряд (не более 5), и сразу примените результат.", "valour": "Разыграйте, если в бою участвует элитный отряд Свободных народов. +1 к каждому кубику вашего боевого броска.", "gift": "Разыграйте, если ваше защищающееся войско находится в одном регионе с Братством. +1 к каждому кубику вашего боевого броска и переброса за лидерство.", "westernesse": "Разыграйте, если в бою участвует хоббит. При перебросе за лидерство одно попадание может уничтожить участвующего в бою прислужника (на ваш выбор).", "mighty": "Разыграйте, если в бою участвует спутник. Перед перебросом за лидерство можете отказаться от лидерства одного спутника в бою, чтобы автоматически превратить один промах в попадание.", "secretfire": "Разыграйте, если в бою участвует Гэндальф. +1 к каждому кубику боевого броска.", "anduril": "Разыграйте, если в бою участвует Странник/Арагорн. Перед перебросом за лидерство откажитесь от лидерства Странника, чтобы автоматически превратить один промах в попадание, или от лидерства Арагорна, чтобы превратить два промаха в 2 попадания.", "heroicdeath": "Разыграйте, если лидер Свободных народов или спутник участвует в битве. Перед потерями от вражеского боевого броска или переброса за лидерство можете уничтожить 1 своего лидера, чтобы отменить 1 попадание, или уничтожить спутника, чтобы отменить количество попаданий, равное его уровню или меньше.", "challenge": "Разыграйте, если в бою участвует спутник. Откажитесь от лидерства всех своих спутников, чтобы отменить боевую карту Тьмы.", "fateful": "Разыграйте, если в бою участвует лидер Свободных народов. Если переброс за лидерство дал хотя бы одно попадание, дополнительно уничтожьте участвующего в бою назгула. Если 2 или более попаданий — вместо назгула можете уничтожить участвующего в бою прислужника.", "holdline": "Разыграйте, если в бою участвует спутник. Тьма бросает на 1 кубик меньше за каждого спутника в бою (но не меньше 1).", "entrage": "Разыграйте, если защищающееся войско в регионе Рохана, Фангорне или Ортханке. Добавьте 2 к значению ваших кубиков во время боевого броска.", "huorns": "Разыграйте, если защищающееся войско в регионе Рохана, Фангорне или Ортханке. Тьма бросает не более 2 кубиков во время боевого броска.", "nameless": "Разыграйте, если защищающееся войско в регионе Рохана, Фангорне или Ортханке. Если ваш боевой бросок или переброс за лидерство дал хотя бы одно попадание, нанесите ещё 2 попадания.", "strife": "+2 к каждому кубику боевого броска и переброса за лидерство обоих войск.", "onslaught": "После того как убраны потери от боевого броска и переброса, можете нанести своему войску до 4 дополнительных попаданий. Бросьте по кубику за каждое такое попадание: каждая «4» и выше — попадание по войску противника.", "treason": "Разыграйте при штурме крепости, если в бою участвует хотя бы один отряд Изенгарда. +1 к каждому кубику боевого броска.", "advance": "До боевого броска можете нанести своему войску до 2 попаданий. +1 к каждому кубику боевого броска за каждое такое попадание.", "greathost": "Если после потерь от боевого броска и переброса у вас осталось хотя бы вдвое больше отрядов, чем у противника, нанесите ему одно попадание.", "mumakil": "Разыграйте, если в бою участвует элитный отряд харадримов/истерлингов. +1 к каждому кубику боевого броска. Если после переброса за лидерство вы нанесли больше попаданий, чем противник (включая дополнительные атаки Свободных народов до боевого броска с боевых карт), нанесите ещё одно попадание.", "bats": "Отмените боевую карту Свободных народов. Если Свободные народы не сыграли боевую карту, +1 к каждому кубику вашего переброса за лидерство.", "wecome": "Разыграйте, если в бою участвует элитный отряд Тьмы. После того как убраны потери от боевого броска и переброса, проведите дополнительную атаку: по кубику за каждый элитный отряд Тьмы (не более 5), каждая «5» и выше — попадание.", "fierce": "+1 к каждому кубику боевого броска и переброса за лидерство обоих войск.", "onefordark": "Разыграйте, если ваше защищающееся войско находится в одном регионе с Братством. +1 к каждому кубику вашего боевого броска и переброса за лидерство.", "relentless": "Разыграйте, если общее лидерство назгулов в бою 2 или более. Откажитесь от 2 очков лидерства назгулов, чтобы добавить 1 к значению ваших кубиков во время боевого броска.", "dreadful": "Разыграйте, если общее лидерство назгулов в бою 1 или более. Откажитесь от 1 лидерства назгулов, чтобы получить +1 к каждому кубику переброса за лидерство.", "dread": "Разыграйте, если общее лидерство назгулов в бою 1 или более. До боевого броска откажитесь от 1 или более лидерства назгулов: боевая сила Свободных народов снижается на столько же (но не меньше 1 кубика).", "stench": "Разыграйте, если общее лидерство назгулов в бою 1 или более. Если оно не меньше общего лидерства Свободных народов, переброс за лидерство Свободных народов отменяется.", "breath": "Разыграйте, если назгул участвует в битве. Если ваш переброс за лидерство приносит хотя бы 1 попадание, можете дополнительно сделать одно из двух: уничтожить 1 лидера Свободных народов, участвующего в битве, или уничтожить спутника, участвующего в битве, если количество попаданий равно его уровню или превышает его.", "words": "Разыграйте, если в бою участвует назгул. Выберите спутника: в этом раунде его лидерство и способности не действуют.", "durin": "Разыграйте, если ваше защищающееся войско находится не дальше 2 регионов от Мории. До боевого броска проведите дополнительную атаку тремя кубиками: каждая «4» и выше — попадание, применяется сразу."};
+const CB_DIFF = {};
+const CARD_TXT = {"fp-s-1": "Разыграйте и выложите на стол, если Арагорн находится с войском Свободных народов и это войско вне границ народов Свободных народов. Пока карта на столе, кубик, которым передвигали Братство, не кладётся в ячейку Охоты. Сбросьте карту, если Братство объявлено или раскрыто.", "fp-s-2": "Выложите на стол. Продвиньте эльфов на 1 деление по шкале политики. Пока карта на столе, войска Тьмы не могут входить в Лориэн, Ривенделл и Серые Гавани и атаковать их (полевым боем или штурмом). Тьма может сбросить карту, потратив любой кубик действия и сбросив с руки одну героическую и одну стратегическую карту.", "fp-s-3": "Выложите на стол. Продвиньте северян на 1 деление по шкале политики. Пока карта на столе, войска Тьмы не могут входить в Шир, Бакленд и Старый лес и атаковать их (полевым боем или штурмом). Тьма может сбросить карту, потратив любой кубик действия и сбросив с руки одну героическую и одну стратегическую карту.", "fp-s-4": "Передвиньте одного или всех спутников, не находящихся в Братстве. Затем, если какой-либо спутник находится в Эреборе или Эред Луине, активируйте гномов и переведите их сразу в положение «в войне».", "fp-s-5": "Выберите войско Тьмы, в котором есть отряды хотя бы двух разных народов Тьмы. Бросьте 5 кубиков: каждая «5» и выше — попадание по этому войску.", "fp-s-6": "Выберите войско Тьмы в Осгилиате, Южном или Северном Итилиене. Бросьте 3 кубика: каждая «5» и выше — попадание по этому войску. Затем, если в Осгилиате войско Свободных народов, наймите туда один отряд Гондора (обычный или элитный) и одного лидера Гондора.", "fp-s-7": "Передвиньте одного или всех спутников, не находящихся в Братстве. Затем, если какой-либо спутник находится в Шире или Бри, активируйте северян и переведите их сразу в положение «в войне».", "fp-s-8": "Активируйте любой народ Свободных народов и продвиньте его на 1 деление по шкале политики.", "fp-s-9": "Разыграйте, если Гондор активен. Продвиньте Рохан на 1 деление по шкале политики. Затем наймите в Эдорасе один отряд Рохана (обычный или элитный) и одного лидера Рохана.", "fp-s-10": "Атакуйте из соседнего региона войско Тьмы, осаждающее крепость с войском Свободных народов. Всю эту битву боевая сила Тьмы снижена на 1 за каждый отряд Свободных народов в осаждённой крепости (но не меньше 1 кубика).", "fp-s-11": "Разыграйте, если Рохан «в войне». Передвиньте войско Свободных народов из любого региона Рохана (в том числе из осаждённой крепости) прямо в Минас Тирит. Если Минас Тирит осаждён или занят Тьмой — в соседний с ним регион. Регион назначения должен быть доступен для передвижения войска.", "fp-s-12": "Разыграйте, если спутник находится с войском Свободных народов. Передвиньте это войско на расстояние до 2 регионов (регионы должны быть доступны для передвижения). По пути войско не может подбирать или оставлять отряды (но его можно разделить перед движением).", "fp-s-13": "Разыграйте, если эльфы «в войне». Наймите два отряда эльфов (обычных или элитных) в приморском регионе с войском Свободных народов.", "fp-s-14": "Наймите в Минас Тирите один отряд Гондора (обычный или элитный) и одного лидера Гондора.", "fp-s-15": "Наймите в Лориэне один отряд эльфов (обычный или элитный). Затем возьмите стратегическую карту.", "fp-s-16": "Наймите один отряд Рохана (обычный или элитный) и одного лидера Рохана в Эдорасе или в любом регионе Рохана, где находится спутник.", "fp-s-17": "Наймите в Карроке один отряд северян (обычный или элитный) и одного лидера северян.", "fp-s-18": "Наймите в Дол Амроте один отряд Гондора (обычный или элитный) и одного лидера Гондора.", "fp-s-19": "Наймите в Дейле два обычных отряда северян. Затем возьмите стратегическую карту.", "fp-s-20": "Наймите один отряд северян (обычный или элитный) в Шире и один отряд гномов (обычный или элитный) в Эред Луине. Затем возьмите стратегическую карту.", "fp-s-21": "Наймите в Ривенделле один отряд эльфов (обычный или элитный). Затем возьмите стратегическую карту.", "fp-s-22": "Наймите в Эреборе один отряд гномов (обычный или элитный) и одного лидера гномов.", "fp-s-23": "Наймите один отряд Рохана (обычный или элитный) и одного лидера Рохана в любом свободном регионе Рохана с поселением.", "fp-s-24": "Наймите в Лесном Королевстве один отряд эльфов (обычный или элитный). Затем возьмите стратегическую карту.", "fp-h-1": "Особый жетон «Эльфийские плащи» входит в игру. Он добавляется в запас Охоты, когда Братство находится в Мордоре.", "fp-h-2": "Особый жетон «Эльфийская верёвка» входит в игру. Он добавляется в запас Охоты, когда Братство находится в Мордоре.", "fp-h-3": "Особый жетон «Фиал Галадриэли» входит в игру. Он добавляется в запас Охоты, когда Братство находится в Мордоре.", "fp-h-4": "Особый жетон «Смеагол помогает доброму хозяину» входит в игру. Он добавляется в запас Охоты, когда Братство находится в Мордоре.", "fp-h-5": "Выложите на стол. После того как Тьма вытянула жетон Охоты, можете сбросить эту карту, чтобы был вытянут второй жетон. Примените второй жетон вместо первого, а первый верните в запас Охоты.", "fp-h-6": "Разыграйте и выложите на стол, если Гимли или Леголас в Братстве. После того как Тьма вытянула жетон Охоты, можете сбросить эту карту, чтобы снизить урон Охоты на 1 (не ниже 0). Остаток урона применяется как обычно. Сбросьте карту, если Гимли и Леголас покинули Братство.", "fp-h-7": "Разыграйте и выложите на стол, если Боромир в Братстве. После того как Тьма вытянула жетон Охоты, можете сбросить эту карту, чтобы снизить урон Охоты на 1 (не ниже 0). Остаток урона применяется как обычно. Сбросьте карту, если Боромир покинул Братство.", "fp-h-8": "Разыграйте и выложите на стол, если Гэндальф Серый в Братстве. Можете сбросить эту карту, чтобы Тьма не тянула жетон Охоты. Сбросьте карту, если Гэндальф Серый покинул Братство.", "fp-h-9": "Бросьте 3 кубика: за каждую «5» и выше понизьте влияние Кольца на 1. Если проводник — Странник, понижайте за каждую «3» и выше.", "fp-h-10": "Понизьте влияние Кольца на 1. Затем, если проводник — Голлум, можете также спрятать или передвинуть Братство (по обычным правилам).", "fp-h-11": "Разыграйте, если в Братстве хотя бы один спутник. Отделите спутника (или группу); он может пройти на 1 регион дальше обычного. Затем понизьте влияние Кольца на 1.", "fp-h-12": "Понизьте влияние Кольца на 1. Если проводник — Голлум, понизьте на 2.", "fp-h-13": "Поменяйте 1 неиспользованный кубик действий Свободных народов с символом «Персонаж» на «Волю Запада». Если Братство в Лориэне и он не захвачен, также понизьте влияние Кольца на 1.", "fp-h-14": "Разыграйте, если Странник/Арагорн в регионе Рохана или Гондора вместе с войском Свободных народов. Вытяните 3 жетона Охоты. Если на всех изображено «Око», верните их в запас Охоты и уничтожьте Странника/Арагорна. Иначе удалите из игры вытянутые жетоны с «Оком», а остальные верните в запас Охоты, не применяя их эффект.", "fp-h-15": "Отделите спутника или группу от Братства либо передвиньте отделённого спутника или группу так, как если бы их уровень был 4. Передвижение может закончиться в осаждённой крепости.", "fp-h-16": "Отделите спутника или группу от Братства либо передвиньте отделённого спутника или группу; они могут пройти на 2 региона дальше обычного. Передвижение может закончиться в осаждённой крепости.", "fp-h-17": "Отделите спутника или группу от Братства либо передвиньте отделённого спутника или группу; они могут пройти на 1 регион дальше обычного. Если после этого Гимли или Леголас в Дейле, Эреборе или Лесном Королевстве — активируйте гномов и северян и продвиньте гномов, северян и эльфов на 1 деление по шкале политики.", "fp-h-18": "Разыграйте, если войско Свободных народов со спутником находится в одном регионе или в соседнем с войском Тьмы, в котором есть назгул. Бросьте по кубику за каждого назгула в этом войске (не более 5): каждая «5» и выше уничтожает одного назгула. Выжившие назгулы сразу перемещаются в любую крепость Саурона под контролем Тьмы. Король-чародей для этой карты не считается назгулом.", "fp-h-19": "Разыграйте, если Гэндальф Белый в игре и спутник находится в Фангорне. Бросьте 3 кубика: каждая «4» и выше — попадание по войску Тьмы в Ортханке. Если оно уничтожено, уничтожьте также назгулов и прислужников вместе с ним. Если Саруман в Ортханке без войска — уничтожьте его. Если Гэндальф Белый в Фангорне или в регионе Рохана, можете сразу разыграть ещё одну героическую карту с руки, не тратя кубик действия.", "fp-h-20": "Разыграйте, если Гэндальф Белый в игре и спутник находится в Фангорне. Бросьте 3 кубика: каждая «4» и выше — попадание по войску Тьмы в Ортханке. Если оно уничтожено, уничтожьте также назгулов и прислужников вместе с ним. Если Саруман в Ортханке без войска — уничтожьте его. Если Гэндальф Белый в Фангорне или в регионе Рохана, можете сразу разыграть ещё одну героическую карту с руки, не тратя кубик действия.", "fp-h-21": "Разыграйте, если Гэндальф Белый в игре и спутник находится в Фангорне. Бросьте 3 кубика: каждая «4» и выше — попадание по войску Тьмы в Ортханке. Если оно уничтожено, уничтожьте также назгулов и прислужников вместе с ним. Если Саруман в Ортханке без войска — уничтожьте его. Если Гэндальф Белый в Фангорне или в регионе Рохана, можете сразу разыграть ещё одну героическую карту с руки, не тратя кубик действия.", "fp-h-22": "Разыграйте, если Странник/Арагорн в Рохане (в том числе в осаждённой крепости). Передвиньте его (и любых спутников из того же региона) в Эрех, Ламедон или Пеларгир. Если там войско Тьмы, бросьте один кубик: войско получает столько попаданий, сколько выпало, и должно сразу отступить; если не отступает — уничтожается полностью вместе с назгулами и прислужниками. Затем можете нанять в этом регионе три обычных отряда Гондора.", "fp-h-23": "Разыграйте, если Боромир в регионе Гондора. Наймите один отряд Гондора (обычный или элитный) в регионе Боромира. Затем возьмите 2 стратегические карты.", "fp-h-24": "Разыграйте, если Странник/Арагорн находится с войском Свободных народов. Уничтожьте в этом войске один обычный отряд и наймите на его место элитный того же народа. Затем возьмите 2 стратегические карты.", "sh-s-1": "Разыграйте, если вы контролируете хотя бы одну эльфийскую крепость. За каждую неосаждённую эльфийскую крепость бросьте столько кубиков, сколько там эльфийских отрядов (не более 5): каждая «6» — попадание по этому войску.", "sh-s-2": "Разыграйте, если Саруман в игре и войско с отрядами Изенгарда осаждает крепость Свободных народов. Сразу проведите штурм этой крепости. Битва длится 3 раунда вместо одного. В первом раунде Свободные народы не могут играть боевые карты, если в крепости нет спутника.", "sh-s-3": "Разыграйте и выложите на стол, если Минас Тирит осаждён. При розыгрыше уничтожьте одного лидера Свободных народов в Минас Тирите. Пока карта на столе, Свободные народы не могут играть боевые карты в битвах за Минас Тирит. Свободные народы могут сбросить карту кубиком «Воля Запада» или любым кубиком, если в Минас Тирите Арагорн или Гэндальф.", "sh-s-4": "Разыграйте, если все народы Тьмы «в войне». Отмените все неиспользованные кубики «Воля Запада» Свободных народов.", "sh-s-5": "Выложите на стол. Пока карта на столе, Свободные народы не могут продвигать невоюющий народ по шкале политики кубиком «Сбор». Карта сбрасывается, когда невоюющий народ Свободных народов продвигается по шкале из-за атаки или способности спутника.", "sh-s-6": "Разыграйте, если Братство или спутник находится внутри границ народа Свободных народов, который ещё не «в войне». Сдвиньте этот народ на 1 деление назад по шкале политики. Затем Свободные народы уничтожают одного лидера или один отряд (обычный или элитный) этого народа.", "sh-s-7": "Передвиньте одно войско Тьмы на расстояние до 3 регионов. Оно должно закончить движение в регионе с другим войском Тьмы (не осаждённым). Путь должен быть доступен для передвижения; по пути войско не подбирает и не оставляет отряды (но его можно разделить перед движением).", "sh-s-8": "Передвиньте два войска Тьмы на расстояние до 2 регионов каждое. Каждое должно закончить движение в регионе с другим войском Тьмы (не осаждённым). Путь должен быть доступен для передвижения; по пути войска не подбирают и не оставляют отряды (но их можно разделить перед движением).", "sh-s-9": "Разыграйте, если все народы Тьмы «в войне». Передвиньте до четырёх войск Тьмы в соседние регионы.", "sh-s-10": "Разыграйте, если харадримы/истерлинги «в войне». Передвиньте войско Тьмы из Умбара в любой приморский регион Гондора. Если там войско Свободных народов, сразу атакуйте его. Прекратить эту атаку нельзя, кроме штурма уже осаждённого войска.", "sh-s-11": "Разыграйте, если Изенгард «в войне». Наймите два обычных отряда Изенгарда в одном из регионов, соседних с Северным или Южным Дунландом. Можете передвинуть туда до четырёх отрядов Изенгарда (обычных или элитных) из Северного или Южного Дунланда.", "sh-s-12": "Разыграйте, если Король-чародей в игре. Передвиньте Короля-чародея в Ангмар и наймите там один элитный и два обычных отряда Саурона.", "sh-s-13": "Разыграйте, если Изенгард «в войне». Наймите один отряд Изенгарда (обычный или элитный) в регионе, где уже есть войско Тьмы.", "sh-s-14": "Разыграйте, если Саурон «в войне». Наймите один отряд Саурона (обычный или элитный) в регионе, где уже есть войско Тьмы.", "sh-s-15": "Разыграйте, если Саурон «в войне». Замените два обычных отряда Саурона в любом месте карты двумя элитными.", "sh-s-16": "Разыграйте, если Саруман в игре. Наймите по 2 обычных отряда Изенгарда в Северном и Южном Дунланде и два отряда Изенгарда (обычных или элитных) в Ортханке.", "sh-s-17": "Наймите по два отряда харадримов/истерлингов в трёх разных поселениях харадримов/истерлингов.", "sh-s-18": "Разыграйте, если Арагорн в игре. Наймите в Минас Моргуле 5 обычных отрядов Саурона и одного назгула.", "sh-s-19": "Наймите 2 отряда Саурона (обычных или элитных) и одного назгула на горе Грам или в Мории.", "sh-s-20": "Наймите три обычных отряда Саурона в Дол Гулдуре и три обычных отряда Саурона на горе Гундабад.", "sh-s-21": "Разыграйте, если харадримы/истерлинги «в войне». Наймите пять обычных отрядов харадримов/истерлингов в свободном регионе внутри их границ, примыкающем к восточному краю карты.", "sh-s-22": "Наймите по одному обычному отряду Саурона в Ангмаре, Эттенских пустошах (Ettenmoors) и на Ветреных холмах (Weather Hills) и один элитный отряд Саурона в Троллистой чаще (Trollshaws).", "sh-s-23": "Разыграйте, если все народы Тьмы «в войне». Наймите пять обычных отрядов харадримов/истерлингов в Горгороте и пять обычных отрядов Саурона в Нурне.", "sh-s-24": "Разыграйте, если Саурон «в войне». Наймите по два обычных отряда Саурона в трёх разных крепостях Саурона.", "sh-h-1": "Особый жетон «Логово Шелоб» входит в игру. Он добавляется в запас Охоты, когда Братство находится в Мордоре.", "sh-h-2": "Особый жетон «Моя прелесть!» входит в игру. Он добавляется в запас Охоты, когда Братство находится в Мордоре.", "sh-h-3": "Особый жетон «Туда! Они пошли туда!» входит в игру. Он добавляется в запас Охоты, когда Братство находится в Мордоре.", "sh-h-4": "Особый жетон «Отдайте его нам!» входит в игру. Он добавляется в запас Охоты, когда Братство находится в Мордоре.", "sh-h-5": "Разыграйте, если Братство находится не в регионе с поселением Свободных народов. Вытяните жетон Охоты. Если на нём «Око» или это особый жетон Братства, сбросьте его без эффекта. Иначе действуйте по правилам успешной Охоты.", "sh-h-6": "Разыграйте, если Братство находится не в регионе с поселением Свободных народов. Вытяните жетон Охоты. Если на нём «Око» или это особый жетон Братства, сбросьте его без эффекта. Иначе действуйте по правилам успешной Охоты, но урон Охоты ничем нельзя снизить — он целиком идёт во влияние Кольца.", "sh-h-7": "Разыграйте, если Братство находится не в регионе с поселением Свободных народов. Вытяните жетон Охоты. Если на нём «Око» или это особый жетон Братства, сбросьте его без эффекта. Иначе действуйте по правилам успешной Охоты. Урон Охоты можно снижать обычными способами, в том числе потерей случайного спутника (если в Братстве есть спутник).", "sh-h-8": "Разыграйте, если Братство находится не в регионе с поселением Свободных народов. Бросьте 3 кубика: за каждую «4» и выше повысьте влияние Кольца на 1. Если проводник — Голлум, повышайте только за каждую «6».", "sh-h-9": "Разыграйте, если прогресс Братства 1 или больше. Передвиньте одного или всех назгулов. Затем, если хотя бы один назгул находится в регионе Братства, Братство раскрыто.", "sh-h-10": "Разыграйте, если прогресс Братства 1 или больше. Передвиньте миниатюру Хранителей в соседний регион.", "sh-h-11": "Разыграйте, если Братство на делении 1 или дальше на шкале Братства. Передвиньте сколько угодно назгулов. Затем, если хотя бы 1 назгул в том же регионе, что и Братство, можете либо сбросить одну из героических карт Свободных народов, лежащую на столе, либо бросить кубики для Охоты (как если бы игрок за Свободные народы передвигал Братство).", "sh-h-12": "Разыграйте, если Братство раскрыто. Если влияние Кольца 3 или меньше, повысьте его на 2, иначе на 1.", "sh-h-13": "Разыграйте, если Братство раскрыто. Выберите случайного спутника в Братстве. Свободные народы должны либо повысить влияние Кольца на его уровень, либо уничтожить этого спутника. Если проводник — Голлум, вместо этого повысьте влияние Кольца на 1.", "sh-h-14": "Разыграйте, если Братство раскрыто. Вытяните жетон Охоты. Если на нём «Око» или это особый жетон — сбросьте без эффекта. Если на нём число — отделите столько же спутников (если возможно) и поместите их в регион Братства; если Братство в Мордоре, эти спутники уничтожаются. Символы «раскрыть» и «стоп» игнорируются. Если проводник — Голлум, вместо этого повысьте влияние Кольца на 1.", "sh-h-15": "Выложите на стол. Пока карта на столе, когда спутник покидает Братство, потому что уничтожен, сбросьте случайную героическую карту из руки Свободных народов или одну со стола. Сбросьте эту карту, если Братство объявлено в незахваченном большом городе или крепости Свободных народов.", "sh-h-16": "Выложите на стол. Перед броском Охоты можете сбросить эту карту: +1 к каждому кубику этого броска Охоты, включая перебросы. Сбросьте эту карту, если Братство объявлено в незахваченном большом городе или крепости Свободных народов.", "sh-h-17": "Выложите на стол. Если Братство из-за объявления или раскрытия выходит из Мории, проходит через неё или входит в неё, вытяните жетон Охоты. Если на нём «Око» — сбросьте без эффекта, иначе действуйте по правилам успешной Охоты. Символ «раскрыть» игнорируется, если Братство объявлено в большом городе или крепости Свободных народов. Также можете сбросить эту карту, чтобы сыграть её как боевую карту, будто с руки.", "sh-h-18": "Переверните три своих неиспользованных кубика действий на «Око» и сразу положите их в ячейку Охоты.", "sh-h-19": "Разыграйте, если войско Тьмы с назгулом находится в одном регионе или в соседнем с войском Свободных народов. Бросьте по кубику за каждого назгула в этом войске (не более 5): каждая «5» и выше — попадание по войску Свободных народов.", "sh-h-20": "Разыграйте, если Король-чародей в игре и войско Тьмы осаждает крепость. Проведите штурм этой крепости. Битва длится 3 раунда вместо одного. Если в бою не участвует спутник, Свободные народы не могут играть боевые карты в первом раунде.", "sh-h-21": "Разыграйте и выложите на стол, если Саруман в игре. Пока карта на столе, после розыгрыша карты события кубиком «Событие» сразу возьмите карту из любой своей колоды. Свободные народы могут сбросить эту карту кубиком «Воля Запада» или любым кубиком вместе с эльфийским кольцом. Сбросьте карту, если Саруман уничтожен.", "sh-h-22": "Разыграйте и выложите на стол, если Саруман в игре. Пока карта на столе, Рохан активируется только способностью спутника, объявлением Братства в Эдорасе или Хельмовой пади или атакой на Эдорас или Хельмову падь. Сбросьте карту, если Рохан активирован или Саруман уничтожен.", "sh-h-23": "Передвиньте одного или всех назгулов. Затем можете передвинуть любые два войска Тьмы с назгулом или атаковать одним войском с назгулом.", "sh-h-24": "Разыграйте, если Король-чародей в игре. Либо наймите двух назгулов в регионе Короля-чародея, либо передвиньте одного или всех назгулов. Затем можете передвинуть войско с Королём-чародеем или атаковать им."};
+const EV_DIFF = {};
+CARDS.forEach(c=>{ c.txt=CARD_TXT[c.id]; c.cbtxt=CB_TXT[c.cb]; });
+const PERS = [["p-gimli", "fp", 1, "Гимли", "сын Глоина", 2, 1, "other-companions", [["Предводитель Запада", "Если Гимли участвует в битве, +1 к боевой силе войска Свободных народов (не более 5 кубиков)."], ["Гном Эребора", "Если Гимли в Эреборе, можете потратить кубик действия, чтобы продвинуть гномов на 1 деление по шкале политики."]]], ["p-boromir", "fp", 2, "Боромир", "сын Денетора", 2, 1, "other-companions", [["Предводитель Запада", "Если Боромир участвует в битве, +1 к боевой силе войска Свободных народов (не более 5 кубиков)."], ["Капитан Белой Башни", "Если Боромир в большом городе или крепости Гондора, можете потратить кубик действия, чтобы продвинуть Гондор на 1 деление по шкале политики."]]], ["p-legolas", "fp", 3, "Леголас", "сын Трандуила", 2, 1, "other-companions", [["Предводитель Запада", "Если Леголас участвует в битве, +1 к боевой силе войска Свободных народов (не более 5 кубиков)."], ["Принц Лихолесья", "Если Леголас в эльфийской крепости, можете потратить кубик действия, чтобы продвинуть эльфов на 1 деление по шкале политики."]]], ["p-gandalf-grey", "fp", 4, "Гэндальф Серый", "Серый Странник", 3, 1, "gandalf-grey", [["Проводник", "После того как вы разыграли карту события кубиком «Событие», можете сразу взять карту из колоды того же типа, что и сыгранная."], ["Предводитель Запада", "Если Гэндальф Серый участвует в битве, +1 к боевой силе войска Свободных народов (не более 5 кубиков)."], ["Посланник Запада", "Если Гэндальф Серый не в Братстве, его можно заменить Гэндальфом Белым (см. карту Гэндальфа Белого)."]]], ["p-strider", "fp", 5, "Странник", "Следопыт с Севера", 3, 1, "strider", [["Проводник", "Можете использовать кубик действия, чтобы спрятать раскрытое Братство."], ["Предводитель Запада", "Если Странник участвует в битве, +1 к боевой силе войска Свободных народов (не более 5 кубиков)."], ["Наследник Исилдура", "Если Странник не в Братстве, его можно заменить Арагорном (см. карту Арагорна)."]]], ["p-pippin", "fp", 6, "Перегрин", "хоббит из Шира", 1, 1, "hobbits", [["Проводник", "Если урон Охоты 1 или больше, Перегрин может покинуть Братство, чтобы снизить урон на 1."], ["Взять их живьём!", "Если Перегрин уничтожен, находясь в Братстве, сразу верните его в игру, как если бы он отделился от Братства. Не действует, если Братство в Мордоре."]]], ["p-merry", "fp", 7, "Мериадок", "хоббит из Шира", 1, 1, "hobbits", [["Проводник", "Если урон Охоты 1 или больше, Мериадок может покинуть Братство, чтобы снизить урон на 1."], ["Взять их живьём!", "Если Мериадок уничтожен, находясь в Братстве, сразу верните его в игру, как если бы он отделился от Братства. Не действует, если Братство в Мордоре."]]], ["p-gandalf-white", "fp", 8, "Гэндальф Белый", "Посланник Запада", 3, 1, "gandalf-white", [["Ввод в игру", "Если Гэндальф Серый уничтожен или покинул Братство и хотя бы один прислужник в игре (или был в игре), можете кубиком «Воля Запада» ввести Гэндальфа Белого. Если Гэндальф Серый на карте — замените его; иначе поставьте Гэндальфа Белого в Фангорн или в эльфийскую крепость под контролем Свободных народов (даже осаждённую)."], ["Серогрив", "Если Гэндальф Белый двигается один или с одним хоббитом, его уровень считается равным 4 (только для передвижения)."], ["Белый Всадник", "Если Гэндальф Белый участвует в битве, в её начале можете отказаться от его лидерства, чтобы на всю битву отменить лидерство всех назгулов в бою (включая Короля-чародея)."]]], ["p-aragorn", "fp", 9, "Арагорн", "Наследник Исилдура", 3, 2, "strider", [["Ввод в игру", "Если Странник в Минас Тирите, Дол Амроте или Пеларгире и это поселение под контролем Свободных народов (даже если крепость осаждена), можете кубиком «Воля Запада» заменить Странника Арагорном."], ["Предводитель Запада", "Если Арагорн участвует в битве, +1 к боевой силе войска Свободных народов (не более 5 кубиков)."]]], ["p-gollum", "fp", 10, "Голлум", "раб Кольца", 0, 0, "gollum", [["Ввод в игру", "Когда последний спутник покидает Братство, сразу добавьте Голлума в Братство — он становится проводником."], ["Проводник", "Символ «раскрыть» на обычных числовых жетонах Охоты не раскрывает Братство. Если Братство не раскрыто Охотой, можете раскрыть его, чтобы снизить урон Охоты на 1."]]], ["p-ringbearers", "fp", 11, "Хранители Кольца", "Фродо и Сэм", null, null, "fellowship", [["Хранители", "Когда последний спутник покидает Братство, сразу добавьте Голлума в Братство — он становится проводником."]]], ["p-saruman", "sh", 1, "Саруман", "маг-отступник", null, 1, "saruman", [["Ввод в игру", "Если Изенгард «в войне» и Ортханк под контролем Тьмы (даже осаждённый), можете кубиком «Сбор» поставить Сарумана в Ортханк. Саруман не может покинуть Ортханк."], ["Голос Сарумана", "Пока Ортханк под вашим контролем и не осаждён, можете кубиком «Сбор» нанять по одному обычному отряду Изенгарда в каждом поселении Изенгарда или заменить два обычных отряда Изенгарда в Ортханке двумя элитными."], ["Слуги Белой Длани", "Каждый элитный отряд Изенгарда считается одновременно и отрядом, и лидером при передвижении и в бою."]]], ["p-mouth", "sh", 2, "Голос Саурона", "глашатай Барад-дура", 3, 2, "mouth", [["Ввод в игру", "Если Братство в Мордоре или все народы Свободных народов «в войне», можете кубиком «Сбор» поставить Голос Саурона в любой регион с крепостью Саурона под контролем Тьмы (даже осаждённой)."], ["Посланник Чёрной Башни", "Раз за ход можете использовать кубик «Сбор» как кубик «Войско»."]]], ["p-witch-king", "sh", 3, "Король-чародей", "предводитель назгулов", "∞", 2, "witch-king", [["Ввод в игру", "Если Саурон и хотя бы один народ Свободных народов «в войне», можете кубиком «Сбор» поставить Короля-чародея в любой регион с войском Тьмы, в котором есть хотя бы один отряд Саурона."], ["Колдун", "Если Король-чародей участвует в битве и вы сыграли боевую карту в первом раунде, можете сразу взять карту из колоды того же типа, что и сыгранная."]]]].map(r=>({id:r[0],side:r[1],num:r[2],name:r[3],sub:r[4],lvl:r[5],lead:r[6],ent:r[7],ab:r[8]}));
+const PER = Object.fromEntries(PERS.map(p=>[p.id,p]));
+const PERS_NOTES = {"p-ringbearers": ["В файле перевода текст этой карты совпадает с картой Голлума — сверьте с оригинальной картой."], "p-witch-king": ["Уровень «∞» — передвигается на любое расстояние, как назгул."], "p-gandalf-white": ["В файле перевода «Серогрив» меняет лидерство; по правилам это уровень (дальность передвижения)."]};
+
+// Жетоны Охоты (стандартные 16 — сверьте с коробкой)
+const HUNT_STD = [
+ ['Око',1],['Око',1],['Око',1],['Око',1],
+ ['3',0],['3',0],['3',0],
+ ['2',0],['2',1],['2',1],
+ ['1',0],['1',0],['1',1],['1',1],
+ ['0',0],['0',0]
+];
+const HUNT_SPECIAL = [
+ {k:'fp-cloak',side:'fp',v:'0',label:'Эльфийские плащи',card:'fp-h-1'},
+ {k:'fp-rope',side:'fp',v:'0',label:'Эльфийская верёвка',card:'fp-h-2'},
+ {k:'fp-phial',side:'fp',v:'−2',label:'Фиал Галадриэли',card:'fp-h-3'},
+ {k:'fp-smeagol',side:'fp',v:'−1',label:'Смеагол помогает',card:'fp-h-4'},
+ {k:'sh-shelob',side:'sh',v:'🎲',stop:1,label:'Логово Шелоб',card:'sh-h-1'},
+ {k:'sh-precious',side:'sh',v:'Око',rev:1,stop:1,label:'Моя прелесть!',card:'sh-h-2'},
+ {k:'sh-coming',side:'sh',v:'3',stop:1,label:'Туда! Они пошли туда!',card:'sh-h-3'},
+ {k:'sh-give',side:'sh',v:'1',rev:1,stop:1,label:'Отдайте его нам!',card:'sh-h-4'}
+];
+
+// ================= Состояние =================
+const LS_KEY = 'wotr-ref-v1';
+function loadState(){ try{ const s = JSON.parse(localStorage.getItem(LS_KEY)||'null'); if(s) return s; }catch(e){} return null; }
+function defaultState(){
+ return {
+  me:'fp', cards:{}, oppHand:0, compare:[],
+  game:{turn:1,corr:0,prog:0,revealed:false,mordor:-1,vpSh:0,vpFp:0,ringsFp:3,ringsSh:0,diceFp:4,diceSh:7,
+   pol:{dwarves:[1,0],elves:[1,1],north:[1,0],rohan:[1,0],gondor:[2,0],isengard:[3,1],sauron:[3,1],harad:[2,1]},
+   comp:{gandalf:'f',strider:'f',boromir:'f',legolas:'f',gimli:'f',merry:'f',pippin:'f'}},
+  hunt:{std:HUNT_STD.map(()=> 'pool'), sp:Object.fromEntries(HUNT_SPECIAL.map(t=>[t.k,'off']))},
+  battle:null, cardFilter:{side:'all',deck:'all',type:'all',q:'',view:'grid'}
+ };
+}
+let S = Object.assign(defaultState(), loadState()||{});
+function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(S)); }catch(e){} }
+
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const SIDE = {fp:'Свободные народы', sh:'Тьма'};
+const DECK = {h:'героическая', s:'стратегическая'};
+const TYPE = {char:'персонаж', army:'войско', muster:'сбор'};
+const TYPE_ICON = {char:'🗡', army:'⚑', muster:'⛑'};
+
+// ================= Ссылки =================
+function linkify(html){
+ return html.replace(/\[\[(c:)?([\w-]+)(?:\|([^\]]+))?\]\]/g,(m,isC,id,txt)=>{
+  if(isC){ const c=CARD[id]; if(!c) return txt||id; return `<a class="cl-${c.side}" href="#c/${id}">${txt||c.name}</a>`; }
+  const e=ENT[id]; if(!e) return txt||id; return `<a href="#r/${id}">${txt||e.t}</a>`;
+ });
+}
+const BACK = {}; // backlinks
+for(const e of Object.values(ENT)){ for(const m of e.b.matchAll(/\[\[([\w-]+)/g)){ if(ENT[m[1]] && m[1]!==e.id){ (BACK[m[1]]=BACK[m[1]]||new Set()).add(e.id);} } }
+const CARD_REFS = {}; // entity -> cards mentioned
+for(const e of Object.values(ENT)){ CARD_REFS[e.id]=[...new Set([...e.b.matchAll(/\[\[c:([\w-]+)/g)].map(m=>m[1]))]; }
+
+// ================= Поиск =================
+const IDX = [];
+for(const e of Object.values(ENT)) IDX.push({k:'Правило · '+e.g, t:e.t, s:(e.t+' '+e.tags).toLowerCase(), h:'#r/'+e.id, body:e.b.replace(/<[^>]+>|\[\[|\]\]/g,' ').toLowerCase()});
+for(const c of CARDS){ const cb=COMBAT[c.cb]; IDX.push({k:`Карта · ${c.side==='fp'?'СН':'Тьма'}, ${DECK[c.deck]} · бой: ${cb.n}`, t:c.name, s:(c.name+' '+cb.n).toLowerCase(), h:'#c/'+c.id, body:(c.ev+' '+c.notes.join(' ')+' '+cb.txt+' '+c.txt+' '+c.cbtxt).toLowerCase()}); }
+for(const p of PERS){ IDX.push({k:`Карта персонажа · ${p.side==='fp'?'СН':'Тьма'}`, t:p.name, s:(p.name+' '+p.sub+' '+p.ab.map(a=>a[0]).join(' ')).toLowerCase(), h:'#p/'+p.id, body:p.ab.map(a=>a[1]).join(' ').toLowerCase()}); }
+for(const [k,cb] of Object.entries(COMBAT)){ const first=CARDS.find(c=>c.cb===k); IDX.push({k:'Боевой эффект · инициатива '+cb.init, t:cb.n, s:cb.n.toLowerCase(), h:'#c/'+first.id, body:cb.txt.toLowerCase()}); }
+function search(q){
+ q=q.trim().toLowerCase(); if(!q) return [];
+ const words=q.split(/\s+/);
+ return IDX.map(it=>{ let sc=0; for(const w of words){ if(it.s.startsWith(w)) sc+=6; else if(it.s.includes(w)) sc+=4; else if(it.body.includes(w)) sc+=1; else return null; } return {it,sc}; })
+  .filter(Boolean).sort((a,b)=>b.sc-a.sc).slice(0,14).map(x=>x.it);
+}
+let selIdx=-1;
+$('#q').addEventListener('input',e=>{ const r=search(e.target.value); selIdx=-1; const box=$('#sres');
+ box.innerHTML = r.length? r.map((it,i)=>`<a href="${it.h}" data-i="${i}">${esc(it.t)}<div class="k">${esc(it.k)}</div></a>`).join('') : (e.target.value.trim()?'<a>Ничего не найдено. Попробуйте другое слово.</a>':'');
+ box.classList.toggle('on', !!e.target.value.trim()); });
+$('#q').addEventListener('keydown',e=>{ const items=[...document.querySelectorAll('#sres a[href]')]; if(!items.length) return;
+ if(e.key==='ArrowDown'){selIdx=Math.min(items.length-1,selIdx+1);e.preventDefault();}
+ else if(e.key==='ArrowUp'){selIdx=Math.max(0,selIdx-1);e.preventDefault();}
+ else if(e.key==='Enter'){ location.hash=items[Math.max(0,selIdx)].getAttribute('href'); closeSearch(); return; }
+ else if(e.key==='Escape'){ closeSearch(); return; }
+ items.forEach((a,i)=>a.classList.toggle('sel',i===selIdx)); });
+function closeSearch(){ $('#sres').classList.remove('on'); $('#q').value=''; $('#q').blur(); }
+document.addEventListener('click',e=>{ if(!e.target.closest('.search')) $('#sres').classList.remove('on'); if(e.target.closest('#sres a[href]')) closeSearch(); });
+
+// ================= Тема =================
+(function(){ let t=null; try{t=localStorage.getItem('wotr-theme');}catch(e){} if(t) document.documentElement.dataset.theme=t; })();
+$('#themeBtn').onclick=()=>{ const cur=document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'); const n=cur==='dark'?'light':'dark'; document.documentElement.dataset.theme=n; try{localStorage.setItem('wotr-theme',n);}catch(e){} };
+
+// ================= Роутер =================
+function route(){
+ const h=location.hash.slice(1)||'t/rules'; const [kind,id]=h.split('/');
+ let tab='rules';
+ if(kind==='r'){ tab='rules'; renderRules(id); }
+ else if(kind==='c'){ tab='cards'; renderCard(id); }
+ else if(kind==='cmp'){ tab='cards'; renderCompare(); }
+ else if(kind==='p'){ tab='cards'; renderPers(id); }
+ else { tab=id||'rules'; ({rules:()=>renderRules('battle'),cards:renderCards,battle:renderBattle,game:renderGame,hunt:renderHunt,dice:renderDice}[tab]||(()=>renderRules('battle')))(); }
+ document.querySelectorAll('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===tab));
+ renderTray();
+ if(!h.startsWith('t/battle')) window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+
+// ================= Справочник =================
+function renderRules(id){
+ const e=ENT[id]||ENT.battle; const groups={};
+ for(const x of Object.values(ENT)) (groups[x.g]=groups[x.g]||[]).push(x);
+ const idx=Object.entries(groups).map(([g,list])=>`<h3>${g}</h3>`+list.map(x=>`<a href="#r/${x.id}" class="${x.id===e.id?'on':''}">${x.t}</a>`).join('')).join('');
+ const back=[...(BACK[e.id]||[])].map(b=>`<a class="chip" href="#r/${b}">${ENT[b].t}</a>`).join('');
+ const crefs=CARD_REFS[e.id]||[];
+ $('#main').innerHTML=`<div class="cols">
+  <aside class="idx"><details ${innerWidth>820?'open':''}><summary style="cursor:pointer;font-weight:500">Оглавление правил</summary>${idx}</details></aside>
+  <article class="ent"><h1>${e.t}</h1><div class="grp">${e.g}</div>${linkify(e.b)}
+   ${crefs.length?`<div class="back"><div>Карты в этой статье</div><div class="chips">${crefs.map(c=>`<a class="chip cl-${CARD[c].side}" href="#c/${c}">${CARD[c].name}</a>`).join('')}</div></div>`:''}
+   ${(()=>{const ps=PERS.filter(p=>p.ent===e.id);return ps.length?`<div class="back"><div>Карты персонажей</div><div class="chips">${ps.map(p=>`<a class="chip cl-${p.side}" href="#p/${p.id}">${p.name}</a>`).join('')}</div></div>`:''})()}
+   ${back?`<div class="back"><div>На эту статью ссылаются</div><div class="chips">${back}</div></div>`:''}
+  </article></div>`;
+}
+
+// ================= Карты =================
+function cardStatus(c){ return S.cards[c.id]||'deck'; }
+function tileHTML(c){
+ const cb=COMBAT[c.cb]; const st=cardStatus(c); const inCmp=S.compare.includes(c.id);
+ return `<a class="tile ${c.side} ${st==='used'?'used':''}" href="#c/${c.id}">
+  <input type="checkbox" class="cmp" data-cmp="${c.id}" ${inCmp?'checked':''} title="Добавить к сравнению" aria-label="Сравнить">
+  <div class="nm">${c.name}</div>
+  <div class="meta">${TYPE_ICON[c.type]} ${DECK[c.deck]} · ${TYPE[c.type]} · №${c.num}${c.table?' · на стол':''}${st!=='deck'?' · '+statusLabel(c,st):''}</div>
+  <div class="cb"><span>${cb.n}</span><span class="ini" title="Инициатива">${cb.init}</span></div></a>`;
+}
+const dot=t=>/[.!?]$/.test(t)?t:t+'.';
+function persStats(p){ return [p.lvl!==null?`уровень ${p.lvl}`:'',p.lead!==null?`лидерство ${p.lead}`:''].filter(Boolean).join(', '); }
+function persTile(p){
+ return `<a class="tile ${p.side}" href="#p/${p.id}"><div class="nm">${p.name}</div>
+  <div class="meta">№${p.num} · ${persStats(p)||p.sub}</div>
+  <div class="cb"><span>${p.ab.map(a=>a[0]).join(', ')}</span></div></a>`;
+}
+function renderPers(id){
+ const p=PER[id]; if(!p){ S.cardFilter.view='pers'; renderCards(); return; }
+ const e=ENT[p.ent]; const notes=PERS_NOTES[p.id]||[];
+ const stats=persStats(p);
+ $('#main').innerHTML=`<div class="card-d ${p.side}">
+ <div class="hd"><div class="lbl">${SIDE[p.side]} · карта персонажа №${p.num}${stats?' · '+stats:''}</div><h1>${p.name}</h1><div class="lbl">${p.sub}</div></div>
+ ${p.ab.map(a=>`<div class="blk"><h2>${a[0]}</h2><p>${a[1]}</p></div>`).join('')}
+ ${notes.length?`<div class="blk"><h2>Заметки</h2><ul>${notes.map(n=>`<li>${n}</li>`).join('')}</ul></div>`:''}
+ <p class="note">Текст — по русскому файлу карт, термины и названия — по альманаху. ${e?`Правила: ${linkify('[['+p.ent+']]')}.`:''}</p>
+ <p><a href="#t/cards" onclick="S.cardFilter.view='pers';save()">← Все карты персонажей</a></p></div>`;
+}
+function statusLabel(c,st){ return ({hand:'на руке',table:'на столе',used:'вышла'})[st]||''; }
+function renderCards(){
+ const f=S.cardFilter;
+ const seg=(key,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button data-f="${key}" data-v="${v}" class="${f[key]===v?'on':''}">${l}</button>`).join('')}</div>`;
+ let list=CARDS.filter(c=>(f.side==='all'||c.side===f.side)&&(f.deck==='all'||c.deck===f.deck)&&(f.type==='all'||c.type===f.type));
+ if(f.q){ const q=f.q.toLowerCase(); list=list.filter(c=>(c.name+' '+COMBAT[c.cb].n+' '+c.ev+' '+c.notes.join(' ')+' '+c.txt+' '+c.cbtxt).toLowerCase().includes(q)); }
+ const pv=f.view==='pers';
+ $('#main').innerHTML=`<h1 class="sec" style="margin-top:0">${pv?'Карты персонажей':'Карты событий'}</h1>
+ <p class="sub">${pv?'Способности спутников, Голлума и прислужников — по тексту карт. Уровень и лидерство указаны на плитке.':'Верх карты — событие, низ — боевой эффект с инициативой. Отметьте карты галочкой, чтобы сравнить их рядом. На странице карты — полный текст и пересказ по альманаху.'}</p>
+ <div class="filters">${seg('view',[['grid','Плитки'],['init','По инициативе'],['pers','Карты персонажей']])}
+ ${seg('side',[['all','Все'],['fp','СН'],['sh','Тьма']])} ${pv?'':seg('deck',[['all','Обе колоды'],['h','Героические'],['s','Стратегические']])}
+ ${pv?'':seg('type',[['all','Любой тип'],['char','Персонаж'],['army','Войско'],['muster','Сбор']])}
+ <input type="search" id="cq" placeholder="Фильтр по тексту" value="${esc(f.q)}"></div>
+ <div id="clist"></div>`;
+ const out=$('#clist');
+ if(f.view==='init'){
+  const inits=[0,1,2,3,4,5,6,7];
+  out.innerHTML=`<div class="initt">${inits.map(n=>{
+   const ks=Object.entries(COMBAT).filter(([k,cb])=>String(cb.init).split('/').map(Number).includes(n)&&(f.side==='all'||cb.side===f.side));
+   if(!ks.length) return '';
+   return `<div class="blk"><h2><span class="ini">${n}</span>${['Отмена карты','Перед боевым броском','Броски перед битвой','Боевой бросок','Переброс за лидерство','После переброса','Перед потерями','После потерь'][n]}</h2><ul>${ks.map(([k,cb])=>{const cs=CARDS.filter(c=>c.cb===k);return `<li><a class="cl-${cb.side}" href="#c/${cs[0].id}">${cb.n}</a> ×${cs.length} <span class="note">— ${cs.map(c=>`<a class="cl-${c.side}" href="#c/${c.id}">${c.name}</a>`).join(', ')}</span></li>`}).join('')}</ul></div>`;}).join('')}</div>`;
+ } else if(f.view==='pers'){
+  let ps=PERS.filter(p=>f.side==='all'||p.side===f.side);
+  if(f.q){ const q=f.q.toLowerCase(); ps=ps.filter(p=>(p.name+' '+p.sub+' '+p.ab.map(a=>a.join(' ')).join(' ')).toLowerCase().includes(q)); }
+  out.innerHTML=ps.length?`<div class="grid">${ps.map(persTile).join('')}</div>`:'<p>Под фильтр ничего не попало — сбросьте один из фильтров.</p>';
+ } else out.innerHTML=list.length?`<div class="grid">${list.map(tileHTML).join('')}</div>`:'<p>Под фильтр ничего не попало — сбросьте один из фильтров.</p>';
+ document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{ f[b.dataset.f]=b.dataset.v; save(); renderCards(); });
+ $('#cq').oninput=e=>{ f.q=e.target.value; save(); const pos=e.target.selectionStart; renderCards(); const n=$('#cq'); n.focus(); n.setSelectionRange(pos,pos); };
+ bindCmp();
+}
+function bindCmp(){ document.querySelectorAll('[data-cmp]').forEach(ch=>{ ch.onclick=e=>{ e.stopPropagation(); }; ch.onchange=e=>{ const id=ch.dataset.cmp; S.compare=S.compare.filter(x=>x!==id); if(ch.checked) S.compare.push(id); save(); renderTray(); }; }); }
+function renderTray(){ const t=$('#tray'); if(!S.compare.length){t.classList.remove('on');return;}
+ t.classList.add('on'); t.innerHTML=`<span>К сравнению: ${S.compare.map(id=>CARD[id].name).join(', ')}</span><button onclick="location.hash='cmp'">Сравнить</button><button id="cmpClr">Очистить</button>`;
+ $('#cmpClr').onclick=()=>{S.compare=[];save();renderTray(); if(location.hash==='#cmp') renderCompare(); else if(location.hash.startsWith('#t/cards')) renderCards();}; }
+function renderCompare(){
+ const cs=S.compare.map(id=>CARD[id]);
+ if(!cs.length){ $('#main').innerHTML='<h1 class="sec" style="margin-top:0">Сравнение</h1><p>Отметьте галочкой карты во вкладке <a href="#t/cards">Карты</a>.</p>'; return; }
+ const rows=[['Сторона',c=>SIDE[c.side]],['Колода и тип',c=>`${DECK[c.deck]}, ${TYPE[c.type]} №${c.num}`],['Условие события',c=>c.cond||'—'],['Событие',c=>c.ev+(c.table?' <b>(на стол)</b>':'')],
+  ['Боевая карта',c=>`<b>${COMBAT[c.cb].n}</b> <span class="ini">${COMBAT[c.cb].init}</span>`],['Боевое условие',c=>COMBAT[c.cb].cond],['Боевой эффект',c=>COMBAT[c.cb].txt],['Текст карты',c=>`<p style="margin:0 0 6px"><b>${dot(c.name)}</b> ${c.txt}</p><p style="margin:0"><b>${dot(COMBAT[c.cb].n)}</b> ${c.cbtxt}</p>`],['Заметки',c=>'<ul style="margin:0;padding-left:16px">'+[...c.notes,...COMBAT[c.cb].notes].map(n=>`<li>${n}</li>`).join('')+'</ul>']];
+ $('#main').innerHTML=`<h1 class="sec" style="margin-top:0">Сравнение карт</h1><div class="scroll"><table class="cmpt"><tr><th></th>${cs.map(c=>`<th style="width:auto"><a class="cl-${c.side}" href="#c/${c.id}" style="font-family:var(--serif);font-size:20px">${c.name}</a></th>`).join('')}</tr>
+ ${rows.map(([l,fn])=>`<tr><th>${l}</th>${cs.map(c=>`<td>${fn(c)}</td>`).join('')}</tr>`).join('')}</table></div>`;
+}
+function renderCard(id){
+ const c=CARD[id]; if(!c){ renderCards(); return; } const cb=COMBAT[c.cb];
+ const same=CARDS.filter(x=>x.cb===c.cb&&x.id!==c.id);
+ const st=cardStatus(c); const mine=c.side===S.me;
+ const stOpts=mine?[['deck','в колоде'],['hand','на руке'],['table','на столе'],['used','вышла']]:[['deck','не видели'],['table','на столе'],['used','вышла']];
+ $('#main').innerHTML=`<div class="card-d ${c.side}">
+ <div class="hd"><div class="lbl">${SIDE[c.side]} · ${DECK[c.deck]} колода · ${TYPE_ICON[c.type]} ${TYPE[c.type]} · №${c.num}</div><h1>${c.name}</h1></div>
+ <div class="filters"><span class="lbl">В этой партии:</span><div class="seg">${stOpts.map(([v,l])=>`<button data-st="${v}" class="${st===v?'on':''}">${l}</button>`).join('')}</div>
+  <label class="chip" style="cursor:pointer"><input type="checkbox" data-cmp="${c.id}" ${S.compare.includes(c.id)?'checked':''}> сравнить</label></div>
+ <div class="blk"><h2>Текст карты</h2>
+  <p><b>${dot(c.name)}</b> ${c.txt}</p>
+  <p><b>${dot(cb.n)}</b> ${c.cbtxt}</p>
+  ${EV_DIFF[c.id]||CB_DIFF[c.cb]?`<p class="cond">Расхождение с альманахом:</p><ul>${[EV_DIFF[c.id],CB_DIFF[c.cb]].filter(Boolean).map(x=>`<li>${x} Играйте по альманаху или сверьте с картой.</li>`).join('')}</ul>`:''}
+  <p class="note">Полный текст по русскому файлу карт, термины и названия — по альманаху. Ниже — пересказ и нюансы из альманаха.</p></div>
+ <div class="blk"><h2>Событие</h2>${c.cond?`<p class="cond">Условие: ${c.cond}</p>`:''}<p>${c.ev}</p>${c.table?`<p class="note">Карта «${linkify('[[table-cards|Выложите на стол]]')}».</p>`:''}
+  <p class="note">Разыгрывается кубиком «Событие» или «${TYPE[c.type]==='персонаж'?'Персонаж':TYPE[c.type]==='войско'?'Войско':'Сбор'}». ${linkify('[[events|Общие правила карт]]')}.</p>
+  ${c.notes.length?`<h3 style="font-size:19px;margin-top:10px">Нюансы (альманах)</h3><ul>${c.notes.map(n=>`<li>${n}</li>`).join('')}</ul>`:''}</div>
+ <div class="blk"><h2>${cb.n} <span class="ini" title="Инициатива">${cb.init}</span></h2><p class="cond">Условие: ${cb.cond}</p><p>${cb.txt}</p>
+  ${cb.notes.length?`<h3 style="font-size:19px">Нюансы</h3><ul>${cb.notes.map(n=>`<li>${n}</li>`).join('')}</ul>`:''}
+  <p class="note">${linkify('[[combat-cards|Как играют боевые карты]] · [[initiative|Инициатива]] · [[battle|Ход битвы]]')}</p>
+  ${same.length?`<p>Тот же боевой эффект: ${same.map(x=>`<a class="cl-${x.side}" href="#c/${x.id}">${x.name}</a>`).join(', ')}</p>`:''}</div>
+ <p><a href="#t/cards">← Все карты</a></p></div>`;
+ document.querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{ if(b.dataset.st==='deck') delete S.cards[c.id]; else S.cards[c.id]=b.dataset.st; save(); renderCard(id); });
+ bindCmp();
+}
+
+// ================= Бой =================
+const FP_CHARS = [ // id, имя, лидерство
+ ['gg','Гэндальф Серый',1],['gw','Гэндальф Белый',1],['st','Странник',1],['ar','Арагорн',2],['bo','Боромир',1],['le','Леголас',1],['gi','Гимли',1],['me','Мериадок',1],['pi','Перегрин',1]];
+function defBattle(){ return {att:'sh',type:'field',round:1,
+ fp:{reg:1,eli:2,lead:1,ch:{gg:true},whiteRider:false,mod:0,rmod:0,dmod:0,cap:5},
+ sh:{reg:9,eli:1,naz:5,wk:true,sar:false,mouth:false,sarInPlay:false,iseEli:0,harad:false,isen:false,mod:0,rmod:0,dmod:0,cap:5},
+ flags:{fpBorders:false,rohan:false,moria:false,fs:false}}; }
+function battleCalc(B){
+ const fpAtt=B.att==='fp';
+ const comp=FP_CHARS.filter(c=>B.fp.ch[c[0]]);
+ const gandalf=B.fp.ch.gg||B.fp.ch.gw;
+ const wr=B.fp.ch.gw&&B.fp.whiteRider;
+ const nazLead=wr?0:(B.sh.naz+(B.sh.wk?2:0));
+ const fpLeadRaw=B.fp.lead+comp.reduce((s,c)=>s+((c[0]==='gw'&&wr)?0:c[2]),0);
+ const shLeadRaw=nazLead+(B.sh.sar?1:0)+(B.sh.mouth?2:0)+(B.sh.sarInPlay?B.sh.iseEli:0);
+ const fpStr=B.fp.reg+B.fp.eli, shStr=B.sh.reg+B.sh.eli;
+ const thr=(isAtt)=>{ if(!isAtt) return 5; if(B.type==='assault') return 6; if((B.type==='city'||B.type==='fortress')&&B.round===1) return 6; return 5; };
+ const mk=(side,str,bonus,leadRaw,isAtt)=>{ const P=B[side];
+  const dice=Math.max(0,Math.min(5,P.cap,str+bonus+P.dmod)); const lead=Math.max(0,Math.min(5,leadRaw)); const t=thr(isAtt);
+  return {side,str,dice,lead,thr:t,p:pHit(t,P.mod),pr:pHit(t,P.mod+P.rmod),bonus}; };
+ const fp=mk('fp',fpStr,(gandalf&&B.fp.ch.gg)?1:0,fpLeadRaw,fpAtt);
+ const sh=mk('sh',shStr,0,shLeadRaw,!fpAtt);
+ if(fpStr===0) fp.dice=0; if(shStr===0) sh.dice=0;
+ for(const r of [fp,sh]) r.dist=dist(r.dice,r.lead,r.p,r.pr);
+ fp.need=B.sh.reg+2*B.sh.eli; sh.need=B.fp.reg+2*B.fp.eli;
+ return {fp,sh,comp,gandalf,wr,nazLead,fpLeadRaw,shLeadRaw};
+}
+function pHit(thr,mod){ let n=1; for(let f=2;f<=5;f++) if(f+mod>=thr) n++; return n/6; }
+function binom(n,p){ const a=[]; for(let k=0;k<=n;k++){ let c=1; for(let i=0;i<k;i++) c=c*(n-i)/(i+1); a.push(c*Math.pow(p,k)*Math.pow(1-p,n-k)); } return a; }
+function dist(n,lead,p,pr){ const out=new Array(n+1).fill(0); const b=binom(n,p);
+ for(let k=0;k<=n;k++){ const r=Math.min(n-k,lead); const b2=binom(r,pr); for(let j=0;j<=r;j++) out[k+j]+=b[k]*b2[j]; } return out; }
+const pct=x=>(x*100).toFixed(x<0.1&&x>0?1:0)+'%';
+function cardConds(B,R){
+ const fpDef=B.att==='sh'; const comp=R.comp.length; const hobbit=B.fp.ch.me||B.fp.ch.pi;
+ const field=B.type!=='assault'&&B.type!=='sortie';
+ const nazIn=B.sh.naz>0||B.sh.wk;
+ const fpUnits=B.fp.reg+B.fp.eli, shUnits=B.sh.reg+B.sh.eli;
+ const y=(v,why)=>({v,why});
+ return {
+  anduril:y(!!(B.fp.ch.st||B.fp.ch.ar),'Странник/Арагорн'), nameless:y(B.flags.rohan,'Рохан/Фангорн/Ортханк'), huorns:y(B.flags.rohan,'Рохан/Фангорн/Ортханк'), entrage:y(B.flags.rohan,'Рохан/Фангорн/Ортханк'),
+  noquarter:y(null,'условие — на карте'), sudden:y(R.fpLeadRaw>0,'нужно лидерство'), vantage:y(B.flags.fpBorders,'защита в границах СН'),
+  charge:y(B.fp.eli>0,'элитные СН'), heroicdeath:y(B.fp.lead+comp>0,'лидер или спутник'), holdline:y(comp>0,'спутники: '+comp), daylight:y(true,'без условий'),
+  valour:y(B.fp.eli>0,'элитные СН'), confusion:y(true,'без условий'), westernesse:y(!!hobbit,'хоббит в бою'), mighty:y(comp>0,'спутник в бою'),
+  scouts:y(fpDef&&field,fpDef?(field?'СН защищается в поле':'не в осаде'):'только при защите СН'), secretfire:y(!!R.gandalf,'Гэндальф в бою'),
+  challenge:y(comp>0&&!R.wr, R.wr?'«Белый Всадник» — эффекта не будет':'спутник в бою'), shieldwall:y(null,'условие — на карте'), fateful:y(null,'условие — на карте'), gift:y(B.flags.fs,'Братство у защитника'),
+  relentless:y(R.nazLead>=2,R.wr?'отменено «Белым Всадником»':'лидерство назгулов '+R.nazLead), stench:y(R.nazLead>=1,R.wr?'отменено «Белым Всадником»':(R.nazLead>=R.fpLeadRaw&&R.nazLead>0?`назгулы ${R.nazLead} ≥ СН ${R.fpLeadRaw} — переброс СН отменится`:`назгулы ${R.nazLead} < СН ${R.fpLeadRaw} — сыграть можно, эффекта не будет`)),
+  dreadful:y(R.nazLead>=1,R.wr?'отменено «Белым Всадником»':'лидерство назгулов'), dread:y(R.nazLead>=1,R.wr?'отменено «Белым Всадником»':'лидерство назгулов '+R.nazLead),
+  greathost:y(fpUnits>0&&shUnits>=2*fpUnits,`${shUnits} против ${fpUnits}`), treason:y(B.type==='assault'&&B.sh.isen,'штурм + отряд Изенгарда'), mumakil:y(B.sh.harad,'элитный харадрим/истерлинг'),
+  wecome:y(B.sh.eli>0,'элитные Тьмы'), onslaught:y(null,'условие — на карте'), onefordark:y(B.flags.fs,'Братство у защитника'), fierce:y(true,'без условий'), strife:y(true,'без условий'),
+  durin:y(B.flags.moria,'≤2 регионов от Мории'), words:y(nazIn,'назгул в бою'), bats:y(null,'условие — на карте'), advance:y(null,'условие — на карте'), breath:y(nazIn,'назгул в бою')
+ };
+}
+function renderBattle(){
+ if(!S.battle) S.battle=defBattle(); const B=S.battle; const R=battleCalc(B);
+ const num=(path,val,min=0,max=20)=>`<span class="num"><button data-dec="${path}" aria-label="меньше">−</button><input data-num="${path}" value="${val}" inputmode="numeric" aria-label="${path}"><button data-inc="${path}" aria-label="больше">+</button></span>`;
+ const chk=(path,val,label)=>`<label><input type="checkbox" data-chk="${path}" ${val?'checked':''}> ${label}</label>`;
+ const conds=cardConds(B,R);
+ const cardList=side=>{ const opp=side!==S.me;
+  return `<ul class="cbl">${Object.entries(COMBAT).filter(([k,cb])=>cb.side===side).map(([k,cb])=>{
+   const cs=CARDS.filter(c=>c.cb===k); const left=cs.filter(c=>cardStatus(c)!=='used'&&cardStatus(c)!=='table').length;
+   const inHand=cs.filter(c=>cardStatus(c)==='hand').length; const cnd=conds[k];
+   const cls=cnd.v===true?'ok':cnd.v===false?'no':'maybe';
+   const avail=opp?`ещё может быть ${left} из ${cs.length}`:(inHand?`на руке: ${inHand}`:`не на руке (осталось ${left} из ${cs.length})`);
+   return `<li><span class="${cls}">${cnd.v===true?'✔':cnd.v===false?'✖':'?'}</span><span class="ini">${cb.init}</span><a class="cl-${side}" href="#c/${cs[0].id}">${cb.n}</a><span class="why">${cnd.why}<br>${avail}</span></li>`;}).join('')}</ul>`; };
+ const res=(r,label)=>{ const d=r.dist; const pk=[]; let acc=0; for(let k=d.length-1;k>=0;k--){ acc+=d[k]; pk[k]=acc; }
+  const exp=d.reduce((s,v,k)=>s+v*k,0); const mx=Math.max(...d,0.0001);
+  return `<div class="res"><div class="stats"><div><div class="big">${r.dice}</div><div class="lbl">кубиков${r.bonus?' (+1 Гэндальф)':''}</div></div><div><div class="big">${r.lead}</div><div class="lbl">переброс</div></div><div><div class="big">${r.thr}+</div><div class="lbl">порог</div></div><div><div class="big">${exp.toFixed(2)}</div><div class="lbl">ожид. попаданий</div></div></div>
+  <div class="lbl">Шанс попадания кубиком: ${pct(r.p)}${r.pr!==r.p?`, при перебросе ${pct(r.pr)}`:''}. Чтобы уничтожить войско противника, нужно ${r.need} попад.${r.need&&r.need<=d.length-1?` — шанс за раунд ${pct(pk[r.need])}`:r.need?' — за один раунд невозможно':''}.</div>
+  <div class="bars" style="margin-bottom:24px">${d.map((v,k)=>`<div style="height:${Math.round(v/mx*80)+1}px" title="${k}: ${pct(v)}"><em>${pct(v)}</em><span>${k}</span></div>`).join('')}</div>
+  <div class="lbl">Не меньше k попаданий: ${pk.map((v,k)=>k?`${k}+ — ${pct(v)}`:'').filter(Boolean).join(' · ')}</div></div>`; };
+ const sideBox=(side)=>{ const P=B[side]; const isAtt=B.att===side;
+  const rows= side==='fp' ? `
+   <div class="row">Обычные отряды ${num('fp.reg',P.reg,0,10)}</div><div class="row">Элитные отряды ${num('fp.eli',P.eli,0,10)}</div><div class="row">Лидеры ${num('fp.lead',P.lead,0,10)}</div>
+   <div class="chk">${FP_CHARS.map(c=>chk('fp.ch.'+c[0],P.ch[c[0]],`${c[1]} <span class="note">(${c[2]})</span>`)).join('')}</div>
+   ${P.ch.gw?`<div class="chk">${chk('fp.whiteRider',P.whiteRider,'«Белый Всадник»: отменить лидерство назгулов')}</div>`:''}`
+  : `
+   <div class="row">Обычные отряды ${num('sh.reg',P.reg,0,10)}</div><div class="row">Элитные отряды ${num('sh.eli',P.eli,0,10)}</div><div class="row">Назгулы ${num('sh.naz',P.naz,0,8)}</div>
+   <div class="chk">${chk('sh.wk',P.wk,'Король-чародей <span class="note">(2)</span>')}${chk('sh.mouth',P.mouth,'Голос Саурона <span class="note">(2)</span>')}${chk('sh.sar',P.sar,'Саруман в бою <span class="note">(1)</span>')}</div>
+   <div class="chk">${chk('sh.sarInPlay',P.sarInPlay,'Саруман в игре')}${P.sarInPlay?`<span>элитных Изенгарда: ${num('sh.iseEli',P.iseEli,0,6)}</span>`:''}</div>
+   <div class="chk">${chk('sh.harad',P.harad,'есть элитный харадрим/истерлинг')}${chk('sh.isen',P.isen,'есть отряд Изенгарда')}</div>`;
+  return `<section class="side ${side}"><h2>${SIDE[side]} — ${isAtt?'атакует':'защищается'}</h2>${rows}
+   <details style="margin-top:8px"><summary class="lbl" style="cursor:pointer">Модификаторы от карт и способностей</summary>
+    <div class="row">К боевому броску ${num(side+'.mod',P.mod,-3,3)}</div><div class="row">Доп. к перебросу ${num(side+'.rmod',P.rmod,-3,3)}</div>
+    <div class="row">Кубиков ±  ${num(side+'.dmod',P.dmod,-5,5)}</div><div class="row">Максимум кубиков ${num(side+'.cap',P.cap,0,5)}</div>
+    <p class="note">Например: «Служитель Тайного Огня» — +1 к броску СН; «Выгодная позиция» — −1 к броску Тьмы; «Дневной свет» — максимум 3 у Тьмы; «Ужас и отчаяние» — минус кубики СН.</p></details>
+   ${res(R[side])}
+   <h3 style="font-size:20px;margin-top:14px">Боевые карты ${side===S.me?'(ваши)':'(соперника)'}</h3><p class="note">✔ условие выполнено · ✖ нет · ? проверьте по карте. Учитывает отметки во вкладке «Партия».</p>${cardList(side)}</section>`; };
+ $('#main').innerHTML=`<h1 class="sec" style="margin-top:0">Боевой раунд</h1>
+ <p class="sub">Задайте состав войск и обстановку — увидите кубики, лидерство, порог попадания, распределение попаданий за раунд и какие боевые карты сейчас применимы. Порядок раунда: ${linkify('[[battle|ход битвы]]')}.</p>
+ <div class="situ"><div class="filters" style="margin:0 0 8px">
+  <span>Атакует:</span><div class="seg"><button data-att="sh" class="${B.att==='sh'?'on':''}">Тьма</button><button data-att="fp" class="${B.att==='fp'?'on':''}">СН</button></div>
+  <select id="btype" aria-label="Тип боя"><option value="field">Полевое сражение (открытый регион)</option><option value="city">Атака города / укрепления</option><option value="fortress">Регион с крепостью (полевое)</option><option value="assault">Штурм осаждённой крепости</option><option value="sortie">Вылазка</option></select>
+  <div class="seg"><button data-round="1" class="${B.round===1?'on':''}">1-й раунд</button><button data-round="2" class="${B.round===2?'on':''}">2-й и далее</button></div>
+  <button class="btn" id="preset">Пример: Король-чародей + 10 отрядов + 5 назгулов против Гэндальфа</button><button class="btn" id="breset">Сбросить</button></div>
+  <div class="chk">${chk('flags.fpBorders',B.flags.fpBorders,'Защитник в границах СН')}${chk('flags.rohan',B.flags.rohan,'Защитник в Рохане / Фангорне / Ортханке')}${chk('flags.moria',B.flags.moria,'Защитник ≤2 регионов от Мории')}${chk('flags.fs',B.flags.fs,'Братство в регионе защитника')}</div>
+  <p class="note" id="bnote"></p></div>
+ <div class="bt">${sideBox(B.att)}${sideBox(B.att==='sh'?'fp':'sh')}</div>`;
+ $('#btype').value=B.type;
+ const notes=[]; if(B.type==='city') notes.push('Атакующий попадает на 6 только в первом раунде.'); if(B.type==='fortress') notes.push('Защитник в начале каждого раунда может отступить в крепость — тогда начнётся осада. Попадание атакующего на 6 только в 1-м раунде.');
+ if(B.type==='assault') notes.push('Штурм: атакующий на 6 каждый раунд; раунд один, продление — понижением элитного. В крепости максимум 5 отрядов.'); if(B.type==='sortie') notes.push('Вылазка — полевое сражение, оба на 5+.');
+ if(B.fp.reg+B.fp.eli>(['assault'].includes(B.type)&&B.att==='sh'?5:10)||B.sh.reg+B.sh.eli>(['assault'].includes(B.type)&&B.att==='fp'?5:10)) notes.push('⚠ Превышен предел группирования (10, в осаждённой крепости 5).');
+ if(R.wr) notes.push('«Белый Всадник»: лидерство назгулов и Короля-чародея отменено на всю битву.');
+ if(B.sh.wk) notes.push('«Колдун»: если Король-чародей участвует и Тьма сыграла боевую карту в 1-м раунде — добор карты того же типа после шага 5.');
+ $('#bnote').innerHTML=notes.join(' ');
+ const set=(path,v)=>{ const ks=path.split('.'); let o=B; for(let i=0;i<ks.length-1;i++) o=o[ks[i]]; o[ks[ks.length-1]]=v; save(); renderBattle(); };
+ const get=path=>path.split('.').reduce((o,k)=>o[k],B);
+ document.querySelectorAll('[data-inc]').forEach(b=>b.onclick=()=>set(b.dataset.inc,get(b.dataset.inc)+1));
+ document.querySelectorAll('[data-dec]').forEach(b=>b.onclick=()=>set(b.dataset.dec,get(b.dataset.dec)-1));
+ document.querySelectorAll('[data-num]').forEach(i=>i.onchange=()=>set(i.dataset.num,parseInt(i.value)||0));
+ document.querySelectorAll('[data-chk]').forEach(i=>i.onchange=()=>set(i.dataset.chk,i.checked));
+ document.querySelectorAll('[data-att]').forEach(b=>b.onclick=()=>set('att',b.dataset.att));
+ document.querySelectorAll('[data-round]').forEach(b=>b.onclick=()=>set('round',+b.dataset.round));
+ $('#btype').onchange=e=>set('type',e.target.value);
+ $('#preset').onclick=()=>{ S.battle=defBattle(); save(); renderBattle(); };
+ $('#breset').onclick=()=>{ S.battle=defBattle(); S.battle.fp={reg:0,eli:0,lead:0,ch:{},whiteRider:false,mod:0,rmod:0,dmod:0,cap:5}; Object.assign(S.battle.sh,{reg:0,eli:0,naz:0,wk:false}); save(); renderBattle(); };
+}
+
+// ================= Партия =================
+const NATIONS=[['dwarves','Гномы','fp'],['elves','Эльфы','fp'],['north','Северяне','fp'],['rohan','Рохан','fp'],['gondor','Гондор','fp'],['isengard','Изенгард','sh'],['sauron','Саурон','sh'],['harad','Харадримы и истерлинги','sh']];
+const COMPS=[['gandalf','Гэндальф'],['strider','Странник/Арагорн'],['boromir','Боромир'],['legolas','Леголас'],['gimli','Гимли'],['merry','Мериадок'],['pippin','Перегрин']];
+function renderGame(){
+ const G=S.game; const me=S.me, op=me==='fp'?'sh':'fp';
+ const cardRows=(side,deck)=>{ const mine=side===me; const opts=mine?[['deck','колода'],['hand','рука'],['table','стол'],['used','вышла']]:[['deck','?'],['table','стол'],['used','вышла']];
+  return CARDS.filter(c=>c.side===side&&c.deck===deck).map(c=>{ const st=cardStatus(c);
+   return `<div class="crow ${st==='used'?'done':''}"><span class="note">${c.num}</span><span class="cn"><a class="cl-${side}" href="#c/${c.id}">${c.name}</a> <span class="note">· ${COMBAT[c.cb].n} ${COMBAT[c.cb].init}</span></span><span class="st">${opts.map(([v,l])=>`<button data-cs="${c.id}" data-v="${v}" class="${st===v?'on':''}">${l}</button>`).join('')}</span></div>`; }).join(''); };
+ const cnt=(side,deck,fn)=>CARDS.filter(c=>c.side===side&&c.deck===deck&&fn(cardStatus(c))).length;
+ const deckInfo=(side,deck)=>{ const mine=side===me; const out=cnt(side,deck,s=>s!=='deck');
+  return mine?`в колоде ${24-out} · на руке ${cnt(side,deck,s=>s==='hand')} · на столе ${cnt(side,deck,s=>s==='table')} · вышло ${cnt(side,deck,s=>s==='used')}`:`замечено ${out} из 24`; };
+ const handMine=CARDS.filter(c=>c.side===me&&cardStatus(c)==='hand').length;
+ const oppCombat=Object.entries(COMBAT).filter(([k,cb])=>cb.side===op).map(([k,cb])=>{ const cs=CARDS.filter(c=>c.cb===k); const left=cs.filter(c=>cardStatus(c)==='deck').length; return [cb,left,cs.length,cs[0].id]; }).sort((a,b)=>b[1]-a[1]);
+ const numf=(k,v,min,max)=>`<span class="num"><button data-gd="${k}" data-d="-1">−</button><input data-gn="${k}" value="${v}" inputmode="numeric" aria-label="${k}"><button data-gd="${k}" data-d="1">+</button></span>`;
+ $('#main').innerHTML=`<h1 class="sec" style="margin-top:0">Партия</h1>
+ <p class="sub">Учёт текущей игры. Хранится только в этом браузере. Отметки карт влияют на подсказки во вкладке «Бой».</p>
+ <div class="filters"><span>Я играю за:</span><div class="seg"><button data-me="fp" class="${me==='fp'?'on':''}">Свободные народы</button><button data-me="sh" class="${me==='sh'?'on':''}">Тьму</button></div>
+ <button class="btn" id="newGame">Новая партия</button></div>
+ <h2 class="sec">Состояние</h2>
+ <div class="state">
+  <div class="blk"><div class="row">Ход ${numf('turn',G.turn)}</div><div class="row">Влияние Кольца ${numf('corr',G.corr)}</div><div class="row">Прогресс Братства ${numf('prog',G.prog)}</div>
+   <div class="row">Братство <div class="seg"><button data-gr="0" class="${!G.revealed?'on':''}">спрятано</button><button data-gr="1" class="${G.revealed?'on':''}">раскрыто</button></div></div>
+   <div class="row">Шкала Мордора ${numf('mordor',G.mordor)}</div><p class="note">−1 — не в Мордоре; 0–4 деление; 5 — Расщелина Судьбы.</p>
+   ${G.corr>=12?'<p class="cond">Влияние 12 — победа Тьмы.</p>':''}${G.mordor>=5&&G.corr<12?'<p class="cond">Кольцо уничтожено — победа СН.</p>':''}</div>
+  <div class="blk"><div class="row">ПО Тьмы ${numf('vpSh',G.vpSh)}</div><div class="row">ПО СН ${numf('vpFp',G.vpFp)}</div>
+   <div class="row">Кубики СН ${numf('diceFp',G.diceFp)}</div><div class="row">Кубики Тьмы ${numf('diceSh',G.diceSh)}</div>
+   <div class="row">Кольца у СН ${numf('ringsFp',G.ringsFp)}</div><div class="row">Кольца у Тьмы ${numf('ringsSh',G.ringsSh)}</div>
+   ${G.vpSh>=10?'<p class="cond">Тьма набрала 10 ПО — проверьте победу в фазу 6.</p>':''}${G.vpFp>=4?'<p class="cond">СН набрали 4 ПО — проверьте победу в фазу 6.</p>':''}
+   <p class="note">Охота: максимум кубиков = спутников в Братстве (${COMPS.filter(c=>G.comp[c[0]]==='f').length}), минимум 1 всегда можно.</p></div>
+  <div class="blk"><div class="lbl">Политика (деление: 1–3, 4 = «в войне»)</div><div class="pol">${NATIONS.map(([k,n,s])=>{const p=G.pol[k];return `<span class="${s==='fp'?'':''}" style="color:var(--${s})">${n}</span>${numf('pol.'+k,p[0])}<label class="note"><input type="checkbox" data-pa="${k}" ${p[1]?'checked':''}> активен</label>`}).join('')}</div>
+   ${NATIONS.filter(([k])=>G.pol[k][0]>=4&&!G.pol[k][1]).length?'<p class="cond">⚠ Пассивный народ не может быть «в войне».</p>':''}</div>
+  <div class="blk"><div class="lbl">Спутники</div>${COMPS.map(([k,n])=>`<div class="row">${n}<div class="seg">${[['f','в Братстве'],['o','на поле'],['x','погиб']].map(([v,l])=>`<button data-cp="${k}" data-v="${v}" class="${G.comp[k]===v?'on':''}">${l}</button>`).join('')}</div></div>`).join('')}
+   <p class="note">Проводник — наивысший уровень (Гэндальф/Странник 3, Боромир/Леголас/Гимли 2, хоббиты 1); никого нет — ${linkify('[[gollum|Голлум]]')}.</p></div>
+ </div>
+ <h2 class="sec">Карты</h2>
+ <div class="filters"><span class="lbl">На руке у вас: <b>${handMine}</b>${handMine>6?' — больше лимита 6, сбросьте':''}</span><span class="lbl">· У соперника на руке: ${numf('oppHand',S.oppHand)}</span></div>
+ <div class="blk"><h2 style="font-size:22px">Что соперник ещё может сыграть в бою</h2><p class="note">Боевые эффекты соперника среди не замеченных карт (колода + рука).</p>
+  <div class="chips">${oppCombat.map(([cb,l,t,id])=>`<a class="chip ${l?'':'no'}" href="#c/${id}">${cb.n} <b>${l}</b>/${t} · ${cb.init}</a>`).join('')}</div></div>
+ <div class="tk">
+  <section><h3 style="font-size:24px;color:var(--${me})">Ваши: ${SIDE[me]}</h3>
+   <h4>Героическая — <span class="note">${deckInfo(me,'h')}</span></h4>${cardRows(me,'h')}
+   <h4>Стратегическая — <span class="note">${deckInfo(me,'s')}</span></h4>${cardRows(me,'s')}</section>
+  <section><h3 style="font-size:24px;color:var(--${op})">Соперник: ${SIDE[op]}</h3>
+   <h4>Героическая — <span class="note">${deckInfo(op,'h')}</span></h4>${cardRows(op,'h')}
+   <h4>Стратегическая — <span class="note">${deckInfo(op,'s')}</span></h4>${cardRows(op,'s')}</section>
+ </div>`;
+ const setG=(k,v)=>{ if(k==='oppHand'){S.oppHand=Math.max(0,v);} else if(k.startsWith('pol.')){ G.pol[k.slice(4)][0]=Math.max(1,Math.min(4,v)); } else G[k]=k==='mordor'?Math.max(-1,Math.min(5,v)):Math.max(0,v); save(); renderGame(); };
+ const getG=k=>k==='oppHand'?S.oppHand:k.startsWith('pol.')?G.pol[k.slice(4)][0]:G[k];
+ document.querySelectorAll('[data-gd]').forEach(b=>b.onclick=()=>setG(b.dataset.gd,getG(b.dataset.gd)+(+b.dataset.d)));
+ document.querySelectorAll('[data-gn]').forEach(i=>i.onchange=()=>setG(i.dataset.gn,parseInt(i.value)||0));
+ document.querySelectorAll('[data-pa]').forEach(i=>i.onchange=()=>{G.pol[i.dataset.pa][1]=i.checked?1:0;save();renderGame();});
+ document.querySelectorAll('[data-gr]').forEach(b=>b.onclick=()=>{G.revealed=b.dataset.gr==='1';save();renderGame();});
+ document.querySelectorAll('[data-cp]').forEach(b=>b.onclick=()=>{G.comp[b.dataset.cp]=b.dataset.v;save();renderGame();});
+ document.querySelectorAll('[data-cs]').forEach(b=>b.onclick=()=>{ if(b.dataset.v==='deck') delete S.cards[b.dataset.cs]; else S.cards[b.dataset.cs]=b.dataset.v; save(); const y=scrollY; renderGame(); scrollTo(0,y); });
+ document.querySelectorAll('[data-me]').forEach(b=>b.onclick=()=>{S.me=b.dataset.me;save();renderGame();});
+ $('#newGame').onclick=()=>{ if(confirm('Начать новую партию? Отметки карт, состояние и жетоны Охоты будут сброшены.')){ const me=S.me; const keep=S.cardFilter; S=defaultState(); S.me=me; S.cardFilter=keep; save(); renderGame(); } };
+}
+
+// ================= Охота =================
+function renderHunt(){
+ const H=S.hunt; const G=S.game;
+ const inPool=[]; HUNT_STD.forEach((t,i)=>{ if(H.std[i]==='pool') inPool.push({v:t[0],rev:t[1]}); });
+ HUNT_SPECIAL.forEach(t=>{ if(H.sp[t.k]==='pool') inPool.push({v:t.v,rev:t.rev||0,stop:t.stop,sp:t.side}); });
+ const n=inPool.length; const c=f=>inPool.filter(f).length;
+ const stdLab={pool:'в запасе',drawn:'вытянут',removed:'удалён'};
+ const spLab={off:'не в игре',aside:'отложен (до Мордора)',pool:'в запасе',drawn:'вытянут/сброшен'};
+ const hb=S.huntCalc||(S.huntCalc={sh:1,fp:0,rr:0,ravens:false});
+ const hp=k=>{ const need=Math.max(2,6-hb.fp-(hb.ravens?1:0)); return need>6?0:(7-need)/6; };
+ const pS=hp(); const dice=Math.min(5,hb.sh); const rr=Math.min(3,hb.rr,dice);
+ // распределение успехов с перебросами провалов
+ const dd=dist(dice,rr,pS,pS); const pAny=1-dd[0]; const expS=dd.reduce((s,v,k)=>s+v*k,0);
+ const numf=(k,v)=>`<span class="num"><button data-hd="${k}" data-d="-1">−</button><input data-hn="${k}" value="${v}" inputmode="numeric" aria-label="${k}"><button data-hd="${k}" data-d="1">+</button></span>`;
+ const numeric=inPool.filter(t=>/^\d$/.test(t.v)); const avg=numeric.length?numeric.reduce((s,t)=>s+(+t.v),0)/numeric.length:0;
+ $('#main').innerHTML=`<h1 class="sec" style="margin-top:0">Охота за Кольцом</h1>
+ <p class="sub">Нажимайте на жетоны, чтобы менять их состояние. Состав обычных жетонов задан по памяти — сверьте со своей коробкой. Правила: ${linkify('[[hunt]], [[hunt-effects|порядок эффектов]], [[hunt-pool|запас]], [[mordor]]')}.</p>
+ <div class="bt">
+ <section class="side sh"><h2>Бросок Охоты</h2>
+  <div class="row">Кубики Тьмы в ячейке ${numf('sh',hb.sh)}</div><div class="row">Кубики СН в ячейке (+1 каждый) ${numf('fp',hb.fp)}</div><div class="row">Перебросы (крепость / отряды / назгул) ${numf('rr',hb.rr)}</div>
+  <div class="chk"><label><input type="checkbox" id="rav" ${hb.ravens?'checked':''}> сбросить «Стаи воронов» (+1)</label></div>
+  <div class="stats"><div><div class="big">${pct(pAny)}</div><div class="lbl">шанс успешной Охоты</div></div><div><div class="big">${expS.toFixed(2)}</div><div class="lbl">ожид. успехов (урон «Ока»)</div></div><div><div class="big">${Math.max(2,6-hb.fp-(hb.ravens?1:0))}+</div><div class="lbl">успех на кубике</div></div></div>
+  <div class="bars" style="margin-bottom:24px">${dd.map((v,k)=>`<div style="height:${Math.round(v*80)+1}px"><em>${pct(v)}</em><span>${k}</span></div>`).join('')}</div>
+  <p class="note">Максимум 5 кубиков, до 3 перебросов промахов. В Мордоре броска нет — жетон тянется сразу, «Око» = все кубики в ячейке (${hb.sh+hb.fp}).</p></section>
+ <section class="side"><h2>Запас сейчас: ${n} жетонов</h2>
+  <div class="stats"><div><div class="big">${n?pct(c(t=>t.v==='Око')/n):'—'}</div><div class="lbl">«Око»</div></div><div><div class="big">${n?pct(c(t=>t.rev)/n):'—'}</div><div class="lbl">раскрывает</div></div><div><div class="big">${avg.toFixed(2)}</div><div class="lbl">средний числовой урон</div></div></div>
+  <p class="lbl">Ожидаемый урон жетона вне Мордора с учётом «Ока»: ${n?((numeric.reduce((s,t)=>s+(+t.v),0)+c(t=>t.v==='Око')*expS/(pAny||1))/n).toFixed(2):'—'}</p>
+  <div class="filters"><button class="btn" id="hRefill">Запас пуст: вернуть вытянутые обычные</button><button class="btn" id="hMordor">Вход в Мордор</button><button class="btn" id="hReset">Сбросить жетоны</button></div>
+  <p class="note">«Вход в Мордор» возвращает вытянутые «Око» (кроме удалённых) и добавляет отложенные особые жетоны.</p></section></div>
+ <h2 class="sec">Обычные жетоны</h2><div class="lg"><span>● в запасе</span><span>полупрозрачный — вытянут</span><span>зачёркнут — удалён навсегда</span><span>👁 — раскрывает</span></div>
+ <div class="tokens">${HUNT_STD.map((t,i)=>`<button class="tok ${H.std[i]}" data-ht="${i}" title="${stdLab[H.std[i]]}">${t[0]==='Око'?'👁':t[0]}<small>${stdLab[H.std[i]]}</small>${t[1]&&t[0]!=='Око'?'<span class="r">👁</span>':''}</button>`).join('')}</div>
+ <h2 class="sec">Особые жетоны</h2><p class="sub">Активируются картами; до входа в Мордор лежат отложенными.</p>
+ <div class="tokens">${HUNT_SPECIAL.map(t=>`<button class="tok wide ${t.side} ${H.sp[t.k]}" data-hs="${t.k}" title="${t.label}: ${spLab[H.sp[t.k]]}">${t.v}<small>${t.label}</small><small>${spLab[H.sp[t.k]]}</small>${t.rev?'<span class="r">👁</span>':''}${t.stop?'<span class="s">⛔</span>':''}</button>`).join('')}</div>`;
+ const setH=(k,v)=>{ hb[k]=Math.max(0,Math.min(k==='rr'?3:k==='fp'?6:10,v)); save(); renderHunt(); };
+ document.querySelectorAll('[data-hd]').forEach(b=>b.onclick=()=>setH(b.dataset.hd,hb[b.dataset.hd]+(+b.dataset.d)));
+ document.querySelectorAll('[data-hn]').forEach(i=>i.onchange=()=>setH(i.dataset.hn,parseInt(i.value)||0));
+ $('#rav').onchange=e=>{hb.ravens=e.target.checked;save();renderHunt();};
+ const cyc=['pool','drawn','removed']; document.querySelectorAll('[data-ht]').forEach(b=>b.onclick=()=>{ const i=+b.dataset.ht; H.std[i]=cyc[(cyc.indexOf(H.std[i])+1)%3]; save(); renderHunt(); });
+ const cs=['off','aside','pool','drawn']; document.querySelectorAll('[data-hs]').forEach(b=>b.onclick=()=>{ const k=b.dataset.hs; H.sp[k]=cs[(cs.indexOf(H.sp[k])+1)%4]; save(); renderHunt(); });
+ $('#hRefill').onclick=()=>{ H.std=H.std.map(s=>s==='drawn'?'pool':s); save(); renderHunt(); };
+ $('#hMordor').onclick=()=>{ H.std=H.std.map((s,i)=>s==='drawn'&&HUNT_STD[i][0]==='Око'?'pool':s); for(const k in H.sp) if(H.sp[k]==='aside') H.sp[k]='pool'; if(G.mordor<0) G.mordor=0; save(); renderHunt(); };
+ $('#hReset').onclick=()=>{ S.hunt={std:HUNT_STD.map(()=>'pool'),sp:Object.fromEntries(HUNT_SPECIAL.map(t=>[t.k,'off']))}; save(); renderHunt(); };
+}
+
+// ================= Кубики =================
+const FACES={fp:[
+ ['🗡','Персонаж',2,['Двигать Братство (+Охота, кубик в ячейку)','Спрятать Братство','Отделить спутников / двигать спутников','Двигать или атаковать войском с лидером/спутником','Сыграть героическую карту'],['fs-move','hide','separate','companions','army-move']],
+ ['⛑','Сбор',1,['Дипломатия: +1 по шкале политики','Найм (народ «в войне»)','Сыграть карту «сбор»'],['politics','muster']],
+ ['⛑⚑','Войско / Сбор',1,['Любое действие «Войско» или «Сбор»','Войско: двигать до 2 войск или атаковать одним; карта «войско»'],['army-move','battle']],
+ ['🔮','Событие',1,['Взять карту из любой своей колоды','Сыграть любую карту'],['events']],
+ ['ᛉ','Воля Запада',1,['Превратить в любую другую грань','Ввести Гэндальфа Белого или Арагорна','Сбросить «Палантир Ортханка» / «Безумие Денетора»'],['gandalf-white','strider']]],
+ sh:[
+ ['🗡','Персонаж',1,['Двигать назгулов (куда угодно) и прислужников','Двигать или атаковать войском с лидером/назгулом','Сыграть героическую карту'],['nazgul','minions','army-move']],
+ ['⚑','Войско',1,['Двигать до 2 войск или атаковать одним','Сыграть карту «войско»'],['army-move','battle']],
+ ['⛑','Сбор',1,['Дипломатия','Найм (народ «в войне»)','Ввести прислужника','Сыграть карту «сбор»'],['muster','minions']],
+ ['⛑⚑','Войско / Сбор',1,['Любое действие «Войско» или «Сбор»'],['army-move','muster']],
+ ['🔮','Событие',1,['Взять карту из любой своей колоды','Сыграть любую карту'],['events']],
+ ['👁','Око',1,['Сразу в ячейку Охоты: +1 кубик Охоты','Не действие'],['hunt-box']]]};
+function renderDice(){
+ const D=S.diceCalc||(S.diceCalc={fp:S.game.diceFp||4,sh:S.game.diceSh||7});
+ const block=side=>{ const n=D[side]; return `<h2 class="sec" style="color:var(--${side})">${SIDE[side]}: ${n} куб.</h2>
+  <div class="filters"><span class="num"><button data-dd="${side}" data-d="-1">−</button><input data-dn="${side}" value="${n}" inputmode="numeric" aria-label="Число кубиков"><button data-dd="${side}" data-d="1">+</button></span><span class="note">Грань на кубике × вероятность за бросок ${n} кубиков</span></div>
+  <div class="faces">${FACES[side].map(([g,nm,cnt,acts,links])=>{ const p=cnt/6; const exp=n*p; const atl=1-Math.pow(1-p,n);
+   return `<div class="face ${side}"><div class="g">${g}</div><h3>${nm} <span class="note">${cnt}/6</span></h3><div class="lbl">В среднем ${exp.toFixed(2)} шт. · хотя бы одна — ${pct(atl)}</div><ul>${acts.map(a=>`<li>${a}</li>`).join('')}</ul><div class="chips">${links.map(l=>`<a class="chip" href="#r/${l}">${ENT[l].t}</a>`).join('')}</div></div>`; }).join('')}</div>`; };
+ $('#main').innerHTML=`<h1 class="sec" style="margin-top:0">Грани кубиков действий</h1><p class="sub">${linkify('Подробнее: [[dice]], [[elven|Эльфийские кольца]], [[pass|пас]].')} Эльфийское кольцо меняет грань одного неиспользованного кубика (СН не может сделать «Волю Запада»).</p>${block('fp')}${block('sh')}`;
+ const setD=(s,v)=>{ D[s]=Math.max(1,Math.min(10,v)); save(); renderDice(); };
+ document.querySelectorAll('[data-dd]').forEach(b=>b.onclick=()=>setD(b.dataset.dd,D[b.dataset.dd]+(+b.dataset.d)));
+ document.querySelectorAll('[data-dn]').forEach(i=>i.onchange=()=>setD(i.dataset.dn,parseInt(i.value)||1));
+}
+
+route();
+
+</script>
+</body>
+</html>
