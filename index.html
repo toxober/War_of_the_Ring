@@ -168,6 +168,9 @@ select{padding:6px 8px;border:1px solid var(--line);border-radius:6px;background
 .evh{display:flex;align-items:center;gap:10px}.evh .ci{height:1.25em;margin:0;vertical-align:0}.evh .ci.sh{height:1.6em}
 .needf{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 @media (max-width:480px){.seg{max-width:100%}.seg button{padding:6px 7px;font-size:15px;gap:4px}}
+.seg.one{display:inline-flex;flex-wrap:nowrap;max-width:100%;overflow-x:auto;scrollbar-width:none}.seg.one::-webkit-scrollbar{display:none}.seg.one button{white-space:nowrap;flex:0 0 auto}
+@media (max-width:480px){.seg.one .lg{display:none}.seg.one button{padding:6px 6px;font-size:14px;gap:3px}.seg.one .dis{gap:1px}}
+@media (max-width:360px){.seg.one button{padding:5px 5px;font-size:13px}}
 .di{display:inline-block;width:1.25em;height:1.25em;object-fit:cover;border-radius:4px;vertical-align:-.3em;margin-right:3px}.di.w{width:1.6em}.ci{display:inline-block;height:1.45em;width:auto;vertical-align:-.38em;margin-right:3px}.ci.sh{height:2.4em;vertical-align:middle;margin:-.5em 2px -.5em -3px}.seg button .ci.sh{height:2.1em;margin:-.4em 0}.seg button .ci{margin:0}.dis{display:inline-flex;gap:2px}.di.n{width:.95em}
 .face h3{font-size:22px;margin:4px 0}
 .face ul{margin:4px 0 0;padding-left:18px;font-size:15px}
@@ -1067,7 +1070,7 @@ function renderPers(id){
 function statusLabel(c,st){ return ({hand:'на руке',table:'на столе',used:'вышла'})[st]||''; }
 function renderCards(){
  const f=S.cardFilter;
- const seg=(key,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button data-f="${key}" data-v="${v}" class="${f[key]===v?'on':''}">${l}</button>`).join('')}</div>`;
+ const seg=(key,opts,cls='')=>`<div class="seg ${cls}">${opts.map(([v,l])=>`<button data-f="${key}" data-v="${v}" class="${f[key]===v?'on':''}">${l}</button>`).join('')}</div>`;
  if(f.deck!=='s') f.type='all';
  const is=f.side==='sh'?'sh':'fp', ic=t=>typeIcon(is,t);
  let list=CARDS.filter(c=>(f.side==='all'||c.side===f.side)&&(f.deck==='all'||c.deck===f.deck)&&(f.deck!=='s'||f.type==='all'||c.type===f.type)&&(!f.need||f.need==='all'||(f.need==='ev'?c.needEv:c.needCb)));
@@ -1077,7 +1080,7 @@ function renderCards(){
  $('#main').innerHTML=`<h1 class="sec" style="margin-top:0">${pv?'Карты персонажей':'Карты событий'}</h1>
  <p class="sub">${pv?'Способности спутников, Голлума и прислужников — по тексту карт. Уровень и лидерство указаны на плитке.':'Верх карты — событие, низ — боевой эффект с инициативой. Отметьте карты галочкой, чтобы сравнить их рядом. На странице карты — полный текст и разбор нюансов.'}</p>
  <div class="filters">${seg('view',[['grid','Плитки'],['init','По инициативе'],['pers','Карты персонажей']])}
- ${seg('side',[['all','Все'],['fp','СН'],['sh','Тьма']])} ${pv?'':seg('deck',[['all','Обе колоды'],['h',ic('char')+'Героические'],['s','<span class="dis">'+ic('army')+ic('muster')+'</span>Стратегические']])}
+ ${seg('side',[['all','Все'],['fp','СН'],['sh','Тьма']])} ${pv?'':seg('deck',[['all','Обе<span class="lg"> колоды</span>'],['h',ic('char')+'Героические'],['s','<span class="dis">'+ic('army')+ic('muster')+'</span>Стратегические']],'one')}
  ${pv||f.deck!=='s'?'':seg('type',[['all','Любой тип'],['army',ic('army')+'Войско'],['muster',ic('muster')+'Сбор']])}
  ${pv?'':`<div class="needf"><span class="note">Нужен конкретный персонаж или Братство:</span> ${seg('need',[['all','Не важно'],['ev','Для события'],['cb','Для боя']])}</div>`}
  <input type="search" id="cq" placeholder="Фильтр по тексту" value="${esc(f.q)}"></div>
