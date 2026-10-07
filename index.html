@@ -1194,9 +1194,9 @@ function renderCards(){
  if(!f.sort) f.sort='num'; if(!f.dir) f.dir='asc';
  const pv=f.view==='pers';
  { const ord=new Map(CARDS.map((c,i)=>[c.id,i])); const ini=c=>parseFloat(String(COMBAT[c.cb].init));
-   const cmp={num:(a,b)=>ord.get(a.id)-ord.get(b.id), name:(a,b)=>a.name.localeCompare(b.name,'ru')||ord.get(a.id)-ord.get(b.id), init:(a,b)=>ini(a)-ini(b)||ord.get(a.id)-ord.get(b.id)}[f.sort]||((a,b)=>ord.get(a.id)-ord.get(b.id));
+   const cmp={num:(a,b)=>a.num-b.num||ord.get(a.id)-ord.get(b.id), name:(a,b)=>a.name.localeCompare(b.name,'ru')||ord.get(a.id)-ord.get(b.id), init:(a,b)=>ini(a)-ini(b)||ord.get(a.id)-ord.get(b.id)}[f.sort]||((a,b)=>ord.get(a.id)-ord.get(b.id));
    list=[...list].sort(cmp); if(f.dir==='desc') list.reverse(); }
- const sOpts=f.view==='init'?[]:pv?[['num','№','По номеру'],['name','А','По имени']]:[['num','№','По номеру'],['name','А','По названию'],['init','<span class="ini">0</span>','По инициативе']];
+ const sOpts=f.view==='init'?[]:pv?[['num','№','По номеру'],['name','А–Я','По имени']]:[['num','№','По номеру'],['name','А–Я','По названию'],['init','<span class="ini">0</span>','По инициативе']];
  const dirT=f.dir==='asc'?'По возрастанию — нажмите, чтобы развернуть':'По убыванию — нажмите, чтобы развернуть';
  const sortUI=`<div class="sortbar">${sOpts.length?`<div class="seg">${sOpts.map(([v,l,t])=>`<button data-f="sort" data-v="${v}" class="${f.sort===v?'on':''}" title="${t}" aria-label="Сортировать: ${t.toLowerCase()}">${l}</button>`).join('')}</div>`:''}<button class="btn sortd" id="sdir" title="${dirT}" aria-label="${dirT}">${f.dir==='asc'?'↑':'↓'}</button>
   <input type="search" id="cq" placeholder="Фильтр по тексту" value="${esc(f.q)}"></div>`;
@@ -1217,7 +1217,7 @@ function renderCards(){
    return `<div class="blk"><h2><span class="ini">${n}</span>${['Отмена карты','Перед боевым броском','Броски перед битвой','Боевой бросок','Переброс за лидерство','После переброса','Перед потерями','После потерь'][n]}</h2><ul>${ks.map(([k,cb])=>{const cs=CARDS.filter(c=>c.cb===k);return `<li><a class="cl-${cb.side}" href="#c/${cs[0].id}">${cb.n}</a> ×${cs.length} <span class="note">— ${cs.map(c=>`<a class="cl-${c.side}" href="#c/${c.id}">${c.name}</a>`).join(', ')}</span></li>`}).join('')}</ul></div>`;}).join('')}</div>`;
  } else if(f.view==='pers'){
   let ps=PERS.filter(p=>f.side==='all'||p.side===f.side);
-  ps=[...ps].sort(f.sort==='name'?(a,b)=>a.name.localeCompare(b.name,'ru'):(a,b)=>(a.side===b.side?0:a.side==='fp'?-1:1)||a.num-b.num); if(f.dir==='desc') ps.reverse();
+  ps=[...ps].sort(f.sort==='name'?(a,b)=>a.name.localeCompare(b.name,'ru'):(a,b)=>a.num-b.num||(a.side===b.side?0:a.side==='fp'?-1:1)); if(f.dir==='desc') ps.reverse();
   if(f.q){ const q=f.q.toLowerCase(); ps=ps.filter(p=>(p.name+' '+p.sub+' '+p.ab.map(a=>a.join(' ')).join(' ')).toLowerCase().includes(q)); }
   out.innerHTML=ps.length?`<div class="grid">${ps.map(persTile).join('')}</div>`:'<p>Под фильтр ничего не попало — сбросьте один из фильтров.</p>';
  } else out.innerHTML=list.length?`<div class="grid">${list.map(tileHTML).join('')}</div>`:'<p>Под фильтр ничего не попало — сбросьте один из фильтров.</p>';
