@@ -61,7 +61,12 @@ article.ent li{margin:5px 0}
 article.ent h3{font-size:22px;margin:18px 0 4px}
 a.al{color:inherit;text-decoration-style:dotted;text-decoration-color:var(--muted)}
 a.al:hover{text-decoration-style:solid;color:var(--gold)}
-.sortd{min-width:44px}
+.sortd{min-width:38px;padding:6px 0;font-size:18px;line-height:1}
+.sortbar{display:flex;gap:8px;align-items:center;flex:1 1 280px;min-width:0}
+.sortbar input[type=search]{flex:1;min-width:120px!important}
+.sortbar .seg button{min-width:36px;padding:6px 8px}
+.sortbar .seg .ini{min-width:20px;height:20px;font-size:12px;padding:0 4px}
+.sortbar .seg button.on .ini{background:var(--bg);color:var(--ink);border-color:var(--bg)}
 .back{color:var(--muted);font-size:15px;margin-top:28px;border-top:1px solid var(--line);padding-top:12px}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .chip{display:inline-block;padding:2px 9px;border:1px solid var(--line);border-radius:999px;font-size:14px;text-decoration:none;color:var(--ink);background:var(--surface)}
@@ -1191,16 +1196,17 @@ function renderCards(){
  { const ord=new Map(CARDS.map((c,i)=>[c.id,i])); const ini=c=>parseFloat(String(COMBAT[c.cb].init));
    const cmp={num:(a,b)=>ord.get(a.id)-ord.get(b.id), name:(a,b)=>a.name.localeCompare(b.name,'ru')||ord.get(a.id)-ord.get(b.id), init:(a,b)=>ini(a)-ini(b)||ord.get(a.id)-ord.get(b.id)}[f.sort]||((a,b)=>ord.get(a.id)-ord.get(b.id));
    list=[...list].sort(cmp); if(f.dir==='desc') list.reverse(); }
- const sortUI=f.view==='init'?'':`<div class="needf"><span class="note">Порядок:</span> ${seg('sort',pv?[['num','По номеру'],['name','По имени']]:[['num','По номеру'],['name','По названию'],['init','По инициативе']])} <button class="btn sortd" id="sdir" title="${f.dir==='asc'?'Сейчас по возрастанию':'Сейчас по убыванию'}" aria-label="Обратный порядок">${f.dir==='asc'?'↑ А→Я, 1→24':'↓ Я→А, 24→1'}</button></div>`;
- const initDir=f.view==='init'?`<div class="needf"><span class="note">Порядок инициативы:</span> <button class="btn sortd" id="sdir">${f.dir==='asc'?'↑ 0→7':'↓ 7→0'}</button></div>`:'';
+ const sOpts=f.view==='init'?[]:pv?[['num','№','По номеру'],['name','А','По имени']]:[['num','№','По номеру'],['name','А','По названию'],['init','<span class="ini">0</span>','По инициативе']];
+ const dirT=f.dir==='asc'?'По возрастанию — нажмите, чтобы развернуть':'По убыванию — нажмите, чтобы развернуть';
+ const sortUI=`<div class="sortbar">${sOpts.length?`<div class="seg">${sOpts.map(([v,l,t])=>`<button data-f="sort" data-v="${v}" class="${f.sort===v?'on':''}" title="${t}" aria-label="Сортировать: ${t.toLowerCase()}">${l}</button>`).join('')}</div>`:''}<button class="btn sortd" id="sdir" title="${dirT}" aria-label="${dirT}">${f.dir==='asc'?'↑':'↓'}</button>
+  <input type="search" id="cq" placeholder="Фильтр по тексту" value="${esc(f.q)}"></div>`;
  $('#main').innerHTML=`<h1 class="sec" style="margin-top:0">${pv?'Карты персонажей':'Карты событий'}</h1>
  <p class="sub">${pv?'Способности спутников, Голлума и прислужников — по тексту карт. Уровень и лидерство указаны на плитке.':'Верх карты — событие, низ — боевой эффект с инициативой. Отметьте карты галочкой, чтобы сравнить их рядом. На странице карты — полный текст и разбор нюансов.'}</p>
  <div class="filters">${seg('view',[['grid','Плитки'],['init','По инициативе'],['pers','Карты персонажей']])}
  ${seg('side',[['all','Все'],['fp','СН'],['sh','Тьма']])} ${pv?'':seg('deck',[['all','Обе<span class="lg"> колоды</span>'],['h',ic('char')+'Героические'],['s','<span class="dis">'+ic('army')+ic('muster')+'</span>Стратегические']],'one')}
  ${pv||f.deck!=='s'?'':seg('type',[['all','Любой тип'],['army',ic('army')+'Войско'],['muster',ic('muster')+'Сбор']])}
  ${pv?'':`<div class="needf"><span class="note">Нужен конкретный персонаж или Братство:</span> ${seg('need',[['all','Не важно'],['ev','Для события'],['cb','Для боя']])}</div>`}
- ${sortUI}${initDir}
- <input type="search" id="cq" placeholder="Фильтр по тексту" value="${esc(f.q)}"></div>
+ ${sortUI}</div>
  <div id="clist"></div>`;
  const out=$('#clist');
  if(f.view==='init'){
