@@ -62,6 +62,7 @@ article.ent h3{font-size:22px;margin:18px 0 4px}
 a.al{color:inherit;text-decoration-style:dotted;text-decoration-color:var(--muted)}
 a.al:hover{text-decoration-style:solid;color:var(--gold)}
 .sortd{min-width:38px;padding:6px 0;font-size:18px;line-height:1}
+.grph{font-family:var(--sans);font-size:14px;font-weight:500;margin:14px 0 6px}
 .sortbar{display:flex;gap:8px;align-items:center;flex:1 1 280px;min-width:0}
 .sortbar input[type=search]{flex:1;min-width:120px!important}
 .sortbar .seg button{min-width:36px;padding:6px 8px}
@@ -1227,7 +1228,7 @@ function renderCards(){
   const info=`<p class="note">Показано карт: ${list.length} из ${CARDS.length}.${filtered?' <button class="btn" id="fReset">Сбросить фильтры</button>':''}</p>`;
   let body;
   if(f.sort==='num'){ const grp=[]; for(const c of list){ const g=c.side+c.deck; if(!grp.length||grp[grp.length-1].g!==g) grp.push({g,side:c.side,deck:c.deck,cs:[]}); grp[grp.length-1].cs.push(c); }
-   body=grp.map(x=>`<h2 class="sec" style="font-size:24px;color:var(--${x.side})">${x.side==='fp'?'СН':'Тьма'} — ${x.deck==='h'?'героические':'стратегические'}, №${x.cs[0].num}–${x.cs[x.cs.length-1].num}</h2><div class="grid">${x.cs.map(tileHTML).join('')}</div>`).join('');
+   body=grp.map(x=>`<h2 class="grph" style="color:var(--${x.side})">${x.side==='fp'?'СН':'Тьма'} — ${x.deck==='h'?'героические':'стратегические'}, №${x.cs[0].num}–${x.cs[x.cs.length-1].num}</h2><div class="grid">${x.cs.map(tileHTML).join('')}</div>`).join('');
   } else body=`<div class="grid">${list.map(tileHTML).join('')}</div>`;
   out.innerHTML=info+(list.length?body:'<p>Под фильтр ничего не попало — сбросьте один из фильтров.</p>');
   const fr=$('#fReset'); if(fr) fr.onclick=()=>{ Object.assign(f,{side:'all',deck:'all',type:'all',need:'all',q:''}); save(); renderCards(); };
