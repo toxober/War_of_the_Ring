@@ -189,6 +189,11 @@ select{padding:6px 8px;border:1px solid var(--line);border-radius:6px;background
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 h4.ngrp{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--muted);margin:10px 0 2px;letter-spacing:.01em}
 h4.ngrp+ul{margin-top:2px}
+nav.subtabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin:0 0 14px;border-bottom:1px solid var(--line)}
+nav.subtabs::-webkit-scrollbar{display:none}
+nav.subtabs button{flex:0 0 auto;border:0;background:none;padding:7px 12px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;font-weight:500;white-space:nowrap}
+nav.subtabs button.on{color:var(--ink);border-bottom-color:var(--gold)}
+@media (max-width:480px){nav.subtabs button{padding:7px 9px;font-size:15px}}
 </style>
 </head>
 <body>
@@ -1203,13 +1208,13 @@ function renderCards(){
  const sOpts=f.view==='init'?[]:pv?[['num','№','По номеру'],['name','А–Я','По имени']]:[['num','№','По номеру'],['name','А–Я','По названию'],['init','<span class="ini">0</span>','По инициативе']];
  const dirT=f.dir==='asc'?'По возрастанию — нажмите, чтобы развернуть':'По убыванию — нажмите, чтобы развернуть';
  const sortUI=`<div class="sortbar">${sOpts.length?`<div class="seg">${sOpts.map(([v,l,t])=>`<button data-f="sort" data-v="${v}" class="${f.sort===v?'on':''}" title="${t}" aria-label="Сортировать: ${t.toLowerCase()}">${l}</button>`).join('')}</div>`:''}<button class="btn sortd" id="sdir" title="${dirT}" aria-label="${dirT}">${f.dir==='asc'?'↑':'↓'}</button>
-  <input type="search" id="cq" placeholder="Фильтр по тексту" value="${esc(f.q)}"></div>`;
- $('#main').innerHTML=`<h1 class="sec" style="margin-top:0">${pv?'Карты персонажей':'Карты событий'}</h1>
- <p class="sub">${pv?'Способности спутников, Голлума и прислужников — по тексту карт. Уровень и лидерство указаны на плитке.':'Верх карты — событие, низ — боевой эффект с инициативой. Отметьте карты галочкой, чтобы сравнить их рядом. На странице карты — полный текст и разбор нюансов.'}</p>
- <div class="filters">${seg('view',[['grid','Плитки'],['init','По инициативе'],['pers','Карты персонажей']])}
- ${seg('side',[['all','Все'],['fp','СН'],['sh','Тьма']])} ${pv?'':seg('deck',[['all','Обе<span class="lg"> колоды</span>'],['h',ic('char')+'Героические'],['s','<span class="dis">'+ic('army')+ic('muster')+'</span>Стратегические']],'one')}
+  ${f.view==='init'?'':`<input type="search" id="cq" placeholder="Фильтр по тексту" value="${esc(f.q)}">`}</div>`;
+ $('#main').innerHTML=`<nav class="subtabs" aria-label="Разделы карт">${[['grid','Карты событий'],['init','По инициативе'],['pers','Персонажи']].map(([v,l])=>`<button data-f="view" data-v="${v}" class="${f.view===v?'on':''}" aria-current="${f.view===v?'page':'false'}">${l}</button>`).join('')}</nav>
+ <h1 class="sec" style="margin-top:0">${pv?'Карты персонажей':f.view==='init'?'Боевые карты по инициативе':'Карты событий'}</h1>
+ <p class="sub">${f.view==='init'?'Боевые эффекты карт, сгруппированные по инициативе — в каком шаге раунда срабатывает карта.':pv?'Способности спутников, Голлума и прислужников — по тексту карт. Уровень и лидерство указаны на плитке.':'Верх карты — событие, низ — боевой эффект с инициативой. Отметьте карты галочкой, чтобы сравнить их рядом. На странице карты — полный текст и разбор нюансов.'}</p>
+ <div class="filters"> ${seg('side',[['all','Все'],['fp','СН'],['sh','Тьма']])} ${pv||f.view==='init'?'':seg('deck',[['all','Обе<span class="lg"> колоды</span>'],['h',ic('char')+'Героические'],['s','<span class="dis">'+ic('army')+ic('muster')+'</span>Стратегические']],'one')}
  ${pv||f.deck!=='s'?'':seg('type',[['all','Любой тип'],['army',ic('army')+'Войско'],['muster',ic('muster')+'Сбор']])}
- ${pv?'':`<div class="needf"><span class="note">Нужен конкретный персонаж или Братство:</span> ${seg('need',[['all','Не важно'],['ev','Для события'],['cb','Для боя']])}</div>`}
+ ${pv||f.view==='init'?'':`<div class="needf"><span class="note">Нужен конкретный персонаж или Братство:</span> ${seg('need',[['all','Не важно'],['ev','Для события'],['cb','Для боя']])}</div>`}
  ${sortUI}</div>
  <div id="clist"></div>`;
  const out=$('#clist');
@@ -1237,7 +1242,7 @@ function renderCards(){
  }
  document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{ f[b.dataset.f]=b.dataset.v; if(b.dataset.f==='deck') f.type='all'; save(); renderCards(); });
  const sd=$('#sdir'); if(sd) sd.onclick=()=>{ f.dir=f.dir==='asc'?'desc':'asc'; save(); renderCards(); };
- $('#cq').oninput=e=>{ f.q=e.target.value; save(); const pos=e.target.selectionStart; renderCards(); const n=$('#cq'); n.focus(); n.setSelectionRange(pos,pos); };
+ if($('#cq')) $('#cq').oninput=e=>{ f.q=e.target.value; save(); const pos=e.target.selectionStart; renderCards(); const n=$('#cq'); n.focus(); n.setSelectionRange(pos,pos); };
  bindCmp();
 }
 function bindCmp(){ document.querySelectorAll('[data-cmp]').forEach(ch=>{ ch.onclick=e=>{ e.stopPropagation(); }; ch.onchange=e=>{ const id=ch.dataset.cmp; S.compare=S.compare.filter(x=>x!==id); if(ch.checked) S.compare.push(id); save(); renderTray(); }; }); }
