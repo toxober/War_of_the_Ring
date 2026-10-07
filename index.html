@@ -1194,7 +1194,8 @@ function renderCards(){
  if(!f.sort) f.sort='num'; if(!f.dir) f.dir='asc';
  const pv=f.view==='pers';
  { const ord=new Map(CARDS.map((c,i)=>[c.id,i])); const ini=c=>parseFloat(String(COMBAT[c.cb].init));
-   const cmp={num:(a,b)=>ord.get(a.id)-ord.get(b.id), name:(a,b)=>a.name.localeCompare(b.name,'ru')||ord.get(a.id)-ord.get(b.id), init:(a,b)=>ini(a)-ini(b)||ord.get(a.id)-ord.get(b.id)}[f.sort]||((a,b)=>ord.get(a.id)-ord.get(b.id));
+   const key=c=>(c.side==='fp'?0:1000)+(c.deck==='h'?0:100)+c.num;
+   const cmp={num:(a,b)=>key(a)-key(b), name:(a,b)=>a.name.localeCompare(b.name,'ru')||ord.get(a.id)-ord.get(b.id), init:(a,b)=>ini(a)-ini(b)||ord.get(a.id)-ord.get(b.id)}[f.sort]||((a,b)=>ord.get(a.id)-ord.get(b.id));
    list=[...list].sort(cmp); if(f.dir==='desc') list.reverse(); }
  const sOpts=f.view==='init'?[]:pv?[['num','№','По номеру'],['name','А–Я','По имени']]:[['num','№','По номеру'],['name','А–Я','По названию'],['init','<span class="ini">0</span>','По инициативе']];
  const dirT=f.dir==='asc'?'По возрастанию — нажмите, чтобы развернуть':'По убыванию — нажмите, чтобы развернуть';
@@ -1219,8 +1220,18 @@ function renderCards(){
   let ps=PERS.filter(p=>f.side==='all'||p.side===f.side);
   ps=[...ps].sort(f.sort==='name'?(a,b)=>a.name.localeCompare(b.name,'ru'):(a,b)=>(a.side===b.side?0:a.side==='fp'?-1:1)||a.num-b.num); if(f.dir==='desc') ps.reverse();
   if(f.q){ const q=f.q.toLowerCase(); ps=ps.filter(p=>(p.name+' '+p.sub+' '+p.ab.map(a=>a.join(' ')).join(' ')).toLowerCase().includes(q)); }
-  out.innerHTML=ps.length?`<div class="grid">${ps.map(persTile).join('')}</div>`:'<p>Под фильтр ничего не попало — сбросьте один из фильтров.</p>';
- } else out.innerHTML=list.length?`<div class="grid">${list.map(tileHTML).join('')}</div>`:'<p>Под фильтр ничего не попало — сбросьте один из фильтров.</p>';
+  out.innerHTML=`<p class="note">Показано карт: ${ps.length} из ${PERS.length}.${f.side!=='all'||f.q?' <button class="btn" id="pReset">Сбросить фильтры</button>':''}</p>`+(ps.length?`<div class="grid">${ps.map(persTile).join('')}</div>`:'<p>Под фильтр ничего не попало — сбросьте один из фильтров.</p>');
+  { const pr=$('#pReset'); if(pr) pr.onclick=()=>{ f.side='all'; f.q=''; save(); renderCards(); }; }
+ } else {
+  const filtered=f.side!=='all'||f.deck!=='all'||(f.need&&f.need!=='all')||f.q;
+  const info=`<p class="note">Показано карт: ${list.length} из ${CARDS.length}.${filtered?' <button class="btn" id="fReset">Сбросить фильтры</button>':''}</p>`;
+  let body;
+  if(f.sort==='num'){ const grp=[]; for(const c of list){ const g=c.side+c.deck; if(!grp.length||grp[grp.length-1].g!==g) grp.push({g,side:c.side,deck:c.deck,cs:[]}); grp[grp.length-1].cs.push(c); }
+   body=grp.map(x=>`<h2 class="sec" style="font-size:24px;color:var(--${x.side})">${x.side==='fp'?'СН':'Тьма'} — ${x.deck==='h'?'героические':'стратегические'}, №${x.cs[0].num}–${x.cs[x.cs.length-1].num}</h2><div class="grid">${x.cs.map(tileHTML).join('')}</div>`).join('');
+  } else body=`<div class="grid">${list.map(tileHTML).join('')}</div>`;
+  out.innerHTML=info+(list.length?body:'<p>Под фильтр ничего не попало — сбросьте один из фильтров.</p>');
+  const fr=$('#fReset'); if(fr) fr.onclick=()=>{ Object.assign(f,{side:'all',deck:'all',type:'all',need:'all',q:''}); save(); renderCards(); };
+ }
  document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{ f[b.dataset.f]=b.dataset.v; if(b.dataset.f==='deck') f.type='all'; save(); renderCards(); });
  const sd=$('#sdir'); if(sd) sd.onclick=()=>{ f.dir=f.dir==='asc'?'desc':'asc'; save(); renderCards(); };
  $('#cq').oninput=e=>{ f.q=e.target.value; save(); const pos=e.target.selectionStart; renderCards(); const n=$('#cq'); n.focus(); n.setSelectionRange(pos,pos); };
