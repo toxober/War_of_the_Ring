@@ -158,7 +158,7 @@ select{padding:6px 8px;border:1px solid var(--line);border-radius:6px;background
 .crow .st button:last-child{border-right:0}
 .crow .st button.on{background:var(--ink);color:var(--bg)}
 .crow.done .cn{text-decoration:line-through;color:var(--muted)}
-.state{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.state{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:10px;align-items:start}.state>.blk{margin:0;min-width:0}.state .row>.seg{flex:none;max-width:100%}.state .seg button{white-space:nowrap}.state .row:has(>.seg.ver){flex-wrap:wrap}.state .seg.ver{flex:1 1 100%;display:flex}.state .seg.ver button{flex:1 1 0;white-space:normal;line-height:1.2;min-width:0}.state .pol label{white-space:nowrap}@media (max-width:420px){.state .blk{padding:12px}.state .seg button{padding:6px 8px}.state .row{flex-wrap:wrap}.state .row>.seg{margin-left:auto}.state .seg.ver button{hyphens:auto;overflow-wrap:anywhere}}
 .pol{display:grid;grid-template-columns:1fr auto auto;gap:6px 10px;align-items:center;font-size:15px}
 /* hunt */
 .tokens{display:flex;flex-wrap:wrap;gap:8px}
@@ -1304,7 +1304,9 @@ function route(){
  else { tab=id||'rules'; ({rules:()=>renderRules('battle'),cards:renderCards,battle:renderBattle,game:renderGame,hunt:renderHunt,dice:renderDice,map:()=>{ if(typeof renderMap==='function') renderMap(); }}[tab]||(()=>renderRules('battle')))(); }
  document.querySelectorAll('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===tab));
  renderTray();
- if(!h.startsWith('t/battle')) window.scrollTo(0,0);
+ const st=history.state;
+ if(st&&st.toc&&innerWidth<=820) window.scrollTo(0,st.y||0);
+ else if(!h.startsWith('t/battle')) window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',route);
 
@@ -1320,13 +1322,19 @@ function renderRules(id){
  const back=[...(BACK[e.id]||[])].map(b=>`<a class="chip" href="#r/${b}">${ENT[b].t}</a>`).join('');
  const crefs=CARD_REFS[e.id]||[];
  $('#main').innerHTML=`<div class="cols">
-  <aside class="idx"><details ${innerWidth>820?'open':''}><summary style="cursor:pointer;font-weight:500">${_('Оглавление правил')}</summary>${idx}</details></aside>
+  <aside class="idx"><details ${innerWidth>820||(history.state&&history.state.toc)?'open':''}><summary style="cursor:pointer;font-weight:500">${_('Оглавление правил')}</summary>${idx}</details></aside>
   <article class="ent"><h1>${e.t}</h1><div class="grp">${e.g.replace(/ \/ /g,' · ')}</div>${linkify(e.b)}${extLinks('r:'+e.id)}
    ${crefs.length?`<div class="back"><div>${_('Карты в этой статье')}</div><div class="chips">${crefs.map(c=>`<a class="chip cl-${CARD[c].side}" href="#c/${c}">${CARD[c].name}</a>`).join('')}</div></div>`:''}
    ${(()=>{const ps=PERS.filter(p=>p.ent===e.id);return ps.length?`<div class="back"><div>${_('Карты персонажей')}</div><div class="chips">${ps.map(p=>`<a class="chip cl-${p.side}" href="#p/${p.id}">${p.name}</a>`).join('')}</div></div>`:''})()}
    ${back?`<div class="back"><div>${_('На эту статью ссылаются')}</div><div class="chips">${back}</div></div>`:''}
   </article></div>`;
 autoLink($('article.ent'),{self:['#r/'+e.id]});
+ // Мобильный: запоминаем, что оглавление было раскрыто, чтобы «Назад» вернул к нему
+ const d=$('.idx details');
+ if(d && innerWidth<=820){
+  d.addEventListener('click',ev=>{ const a=ev.target.closest('a[href^="#r/"]'); if(a&&d.open) history.replaceState({toc:true,y:scrollY},''); });
+  d.addEventListener('toggle',()=>{ if(!d.open&&history.state&&history.state.toc) history.replaceState(null,''); });
+ }
 }
 
 // ================= Карты =================
@@ -1637,7 +1645,7 @@ function renderGame(){
    <p class="note">${_('Охота: максимум кубиков = спутников в Братстве ({n}), минимум 1 всегда можно.',{n:COMPS.filter(c=>G.comp[c[0]]==='f').length})}</p></div>
   <div class="blk"><div class="lbl">${_('Политика (деление: 1–3, 4 = «в войне»)')}</div><div class="pol">${NATIONS.map(([k,n,s])=>{const p=G.pol[k];return `<span class="${s==='fp'?'':''}" style="color:var(--${s})">${n}</span>${numf('pol.'+k,p[0])}<label class="note"><input type="checkbox" data-pa="${k}" ${p[1]?'checked':''}> ${_('активен')}</label>`}).join('')}</div>
    ${NATIONS.filter(([k])=>G.pol[k][0]>=4&&!G.pol[k][1]).length?'<p class="cond">⚠ '+_('Пассивный народ не может быть «в войне».')+'</p>':''}</div>
-  ${LOME?`<div class="blk"><div class="lbl">${_('Версии спутников на партию')}</div>${Object.entries(COMP_VER).map(([k,ids])=>{ const [b,a]=ids.map(i=>PER[i]); return `<div class="row">${baseName(b.name)}<div class="seg">${[['base',b],['alt',a]].map(([v,pp])=>`<button data-ver="${k}" data-v="${v}" class="${verOf(k)===v?'on':''}" title="${pp.name}">${pp.sub}</button>`).join('')}</div></div>`; }).join('')}
+  ${LOME?`<div class="blk"><div class="lbl">${_('Версии спутников на партию')}</div>${Object.entries(COMP_VER).map(([k,ids])=>{ const [b,a]=ids.map(i=>PER[i]); return `<div class="row">${baseName(b.name)}<div class="seg ver">${[['base',b],['alt',a]].map(([v,pp])=>`<button data-ver="${k}" data-v="${v}" class="${verOf(k)===v?'on':''}" title="${pp.name}">${pp.sub}</button>`).join('')}</div></div>`; }).join('')}
    <p class="note">${_('Выбирается при подготовке к игре. Альтернативные спутники — вариант «Совет в Ривенделле»; Гэндальфа, Хранителя Нарья, можно взять и без него. В калькуляторе боя показывается только выбранная версия.')}</p></div>`:''}
   <div class="blk"><div class="lbl">${_('Спутники')}</div>${COMPS.map(([k,n])=>`<div class="row">${n}<div class="seg">${[['f',_('в Братстве')],['o',_('на поле')],['x',_('погиб')]].map(([v,l])=>`<button data-cp="${k}" data-v="${v}" class="${G.comp[k]===v?'on':''}">${l}</button>`).join('')}</div></div>`).join('')}
    <p class="note">${_('Проводник — наивысший уровень (Гэндальф/Странник 3, Боромир/Леголас/Гимли 2, хоббиты 1); никого нет —')} ${linkify('[[gollum|'+_('Голлум')+']]')}.</p></div>
